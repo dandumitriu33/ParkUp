@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ParkUp.Core.Interfaces;
 using ParkUp.Infrastructure.Data;
 using System;
 using System.Collections.Generic;
@@ -29,6 +30,8 @@ namespace ParkUp
             {
                 options.UseSqlServer(Configuration.GetConnectionString("Default"));
             });
+
+            services.AddScoped<IAsyncRepository, EFRepository>();
             services.AddControllersWithViews();
         }
 
