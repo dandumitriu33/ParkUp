@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@inject SignInManager<IdentityUser> signInManager;
+
+@inject IAuthorizationService authorizationService;
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -26,6 +30,26 @@
                         </li>
                     </ul>
                 </div>
+                @if (signInManager.IsSignedIn(User))
+                {
+                    <div class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">@User.Identity.Name</a>
+                    </div>
+                    <div class="nav-item">
+                        <form method="post" asp-controller="Account" asp-action="LogOut">
+                            <button type="submit" class="btn btn-link nav-link text-dark">Log out</button>
+                        </form>
+                    </div>
+                }
+                else
+                {
+                    <div class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="LogIn">Log in</a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                    </div>
+                }
             </div>
         </nav>
     </header>
