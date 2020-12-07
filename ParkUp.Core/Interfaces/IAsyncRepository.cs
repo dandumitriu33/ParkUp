@@ -9,5 +9,6 @@ namespace ParkUp.Core.Interfaces
     public interface IAsyncRepository
     {
         Task<List<City>> GetAllCities();
+        Task<List<ApplicationUser>> GetAllUsers();
     }
 }

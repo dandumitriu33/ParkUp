@@ -10,16 +10,21 @@ namespace ParkUp.Infrastructure.Data
 {
     public class EFRepository : IAsyncRepository
     {
-        private readonly ParkUpContext _context;
+        private readonly ParkUpContext _dbContext;
 
         public EFRepository(ParkUpContext context)
         {
-            _context = context;
+            _dbContext = context;
         }
 
         public async Task<List<City>> GetAllCities()
         {
-            return await _context.Cities.ToListAsync();
+            return await _dbContext.Cities.ToListAsync();
+        }
+
+        public async Task<List<ApplicationUser>> GetAllUsers()
+        {
+            return await _dbContext.Users.ToListAsync();
         }
 
     }
