@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ParkUp.Core.Entities;
 using ParkUp.Core.Interfaces;
 using ParkUp.Infrastructure.Data;
 using System;
@@ -33,7 +34,7 @@ namespace ParkUp
                 options.UseSqlServer(Configuration.GetConnectionString("Default"));
             });
 
-            services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 // development only configuration for simpler testing/demo
                 options.Password.RequiredLength = 3;

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ParkUp.Core.Entities;
 using ParkUp.Web.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -11,11 +12,11 @@ namespace ParkUp.Web.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public AccountController(UserManager<IdentityUser> userManager,
-                                 SignInManager<IdentityUser> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager,
+                                 SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -34,10 +35,11 @@ namespace ParkUp.Web.Controllers
             {
                 try
                 {
-                    var user = new IdentityUser
+                    var user = new ApplicationUser
                     {
                         UserName = registerViewModel.Email,
-                        Email = registerViewModel.Email
+                        Email = registerViewModel.Email,
+                        DateAdded = DateTime.Now
                     };
                     var result = await _userManager.CreateAsync(user, registerViewModel.Password);
                     if (result.Succeeded)
@@ -65,13 +67,13 @@ namespace ParkUp.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult LogIn()
+        public IActionResult Login()
         {
             return View("Login");
         }
 
         [HttpPost]
-        public async Task<IActionResult> LogIn(LoginViewModel loginViewModel)
+        public async Task<IActionResult> Login(LoginViewModel loginViewModel)
         {
             if (ModelState.IsValid)
             {

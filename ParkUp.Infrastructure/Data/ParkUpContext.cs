@@ -7,7 +7,7 @@ using System.Text;
 
 namespace ParkUp.Infrastructure.Data
 {
-    public class ParkUpContext : IdentityDbContext
+    public class ParkUpContext : IdentityDbContext<ApplicationUser>
     {
         public ParkUpContext(DbContextOptions options) : base(options)
         {

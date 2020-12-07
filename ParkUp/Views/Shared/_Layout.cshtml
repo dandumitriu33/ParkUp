@@ -1,4 +1,4 @@
-﻿@inject SignInManager<IdentityUser> signInManager;
+﻿@inject SignInManager<ApplicationUser> signInManager;
 
 @inject IAuthorizationService authorizationService;
 
@@ -36,7 +36,7 @@
                         <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">@User.Identity.Name</a>
                     </div>
                     <div class="nav-item">
-                        <form method="post" asp-controller="Account" asp-action="LogOut">
+                        <form method="post" asp-controller="Account" asp-action="Logout">
                             <button type="submit" class="btn btn-link nav-link text-dark">Log out</button>
                         </form>
                     </div>
@@ -44,7 +44,7 @@
                 else
                 {
                     <div class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="LogIn">Log in</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Log in</a>
                     </div>
                     <div class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
