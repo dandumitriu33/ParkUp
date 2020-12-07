@@ -22,6 +22,11 @@ namespace ParkUp.Infrastructure.Data
             return await _dbContext.Cities.ToListAsync();
         }
 
+        public async Task<List<Area>> GetAllAreas()
+        {
+            return await _dbContext.Areas.ToListAsync();
+        }
+
         public async Task<List<ApplicationUser>> GetAllUsers()
         {
             return await _dbContext.Users.ToListAsync();
