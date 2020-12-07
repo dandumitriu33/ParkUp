@@ -1,0 +1,77 @@
+﻿@model AllRolesDisplayObject
+
+@{
+    ViewData["Title"] = "All roles";
+}
+
+<h1>All Roles</h1>
+
+<div class="text-center">
+    <h4 class="text-danger">
+        Roles give your users more access and abilities. Please assign roles carefully.
+    </h4>
+</div>
+
+@if (Model.Roles != null)
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Role Name</th>
+                <th scope="col">ID</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var role in Model.Roles)
+            {
+                <tr>
+                    <td>@role.Name</td>
+                    <td>@role.Id</td>
+                    <td>
+                        <a class="btn btn-outline-primary"
+                           asp-action="EditUsersInRole"
+                           asp-controller="Administration"
+                           asp-route-roleId="@role.Id">
+                            Manage Users
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        @foreach (var user in Model.UserLists[role.Name])
+                        {
+                            <span>
+                                ( @user
+                                <a class="badge badge-danger"
+                                   asp-action="RemoveUserFromRole"
+                                   asp-controller="Administration"
+                                   asp-route-userEmail="@user"
+                                   asp-route-roleId="@role.Id">
+                                    X
+                                </a>
+                                )
+                            </span>
+                        }
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            No roles created yet.
+        </div>
+        <div class="card-body">
+            <a asp-action="CreateRole" asp-controller="Administration" class="btn btn-outline-primary">
+                Create Role
+            </a>
+        </div>
+
+    </div>
+}

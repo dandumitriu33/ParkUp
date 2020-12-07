@@ -1,0 +1,15 @@
+﻿@model List<CityViewModel>
+
+@{ 
+    ViewData["Title"] = "All cities";
+}
+
+<h1>All cities</h1>
+
+<p>
+    @foreach (var city in Model)
+    {
+        <span>@city.Name (@city.Id)</span>
+    }
+</p>
+

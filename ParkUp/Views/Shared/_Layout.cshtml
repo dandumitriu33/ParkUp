@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@inject SignInManager<ApplicationUser> signInManager;
+
+@inject IAuthorizationService authorizationService;
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -24,8 +28,57 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="managementNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Management
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="managementNavbarDropdown">
+                                <a class="dropdown-item" asp-action="AllCities" asp-controller="City">All Cities</a>
+                                <a class="dropdown-item" asp-action="AllAreas" asp-controller="Area">All Areas</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </li>
+                        @if (signInManager.IsSignedIn(User) && User.IsInRole("SuperAdmin"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Admin
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item"
+                                       asp-action="CreateRole" asp-controller="Administration">
+                                        Create Role
+                                    </a>
+                                    <a class="dropdown-item" asp-action="AllRoles" asp-controller="Administration">All Roles</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
+                            </li>
+                        }
                     </ul>
                 </div>
+
+                @if (signInManager.IsSignedIn(User))
+                {
+                    <div class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">@User.Identity.Name</a>
+                    </div>
+                    <div class="nav-item">
+                        <form method="post" asp-controller="Account" asp-action="Logout">
+                            <button type="submit" class="btn btn-link nav-link text-dark">Log out</button>
+                        </form>
+                    </div>
+                }
+                else
+                {
+                    <div class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Log in</a>
+                    </div>
+                    <div class="nav-item">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                    </div>
+                }
             </div>
         </nav>
     </header>
