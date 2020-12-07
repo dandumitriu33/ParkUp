@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using ParkUp.Core.Entities;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Text;
 
 namespace ParkUp.Infrastructure.Data
 {
-    public class ParkUpContext : DbContext
+    public class ParkUpContext : IdentityDbContext
     {
         public ParkUpContext(DbContextOptions options) : base(options)
         {
