@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -32,6 +33,7 @@ namespace ParkUp
             });
 
             services.AddScoped<IAsyncRepository, EFRepository>();
+            services.AddAutoMapper(typeof(Startup));
             services.AddControllersWithViews();
         }
 
