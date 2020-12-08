@@ -38,6 +38,18 @@ namespace ParkUp.API.Controllers
             return payload;
         }
 
+        // POST api/<CitiesController>
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] CityDTO cityDTO)
+        {
+            if (ModelState.IsValid == false)
+            {
+                return BadRequest("Bad request.");
+            }
+            City newCity = _mapper.Map<CityDTO, City>(cityDTO);
+            await _repository.AddCity(newCity);
 
+            return Ok($"City \"{newCity.Name}\" was added successfully.");
+        }
     }
 }

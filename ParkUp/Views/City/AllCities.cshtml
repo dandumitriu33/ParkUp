@@ -21,6 +21,18 @@
 
 </p>
 
+<div class="row">
+    <div class="col-md-12">
+        <form>
+            <div class="form-group">
+                <label for="cityName"></label>
+                <input type="text" id="cityName" class="form-control" />
+            </div>
+            <button id="submitNewCity" class="btn btn-primary">Add City</button>
+        </form>
+    </div>
+</div>
+
 @section Scripts {
     <script type="module" src="~/js/cities.js"></script>
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
