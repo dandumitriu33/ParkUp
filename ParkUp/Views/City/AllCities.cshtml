@@ -15,3 +15,13 @@
 
 <a class="btn btn-outline-primary" asp-action="AddCity" asp-controller="City">Add City</a>
 
+<hr />
+<h3>via JS API</h3>
+<p id="citiesContainer">
+
+</p>
+
+@section Scripts {
+    <script type="module" src="~/js/cities.js"></script>
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

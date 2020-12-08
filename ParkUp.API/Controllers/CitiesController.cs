@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ParkUp.API.Models;
@@ -14,6 +15,7 @@ namespace ParkUp.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors]
     public class CitiesController : ControllerBase
     {
         private readonly IAsyncRepository _repository;
@@ -35,5 +37,7 @@ namespace ParkUp.API.Controllers
             var payload = JsonSerializer.Serialize(allCitiesDTO);
             return payload;
         }
+
+
     }
 }

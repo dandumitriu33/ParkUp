@@ -20,6 +20,7 @@ namespace ParkUp.API
 {
     public class Startup
     {
+        readonly string AllowAnyOrigin = "_myAllowAnyOrigin";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -32,12 +33,13 @@ namespace ParkUp.API
         {
             services.AddCors(options =>
             {
-                options.AddPolicy("AllowAnyOrigin",
+                options.AddPolicy(name: AllowAnyOrigin,
                     builder =>
                     {
-                        builder.WithOrigins("*").SetIsOriginAllowedToAllowWildcardSubdomains()
-                        .AllowAnyHeader()
-                        .AllowAnyMethod();
+                        builder.WithOrigins("*")
+                               .SetIsOriginAllowedToAllowWildcardSubdomains()
+                               .AllowAnyHeader()
+                               .AllowAnyMethod();
                     });
             });
             services.AddControllers();
@@ -60,6 +62,8 @@ namespace ParkUp.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(AllowAnyOrigin);
 
             app.UseAuthorization();
 
