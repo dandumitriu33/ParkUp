@@ -38,5 +38,25 @@ namespace ParkUp.API.Controllers
             var payload = JsonSerializer.Serialize(allAreasDTO);
             return payload;
         }
+
+        // POST: api/<AreasController>
+        [HttpPost]
+        [Route("{cityId?}")]
+        public async Task<IActionResult> AddNewArea([FromBody] AreaDTO areaDTO)
+        {
+            if (ModelState.IsValid == false)
+            {
+                return BadRequest("Bad request.");
+            }
+            Area newArea = _mapper.Map<AreaDTO, Area>(areaDTO);
+            await _repository.AddArea(newArea);
+            CityArea newCityArea = new CityArea
+            {
+                CityId = newArea.CityId,
+                AreaId = newArea.Id
+            };
+            await _repository.AddCityArea(newCityArea);
+            return Ok($"City \"{newArea.Name}\" was added successfully."); ;
+        }
     }
 }
