@@ -30,7 +30,7 @@ namespace ParkUp.API.Controllers
 
         // GET: api/<AreasController>
         [HttpGet]
-        [Route("{cityId}")]
+        [Route("{cityId?}")]
         public async Task<string> GetCityAreas(int cityId)
         {
             List<Area> areasFromDb = await _repository.GetAllAreasForCity(cityId);

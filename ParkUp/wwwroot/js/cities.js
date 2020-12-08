@@ -3,7 +3,6 @@
 populateCities();
 
 async function populateCities() {
-    $("#citiesContainer").empty();
     console.log("Getting cities...");
     let URL = `https://localhost:44315/api/cities`;
     await $.getJSON(URL, function (data) {
