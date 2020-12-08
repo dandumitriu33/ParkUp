@@ -1,0 +1,17 @@
+﻿@model List<ParkingSpaceViewModel>
+
+@{ 
+    ViewData["Title"] = "My Parking Spaces";
+}
+
+<h1>My parking spaces</h1>
+
+<p>
+    @foreach (var parkingSpace in Model)
+    {
+        <span>
+            @parkingSpace.Name - @parkingSpace.StreetName
+        </span>
+    }
+</p>
+
