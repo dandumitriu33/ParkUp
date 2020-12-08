@@ -22,6 +22,13 @@ namespace ParkUp.Infrastructure.Data
             return await _dbContext.Cities.ToListAsync();
         }
 
+        public async Task<City> AddCity(City city)
+        {
+            await _dbContext.Cities.AddAsync(city);
+            await _dbContext.SaveChangesAsync();
+            return city;
+        }
+
         public async Task<List<Area>> GetAllAreas()
         {
             return await _dbContext.Areas.ToListAsync();
@@ -31,6 +38,8 @@ namespace ParkUp.Infrastructure.Data
         {
             return await _dbContext.Users.ToListAsync();
         }
+
+        
 
     }
 }
