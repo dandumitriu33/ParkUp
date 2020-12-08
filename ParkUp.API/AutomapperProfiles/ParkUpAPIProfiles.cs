@@ -16,6 +16,8 @@ namespace ParkUp.API.AutomapperProfiles
                 .ReverseMap();
             CreateMap<Area, AreaDTO>()
                 .ReverseMap();
+            CreateMap<ParkingSpace, ParkingSpaceDTO>()
+                .ReverseMap();
         }
     }
 }

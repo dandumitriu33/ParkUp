@@ -25,6 +25,8 @@ namespace ParkUp.Web.Controllers
             _repository = repository;
             _mapper = mapper;
         }
+
+        [HttpGet]
         public async Task<IActionResult> MyParkingSpaces()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);

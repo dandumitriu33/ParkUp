@@ -9,6 +9,7 @@ namespace ParkUp.Web.ViewModels
     {
         public int Id { get; set; }
         public int AreaId { get; set; }
+        public bool IsApproved { get; set; }
         public string OwnerId { get; set; }
         public string Name { get; set; }
         public string StreetName { get; set; }
