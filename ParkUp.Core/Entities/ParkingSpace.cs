@@ -7,6 +7,7 @@ namespace ParkUp.Core.Entities
     public class ParkingSpace
     {
         public int Id { get; set; }
+        public int AreaId { get; set; }
         public string OwnerId { get; set; }
         public string Name { get; set; }
         public string StreetName { get; set; }

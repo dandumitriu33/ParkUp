@@ -18,5 +18,6 @@ namespace ParkUp.Infrastructure.Data
         public DbSet<Area> Areas { get; set; }
         public DbSet<CityArea> CityAreas { get; set; }
         public DbSet<ParkingSpace> ParkingSpaces { get; set; }
+        public DbSet<AreaParkingSpace> AreaParkingSpaces { get; set; }
     }
 }
