@@ -4,10 +4,12 @@ using System.Text;
 
 namespace ParkUp.Core.Entities
 {
-    public class Area
+    public class CityArea
     {
         public int Id { get; set; }
-        public string Name { get; set; }
         public int CityId { get; set; }
+        public City City { get; set; }
+        public int AreaId { get; set; }
+        public Area Area { get; set; }
     }
 }

@@ -30,20 +30,29 @@ namespace ParkUp.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddArea()
+        public async Task<IActionResult> AddArea()
         {
+            List<City> allCitiesFromDb = await _repository.GetAllCities();
+            List<CityViewModel> allCitiesVM = _mapper.Map<List<City>, List<CityViewModel>>(allCitiesFromDb);
+            ViewData["AllCitiesVM"] = allCitiesVM;
             return View("AddArea");
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddARea(AreaViewModel areaViewModel)
+        public async Task<IActionResult> AddArea(AreaViewModel areaViewModel)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
                     Area newArea = _mapper.Map<AreaViewModel, Area>(areaViewModel);
-                    var result = await _repository.AddArea(newArea);
+                    await _repository.AddArea(newArea);
+                    CityArea newCityArea = new CityArea
+                    {
+                        Area = newArea,
+                        CityId = areaViewModel.CityId
+                    };
+                    await _repository.AddCityArea(newCityArea);
                     return RedirectToAction("AllAreas");
                 }
                 catch (DbUpdateException dbex)
