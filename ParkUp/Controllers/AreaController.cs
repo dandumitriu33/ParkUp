@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ParkUp.Core.Entities;
 using ParkUp.Core.Interfaces;
 using ParkUp.Web.ViewModels;
@@ -26,6 +27,37 @@ namespace ParkUp.Web.Controllers
             List<Area> areasFromDb = await _repository.GetAllAreas();
             List<AreaViewModel> allAreasVM = _mapper.Map<List<Area>, List<AreaViewModel>>(areasFromDb);
             return View("AllAreas", allAreasVM);
+        }
+
+        [HttpGet]
+        public IActionResult AddArea()
+        {
+            return View("AddArea");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddARea(AreaViewModel areaViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    Area newArea = _mapper.Map<AreaViewModel, Area>(areaViewModel);
+                    var result = await _repository.AddArea(newArea);
+                    return RedirectToAction("AllAreas");
+                }
+                catch (DbUpdateException dbex)
+                {
+                    ViewData["ErrorMessage"] = "DB issue - " + dbex.Message;
+                    return View("Error");
+                }
+                catch (Exception ex)
+                {
+                    ViewData["ErrorMessage"] = ex.Message;
+                    return View("Error");
+                }
+            }
+            return View("AddArea", areaViewModel);
         }
     }
 }

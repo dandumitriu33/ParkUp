@@ -11,6 +11,7 @@ namespace ParkUp.Core.Interfaces
         Task<List<City>> GetAllCities();
         Task<City> AddCity(City city);
         Task<List<Area>> GetAllAreas();
+        Task<Area> AddArea(Area area);
         Task<List<ApplicationUser>> GetAllUsers();
     }
 }
