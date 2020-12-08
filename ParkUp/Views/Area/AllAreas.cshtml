@@ -4,7 +4,7 @@
     ViewData["Title"] = "All areas";
 }
 
-<h1>All cities</h1>
+<h1>All areas</h1>
 
 <p>
     @foreach (var area in Model)
@@ -13,3 +13,27 @@
     }
 </p>
 
+<a class="btn btn-outline-primary" asp-action="AddArea" asp-controller="Area">Add Area</a>
+<hr />
+<h3>API data</h3>
+
+<div>
+    <label for="CitiesSelect">Select a city:</label>
+    <select name="CitiesSelect" id="CitiesSelect">
+        <option value="0">Select City...</option>
+    </select>
+</div>
+
+<p id="CityAreas">
+
+</p>
+
+<div id="addAreaElement">
+
+</div>
+
+
+@section Scripts {
+    <script type="module" src="~/js/areas.js"></script>
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

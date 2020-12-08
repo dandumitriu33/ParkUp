@@ -4,5 +4,14 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ParkUp.Core\ParkUp.Core.csproj" />
+    <ProjectReference Include="..\ParkUp.Infrastructure\ParkUp.Infrastructure.csproj" />
+  </ItemGroup>
+
 
 </Project>

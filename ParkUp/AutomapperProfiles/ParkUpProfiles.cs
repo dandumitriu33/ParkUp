@@ -16,6 +16,8 @@ namespace ParkUp.Web.AutomapperProfiles
                 .ReverseMap();
             CreateMap<Area, AreaViewModel>()
                 .ReverseMap();
+            CreateMap<ParkingSpace, ParkingSpaceViewModel>()
+               .ReverseMap();
             CreateMap<ApplicationUser, ApplicationUserViewModel>()
                 .ReverseMap();
         }

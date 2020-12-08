@@ -1,0 +1,33 @@
+﻿@model AreaViewModel
+
+@{
+    ViewData["Title"] = "Add Area";
+    List<CityViewModel> allCitiesVM = (List<CityViewModel>)ViewData["AllCitiesVM"];
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form method="post">
+            <div class="form-group">
+                <label for="userId">Example select</label>
+                <select class="form-control" asp-for="CityId" id="CityId" name="CityId">
+                    @foreach (var city in allCitiesVM)
+                    {
+                        <option value="@city.Id">@city.Name (@city.Id)</option>
+                    }
+                </select>
+            </div>
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Area</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ParkUp.Web.ViewModels
+namespace ParkUp.API.Models
 {
-    public class AreaViewModel
+    public class CityDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int CityId { get; set; }
+        public List<AreaDTO> Areas { get; set; }
     }
 }

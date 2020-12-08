@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ParkUp.Infrastructure.Data;
 
 namespace ParkUp.Infrastructure.Migrations
 {
     [DbContext(typeof(ParkUpContext))]
-    partial class ParkUpContextModelSnapshot : ModelSnapshot
+    [Migration("20201208072119_AddCityAreasOneToManyTable")]
+    partial class AddCityAreasOneToManyTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -225,7 +227,7 @@ namespace ParkUp.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CityId")
+                    b.Property<int?>("CityId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -236,28 +238,6 @@ namespace ParkUp.Infrastructure.Migrations
                     b.HasIndex("CityId");
 
                     b.ToTable("Areas");
-                });
-
-            modelBuilder.Entity("ParkUp.Core.Entities.AreaParkingSpace", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AreaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ParkingSpaceId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AreaId");
-
-                    b.HasIndex("ParkingSpaceId");
-
-                    b.ToTable("AreaParkingSpaces");
                 });
 
             modelBuilder.Entity("ParkUp.Core.Entities.City", b =>
@@ -304,9 +284,6 @@ namespace ParkUp.Infrastructure.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AreaId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("DateAdded")
                         .HasColumnType("datetime2");
 
@@ -314,9 +291,6 @@ namespace ParkUp.Infrastructure.Migrations
                         .HasColumnType("float");
 
                     b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsApproved")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsRemoved")
@@ -394,24 +368,7 @@ namespace ParkUp.Infrastructure.Migrations
                 {
                     b.HasOne("ParkUp.Core.Entities.City", null)
                         .WithMany("Areas")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ParkUp.Core.Entities.AreaParkingSpace", b =>
-                {
-                    b.HasOne("ParkUp.Core.Entities.Area", "Area")
-                        .WithMany()
-                        .HasForeignKey("AreaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ParkUp.Core.Entities.ParkingSpace", "ParkingSpace")
-                        .WithMany()
-                        .HasForeignKey("ParkingSpaceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CityId");
                 });
 
             modelBuilder.Entity("ParkUp.Core.Entities.CityArea", b =>

@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace ParkUp.Core.Entities
+namespace ParkUp.API.Models
 {
-    public class ParkingSpace
+    public class ParkingSpaceDTO
     {
         public int Id { get; set; }
         public int AreaId { get; set; }
-        public bool IsApproved { get; set; } = false;
+        public bool IsApproved { get; set; }
         public string OwnerId { get; set; }
         public string Name { get; set; }
         public string StreetName { get; set; }
@@ -16,6 +17,5 @@ namespace ParkUp.Core.Entities
         public bool IsActive { get; set; } = false;
         public bool IsTaken { get; set; } = false;
         public DateTime DateAdded { get; set; }
-        public bool IsRemoved { get; set; } = false;
     }
 }

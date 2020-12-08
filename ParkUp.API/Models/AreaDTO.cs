@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace ParkUp.Core.Entities
+namespace ParkUp.API.Models
 {
-    public class Area
+    public class AreaDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }

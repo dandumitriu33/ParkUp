@@ -1,0 +1,64 @@
+﻿@model List<ParkingSpaceViewModel>
+@inject UserManager<ApplicationUser> userManager;
+
+@{
+    ViewData["Title"] = "My Parking Spaces";
+}
+
+<h1>My parking spaces</h1>
+
+<p>
+    @foreach (var parkingSpace in Model)
+    {
+        <span>
+            @parkingSpace.Name - @parkingSpace.StreetName -
+
+        </span>
+        @if (parkingSpace.IsApproved == false)
+        {
+            <span>Pending approval</span>
+        }
+        else if (parkingSpace.IsApproved == true)
+        {
+            <span>Approved</span>
+        }
+    }
+</p>
+<hr />
+<h3>API data</h3>
+<p>Parking spaces owned by: @userManager.GetUserId(User)</p>
+<p hidden id="userId">@userManager.GetUserId(User)</p>
+
+<p id="parkingSpacesContainer">
+
+</p>
+
+<p>City selector</p>
+<p>Area selector</p>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <form>
+            <div class="form-group">
+                <label for="parkingSpaceName"></label>
+                <input type="text" id="parkingSpaceName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="streetName"></label>
+                <input type="text" id="streetName" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label for="priceHour"></label>
+                <input type="number" id="priceHour" class="form-control" />
+            </div>
+            <button id="submitNewParkingSpace" class="btn btn-primary">Submit Parking Space for Approval</button>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script type="module" src="~/js/spaces.js"></script>
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
