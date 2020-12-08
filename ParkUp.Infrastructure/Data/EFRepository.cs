@@ -3,6 +3,7 @@ using ParkUp.Core.Entities;
 using ParkUp.Core.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -46,6 +47,11 @@ namespace ParkUp.Infrastructure.Data
             await _dbContext.CityAreas.AddAsync(cityArea);
             await _dbContext.SaveChangesAsync();
             return cityArea;
+        }
+
+        public async Task<List<Area>> GetAllAreasForCity(int cityId)
+        {
+            return await _dbContext.Areas.Where(a => a.CityId == cityId).OrderBy(a => a.Name).ToListAsync();
         }
 
         public async Task<List<ApplicationUser>> GetAllUsers()
