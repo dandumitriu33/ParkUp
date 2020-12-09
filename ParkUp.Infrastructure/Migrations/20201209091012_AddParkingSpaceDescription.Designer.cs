@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ParkUp.Infrastructure.Data;
 
 namespace ParkUp.Infrastructure.Migrations
 {
     [DbContext(typeof(ParkUpContext))]
-    partial class ParkUpContextModelSnapshot : ModelSnapshot
+    [Migration("20201209091012_AddParkingSpaceDescription")]
+    partial class AddParkingSpaceDescription
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -340,27 +342,6 @@ namespace ParkUp.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ParkingSpaces");
-                });
-
-            modelBuilder.Entity("ParkUp.Core.Entities.TakenParkingSpace", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DateStarted")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ParkingSpaceId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TakenParkingSpaces");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

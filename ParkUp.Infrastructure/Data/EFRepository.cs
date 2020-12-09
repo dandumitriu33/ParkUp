@@ -59,7 +59,88 @@ namespace ParkUp.Infrastructure.Data
             return await _dbContext.ParkingSpaces.Where(ps => ps.OwnerId == userId && ps.IsRemoved == false).OrderBy(ps => ps.Name).ToListAsync();
         }
 
+        public async Task<List<ParkingSpace>> GetAllParkingSpacesForArea(int areaId, string searchPhrase="")
+        {
+            if (String.IsNullOrEmpty(searchPhrase) == true)
+            {
+                return await _dbContext.ParkingSpaces
+                .Where(ps => ps.AreaId == areaId && ps.IsRemoved == false)
+                .OrderBy(ps => ps.Name)
+                .ToListAsync();
+            }
+            return await _dbContext.ParkingSpaces
+                .Where(ps => ps.AreaId == areaId && ps.IsRemoved == false && (ps.Description.Contains(searchPhrase) || ps.StreetName.Contains(searchPhrase)))
+                .OrderBy(ps => ps.Name)
+                .ToListAsync();
+        }
 
+        public async Task TakeParkingSpace(TakenParkingSpace takenParkingSpace)
+        {
+            await using var transaction = await _dbContext.Database.BeginTransactionAsync();
+            try
+            {
+                var parkingSpace = await _dbContext.ParkingSpaces.Where(ps => ps.Id == takenParkingSpace.ParkingSpaceId && ps.IsTaken == false && ps.IsRemoved == false)
+                                                                 .FirstOrDefaultAsync();
+                parkingSpace.IsTaken = true;
+                _dbContext.ParkingSpaces.Attach(parkingSpace);
+                _dbContext.Entry(parkingSpace).State = EntityState.Modified;
+                await _dbContext.SaveChangesAsync();
+
+                await _dbContext.TakenParkingSpaces.AddAsync(takenParkingSpace);
+                await _dbContext.SaveChangesAsync();
+                
+                await transaction.CommitAsync();
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+            }
+        }
+
+        public async Task LeaveParkingSpace(TakenParkingSpace takenParkingSpace)
+        {
+            await using var transaction = await _dbContext.Database.BeginTransactionAsync();
+            try
+            {
+                var parkingSpace = await _dbContext.ParkingSpaces.Where(ps => ps.Id == takenParkingSpace.ParkingSpaceId && ps.IsTaken == true && ps.IsRemoved == false)
+                                                                 .FirstOrDefaultAsync();
+                parkingSpace.IsTaken = false;
+                _dbContext.ParkingSpaces.Attach(parkingSpace);
+                _dbContext.Entry(parkingSpace).State = EntityState.Modified;
+                await _dbContext.SaveChangesAsync();
+
+                var takenParkingSpaceInstanceFromDb = await _dbContext.TakenParkingSpaces.Where(tps => tps.ParkingSpaceId == takenParkingSpace.ParkingSpaceId &&
+                                                                                                        tps.UserId == takenParkingSpace.UserId)
+                                                                                         .FirstOrDefaultAsync();
+                _dbContext.TakenParkingSpaces.Remove(takenParkingSpaceInstanceFromDb);
+                await _dbContext.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+            }
+        }
+
+        public async Task<List<TakenParkingSpace>> GetTakenInstancesByUserId(string userId)
+        {
+            return await _dbContext.TakenParkingSpaces.Where(tps => tps.UserId == userId)
+                                                      .OrderByDescending(tps => tps.DateStarted)
+                                                      .ToListAsync();
+        } 
+
+        public async Task<List<ParkingSpace>> GetTakenParkingSpacesByUserId(List<TakenParkingSpace> takenSpaces)
+        {
+            List<ParkingSpace> result = new List<ParkingSpace>();
+            foreach (var takenParkingSpace in takenSpaces)
+            {
+                var parkingSpace = await _dbContext.ParkingSpaces.Where(ps => ps.Id == takenParkingSpace.ParkingSpaceId && ps.IsTaken == true && ps.IsRemoved == false)
+                                                                    .FirstOrDefaultAsync();
+                result.Add(parkingSpace);
+            }
+            return result;
+        }
 
         public async Task<List<ApplicationUser>> GetAllUsers()
         {

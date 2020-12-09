@@ -1,8 +1,46 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@inject UserManager<ApplicationUser> userManager;
+@{
+    ViewData["Title"] = "ParkUp";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <p hidden id="userId">@userManager.GetUserId(User)</p>
+    <div id="takenCardContainer">
+
+
+
+    </div>
+
+    <div id="citiesContainer">
+        <label for="citiesSelect">Select a city:</label>
+        <select name="citiesSelect" id="citiesSelect">
+            <option value="0">Select City...</option>
+        </select>
+    </div>
+
+    <div id="areasContainer">
+        <label for="areasSelect">Select an Area:</label>
+        <select name="areasSelect" id="areasSelect">
+            <option value="0">Select an Area...</option>
+        </select>
+    </div>
+
+    <div id="searchBarContainer">
+
+    </div>
+
+    <table class="table">
+        <tbody id="spacesContainer">
+        </tbody>
+    </table>
+    <div id="spacesContainer">
+
+    </div>
+
 </div>
+
+@section Scripts {
+    <script type="module" src="~/js/home.js"></script>
+    <script type="module" src="~/js/utilsAPI.js"></script>
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
