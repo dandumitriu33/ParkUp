@@ -4,7 +4,9 @@
 checkIfTakenParkingSpacesAndDisplayCard();
 
 async function checkIfTakenParkingSpacesAndDisplayCard() {
-    var userId = $("#userId").val();
+    console.log("Checking for taken parking spaces...");
+    var userId = $("#userId").text();
+    console.log("userId: " + userId);
     var takenParkingSpaces = [];
     let URL = `https://localhost:44315/api/parkingspaces/${userId}`;
     await $.getJSON(URL, function (data) {
@@ -14,12 +16,17 @@ async function checkIfTakenParkingSpacesAndDisplayCard() {
     })
     if (takenParkingSpaces.length > 0) {
         for (var i = 0; i < takenParkingSpaces.length; i++) {
+            var now = Date.now();
+            var start = new Date(takenParkingSpaces[i].DateStarted);
+            var timeElapsed = Math.round((now - start) / 1000 / 60);
+            var currentCharge = Math.ceil(timeElapsed / 30) * (takenParkingSpaces[i].HourlyPrice/2); 
             let element = `
                             <div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
-                              <div class="card-header">Header</div>
+                              <div class="card-header">${takenParkingSpaces[i].Name}</div>
                               <div class="card-body">
-                                <h5 class="card-title">Danger card title</h5>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                <h5 class="card-title">Price: ${takenParkingSpaces[i].HourlyPrice}</h5>
+                                <p class="card-text">Elapsed: ${timeElapsed} minutes</p>
+                                <p class="card-text">Charge: ${currentCharge} Credits</p>
                               </div>
                             </div>
                           `;
