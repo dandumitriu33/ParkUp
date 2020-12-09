@@ -74,6 +74,29 @@ namespace ParkUp.Infrastructure.Data
                 .ToListAsync();
         }
 
+        public async Task TakeParkingSpace(TakenParkingSpace takenParkingSpace)
+        {
+            await using var transaction = await _dbContext.Database.BeginTransactionAsync();
+            try
+            {
+                var parkingSpace = await _dbContext.ParkingSpaces.Where(ps => ps.Id == takenParkingSpace.ParkingSpaceId && ps.IsTaken == false && ps.IsRemoved == false)
+                                                                 .FirstOrDefaultAsync();
+                parkingSpace.IsTaken = true;
+                _dbContext.ParkingSpaces.Attach(parkingSpace);
+                _dbContext.Entry(parkingSpace).State = EntityState.Modified;
+                await _dbContext.SaveChangesAsync();
+
+                await _dbContext.TakenParkingSpaces.AddAsync(takenParkingSpace);
+                await _dbContext.SaveChangesAsync();
+                
+                await transaction.CommitAsync();
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+            }
+        }
+
         public async Task<List<ApplicationUser>> GetAllUsers()
         {
             return await _dbContext.Users.ToListAsync();

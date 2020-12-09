@@ -28,7 +28,7 @@ namespace ParkUp.API.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/<AreasController>
+        // GET: api/<ParkingSpacesController>
         [HttpGet]
         [Route("{areaId?}/search/{searchPhrase?}")]
         public async Task<string> GetAreaParkingSpaces(int areaId, string searchPhrase)
@@ -37,6 +37,22 @@ namespace ParkUp.API.Controllers
             List<ParkingSpaceDTO> allPArkingSpacesDTO = _mapper.Map<List<ParkingSpace>, List<ParkingSpaceDTO>>(parkingSpacesFromDb);
             var payload = JsonSerializer.Serialize(allPArkingSpacesDTO);
             return payload;
+        }
+
+        // POST: api/<ParkingSpacesController>/take
+        [HttpPost]
+        [Route("take")]
+        public async Task<IActionResult> TakeParkingSpace([FromBody] TakenParkingSpaceDTO takenParkingSpaceDTO)
+        {
+            if (ModelState.IsValid == false)
+            {
+                return BadRequest("Bad request.");
+            }
+            TakenParkingSpace newTakenParkingSpace = _mapper.Map<TakenParkingSpaceDTO, TakenParkingSpace>(takenParkingSpaceDTO);
+            newTakenParkingSpace.DateStarted = DateTime.Now;
+            await _repository.TakeParkingSpace(newTakenParkingSpace);
+            
+            return Ok($"Parking space taken successfully."); ;
         }
     }
 }
