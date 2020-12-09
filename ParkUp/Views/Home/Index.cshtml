@@ -1,10 +1,13 @@
-﻿@{
+﻿@inject UserManager<ApplicationUser> userManager;
+@{
     ViewData["Title"] = "ParkUp";
 }
 
 <div class="text-center">
 
     <div id="takenCardContainer">
+        <p hidden id="userId">@userManager.GetUserId(User)</p>
+
 
     </div>
 

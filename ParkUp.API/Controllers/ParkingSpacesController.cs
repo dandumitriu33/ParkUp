@@ -34,8 +34,8 @@ namespace ParkUp.API.Controllers
         public async Task<string> GetAreaParkingSpaces(int areaId, string searchPhrase)
         {
             List<ParkingSpace> parkingSpacesFromDb = await _repository.GetAllParkingSpacesForArea(areaId, searchPhrase);
-            List<ParkingSpaceDTO> allPArkingSpacesDTO = _mapper.Map<List<ParkingSpace>, List<ParkingSpaceDTO>>(parkingSpacesFromDb);
-            var payload = JsonSerializer.Serialize(allPArkingSpacesDTO);
+            List<ParkingSpaceDTO> allParkingSpacesDTO = _mapper.Map<List<ParkingSpace>, List<ParkingSpaceDTO>>(parkingSpacesFromDb);
+            var payload = JsonSerializer.Serialize(allParkingSpacesDTO);
             return payload;
         }
 
@@ -53,6 +53,27 @@ namespace ParkUp.API.Controllers
             await _repository.TakeParkingSpace(newTakenParkingSpace);
             
             return Ok($"Parking space taken successfully."); ;
+        }
+
+        // GET: api/<ParkingSpacesController>/{userId}
+        [HttpGet]
+        [Route("{userId}")]
+        public async Task<string> GetTakenParkingSpaces(string userId)
+        {
+            List<TakenParkingSpace> takenInstancesFromDb = await _repository.GetTakenInstancesByUserId(userId);
+            List<ParkingSpaceDTO> allTakenParkingSpacesDTO = new List<ParkingSpaceDTO>();
+            if (takenInstancesFromDb.Count > 0)
+            {
+                List<ParkingSpace> parkingSpacesFromDb = await _repository.GetTakenParkingSpacesByUserId(takenInstancesFromDb);
+                allTakenParkingSpacesDTO = _mapper.Map<List<ParkingSpace>, List<ParkingSpaceDTO>>(parkingSpacesFromDb);
+                foreach (var parkingSpaceDTO in allTakenParkingSpacesDTO)
+                {
+                    var instance = takenInstancesFromDb.Where(i => i.ParkingSpaceId == parkingSpaceDTO.Id).FirstOrDefault();
+                    parkingSpaceDTO.DateStarted = instance.DateStarted;
+                }
+            }
+            var payload = JsonSerializer.Serialize(allTakenParkingSpacesDTO);
+            return payload;
         }
     }
 }

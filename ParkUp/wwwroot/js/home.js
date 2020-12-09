@@ -1,5 +1,34 @@
 ﻿import { getCitiesArray, getAreasArray, getParkingSpacesArray } from './utilsAPI.js';
 
+// Taken Parking Space Card
+checkIfTakenParkingSpacesAndDisplayCard();
+
+async function checkIfTakenParkingSpacesAndDisplayCard() {
+    var userId = $("#userId").val();
+    var takenParkingSpaces = [];
+    let URL = `https://localhost:44315/api/parkingspaces/${userId}`;
+    await $.getJSON(URL, function (data) {
+        for (var i = 0; i < data.length; i++) {
+            takenParkingSpaces.push(data[i]);
+        }
+    })
+    if (takenParkingSpaces.length > 0) {
+        for (var i = 0; i < takenParkingSpaces.length; i++) {
+            let element = `
+                            <div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
+                              <div class="card-header">Header</div>
+                              <div class="card-body">
+                                <h5 class="card-title">Danger card title</h5>
+                                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                              </div>
+                            </div>
+                          `;
+            $("#takenCardContainer").append(element);
+        }
+    }
+}
+// end of Taken Parking Space Card
+
 refreshCitiesSelector();
 $("#citiesSelect").change(function () { refreshCityAreasSelector(); });
 $("#areasSelect").change(function () {

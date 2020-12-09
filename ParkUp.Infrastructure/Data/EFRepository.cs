@@ -97,6 +97,25 @@ namespace ParkUp.Infrastructure.Data
             }
         }
 
+        public async Task<List<TakenParkingSpace>> GetTakenInstancesByUserId(string userId)
+        {
+            return await _dbContext.TakenParkingSpaces.Where(tps => tps.UserId == userId)
+                                                      .OrderByDescending(tps => tps.DateStarted)
+                                                      .ToListAsync();
+        } 
+
+        public async Task<List<ParkingSpace>> GetTakenParkingSpacesByUserId(List<TakenParkingSpace> takenSpaces)
+        {
+            List<ParkingSpace> result = new List<ParkingSpace>();
+            foreach (var takenParkingSpace in takenSpaces)
+            {
+                var parkingSpace = await _dbContext.ParkingSpaces.Where(ps => ps.Id == takenParkingSpace.ParkingSpaceId && ps.IsTaken == true && ps.IsRemoved == false)
+                                                                    .FirstOrDefaultAsync();
+                result.Add(parkingSpace);
+            }
+            return result;
+        }
+
         public async Task<List<ApplicationUser>> GetAllUsers()
         {
             return await _dbContext.Users.ToListAsync();
