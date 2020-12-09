@@ -30,10 +30,10 @@ namespace ParkUp.API.Controllers
 
         // GET: api/<AreasController>
         [HttpGet]
-        [Route("{areaId?}")]
-        public async Task<string> GetAreaParkingSpaces(int areaId)
+        [Route("{areaId?}/search/{searchPhrase?}")]
+        public async Task<string> GetAreaParkingSpaces(int areaId, string searchPhrase)
         {
-            List<ParkingSpace> parkingSpacesFromDb = await _repository.GetAllParkingSpacesForArea(areaId);
+            List<ParkingSpace> parkingSpacesFromDb = await _repository.GetAllParkingSpacesForArea(areaId, searchPhrase);
             List<ParkingSpaceDTO> allPArkingSpacesDTO = _mapper.Map<List<ParkingSpace>, List<ParkingSpaceDTO>>(parkingSpacesFromDb);
             var payload = JsonSerializer.Serialize(allPArkingSpacesDTO);
             return payload;

@@ -59,9 +59,19 @@ namespace ParkUp.Infrastructure.Data
             return await _dbContext.ParkingSpaces.Where(ps => ps.OwnerId == userId && ps.IsRemoved == false).OrderBy(ps => ps.Name).ToListAsync();
         }
 
-        public async Task<List<ParkingSpace>> GetAllParkingSpacesForArea(int areaId)
+        public async Task<List<ParkingSpace>> GetAllParkingSpacesForArea(int areaId, string searchPhrase="")
         {
-            return await _dbContext.ParkingSpaces.Where(ps => ps.AreaId == areaId && ps.IsRemoved == false).OrderBy(ps => ps.Name).ToListAsync();
+            if (String.IsNullOrEmpty(searchPhrase) == true)
+            {
+                return await _dbContext.ParkingSpaces
+                .Where(ps => ps.AreaId == areaId && ps.IsRemoved == false)
+                .OrderBy(ps => ps.Name)
+                .ToListAsync();
+            }
+            return await _dbContext.ParkingSpaces
+                .Where(ps => ps.AreaId == areaId && ps.IsRemoved == false && (ps.Description.Contains(searchPhrase) || ps.StreetName.Contains(searchPhrase)))
+                .OrderBy(ps => ps.Name)
+                .ToListAsync();
         }
 
         public async Task<List<ApplicationUser>> GetAllUsers()
