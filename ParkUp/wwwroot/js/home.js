@@ -1,37 +1,47 @@
 ﻿import { getCitiesArray, getAreasArray, getParkingSpacesArray } from './utilsAPI.js';
 
 refreshCitiesSelector();
-$("#CitiesSelect").change(function () { refreshCityAreasSelector(); });
-$("#AreassSelect").change(function () { refreshAreaSpaces(); });
+$("#citiesSelect").change(function () { refreshCityAreasSelector(); });
+$("#areasSelect").change(function () {
+    // call search bar creation
+    if (($("#areasSelect").val() === "0" ) == false) {
+        addSearchBar();
+    } else {
+        removeSearchBar();
+    }
+    refreshAreaSpaces();
+});
 
 async function refreshCitiesSelector() {
     let cities = await getCitiesArray();
-    $("#CitiesSelect").empty();
-    $("#CitiesSelect").append(`<option value="0">Select City...</option>`);
+    $("#citiesSelect").empty();
+    $("#citiesSelect").append(`<option value="0">Select City...</option>`);
     for (var i = 0; i < cities.length; i++) {
         let element = `
                         <option value="${cities[i].Id}">${cities[i].Name}</option>
                       `;
-        $("#CitiesSelect").append(element);
+        $("#citiesSelect").append(element);
     }
 }
 
 async function refreshCityAreasSelector() {
-    let cityId = $("#CitiesSelect").val();
+    let cityId = $("#citiesSelect").val();
     let areas = await getAreasArray(cityId);
-    $("#AreassSelect").empty();
-    $("#AreassSelect").append(`<option value="0">Select an Area...</option>`);
+    $("#areasSelect").empty();
+    $("#areasSelect").append(`<option value="0">Select an Area...</option>`);
     for (var i = 0; i < areas.length; i++) {
         let element = `
                         <option value="${areas[i].Id}">${areas[i].Name}</option>
                       `;
-        $("#AreassSelect").append(element);
+        $("#areasSelect").append(element);
     }
 }
 
 async function refreshAreaSpaces() {
-    let areaId = $("#AreassSelect").val();
-    let parkingSpaces = await getParkingSpacesArray(areaId);
+    event.preventDefault();
+    let areaId = $("#areasSelect").val();
+    let searchPhrase = $("#searchPhrase").val();
+    let parkingSpaces = await getParkingSpacesArray(areaId, searchPhrase);
     $("#spacesContainer").empty();
     for (var i = 0; i < parkingSpaces.length; i++) {
         let element = `
@@ -39,4 +49,25 @@ async function refreshAreaSpaces() {
                       `;
         $("#spacesContainer").append(element);
     }
+}
+
+async function addSearchBar() {
+    $("#searchBarContainer").empty();
+    let searchElement = `
+                        <table class="table">
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td><input class="form-control mr-sm-2" type="search" id="searchPhrase"></td>
+                                <td><button class="btn btn-primary mb-2" id="refreshButton">Refresh</button></td>
+                                <td></td>
+                            </tr>
+                        </table>
+                        `;
+    $("#searchBarContainer").append(searchElement);
+    $("#refreshButton").click(function () { refreshAreaSpaces(); });
+}
+
+async function removeSearchBar() {
+    $("#searchBarContainer").empty();
 }

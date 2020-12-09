@@ -27,11 +27,11 @@ async function getAreasArray(cityId) {
     return areas;
 }
 
-async function getParkingSpacesArray(areaId) {
+async function getParkingSpacesArray(areaId, searchPhrase) {
     console.log(areaId);
     console.log(`Getting parking spaces for: ${areaId}`);
     let parkingSpaces = [];
-    let URL = `https://localhost:44315/api/parkingspaces/${areaId}`;
+    let URL = `https://localhost:44315/api/parkingspaces/${areaId}/search/${searchPhrase}`;
     await $.getJSON(URL, function (data) {
         for (var i = 0; i < data.length; i++) {
             parkingSpaces.push(data[i]);
