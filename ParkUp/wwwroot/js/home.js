@@ -88,8 +88,10 @@ async function refreshAreaSpaces() {
     let parkingSpaces = await getParkingSpacesArray(areaId, searchPhrase);
     $("#spacesContainer").empty();
     for (var i = 0; i < parkingSpaces.length; i++) {
-        let element = await generateFreeParkingSpaceElement(parkingSpaces[i]);
-        $("#spacesContainer").append(element);
+        if (parkingSpaces[i].IsTaken == false) {
+            let element = await generateFreeParkingSpaceElement(parkingSpaces[i]);
+            $("#spacesContainer").append(element);
+        }
     }
     $("[class*=btn][class*=btn-success]").click(function () {
         let parkingSpaceId = this.id.replace("parkingSpace", "");
