@@ -80,11 +80,16 @@ async function refreshAreaSpaces() {
     let parkingSpaces = await getParkingSpacesArray(areaId, searchPhrase);
     $("#spacesContainer").empty();
     for (var i = 0; i < parkingSpaces.length; i++) {
-        let element = `
-                        <p>${parkingSpaces[i].Name} ${parkingSpaces[i].StreetName} - ${parkingSpaces[i].HourlyPrice}</p>
-                      `;
+        let element = await generateFreeParkingSpaceElement(parkingSpaces[i]);
         $("#spacesContainer").append(element);
     }
+    $("[class*=btn][class*=btn-success]").click(function () {
+        let parkingSpaceId = this.id.replace("parkingSpace", "");
+        console.log("psID: " + parkingSpaceId);
+        let userId = $("#userId").text();
+        console.log("usrID: " + userId);
+        handleTakeParkingSpace(parkingSpaceId, userId);
+    })
 }
 
 async function addSearchBar() {
@@ -106,4 +111,44 @@ async function addSearchBar() {
 
 async function removeSearchBar() {
     $("#searchBarContainer").empty();
+}
+
+async function generateFreeParkingSpaceElement(parkingSpace) {
+    let element = `
+                    <tr>
+                        <td>${parkingSpace.Name}</td>
+                        <td>${parkingSpace.StreetName}</td>
+                        <td>${parkingSpace.HourlyPrice} Credits</td>
+                        <td><button id="parkingSpace${parkingSpace.Id}" class="btn btn-success">Take</button></td>
+                    </tr>
+                  `;
+    return element;
+}
+
+async function handleTakeParkingSpace(parkingSpaceId, userId) {
+
+
+    event.preventDefault();
+    //let cityId = parseInt($("#CitiesSelect").val());
+    //let newAreaName = $("#areaName").val();
+    console.log("Taking parking space...");
+    console.log("HNDpsID: " + parkingSpaceId + " " + typeof(parkingSpaceId));
+    console.log("HNDusrID: " + userId + " " + typeof (userId));
+    let URL = `https://localhost:44315/api/parkingspaces/take`;
+    var obj = JSON.stringify({ ParkingSpaceId: parseInt(parkingSpaceId), UserId: userId });
+    console.log("obj" + obj);
+    await $.ajax({
+        type: "POST",
+        url: URL,
+        data: obj,
+        contentType: "application/json; charset=utf-8",
+        crossDomain: true,
+        success: function () {
+            console.log("Parking space taken successfully.");
+        },
+        error: function (jqXHR, status) {
+            console.log(jqXHR);
+            console.log('fail' + status.code);
+        }
+    });
 }
