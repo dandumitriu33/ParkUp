@@ -27,11 +27,19 @@ async function checkIfTakenParkingSpacesAndDisplayCard() {
                                 <h5 class="card-title">Price: ${takenParkingSpaces[i].HourlyPrice}</h5>
                                 <p class="card-text">Elapsed: ${timeElapsed} minutes</p>
                                 <p class="card-text">Charge: ${currentCharge} Credits</p>
+                                <button id="leaveParkingSpace${takenParkingSpaces[i].Id}" class="btn btn-warning">Leave</button>
                               </div>
                             </div>
                           `;
             $("#takenCardContainer").append(element);
         }
+        $("[class*=btn][class*=btn-warning]").click(function () {
+            let parkingSpaceId = this.id.replace("leaveParkingSpace", "");
+            console.log("psID: " + parkingSpaceId);
+            let userId = $("#userId").text();
+            console.log("usrID: " + userId);
+            handleLeaveParkingSpace(parkingSpaceId, userId);
+        })
     }
 }
 // end of Taken Parking Space Card
@@ -126,8 +134,6 @@ async function generateFreeParkingSpaceElement(parkingSpace) {
 }
 
 async function handleTakeParkingSpace(parkingSpaceId, userId) {
-
-
     event.preventDefault();
     //let cityId = parseInt($("#CitiesSelect").val());
     //let newAreaName = $("#areaName").val();
@@ -151,4 +157,34 @@ async function handleTakeParkingSpace(parkingSpaceId, userId) {
             console.log('fail' + status.code);
         }
     });
+    $("#takenCardContainer").empty();
+    checkIfTakenParkingSpacesAndDisplayCard();
+}
+
+async function handleLeaveParkingSpace(parkingSpaceId, userId) {
+    event.preventDefault();
+    //let cityId = parseInt($("#CitiesSelect").val());
+    //let newAreaName = $("#areaName").val();
+    console.log("Leaving parking space...");
+    console.log("HNDpsID: " + parkingSpaceId + " " + typeof (parkingSpaceId));
+    console.log("HNDusrID: " + userId + " " + typeof (userId));
+    let URL = `https://localhost:44315/api/parkingspaces/leave`;
+    var obj = JSON.stringify({ ParkingSpaceId: parseInt(parkingSpaceId), UserId: userId });
+    console.log("obj" + obj);
+    await $.ajax({
+        type: "POST",
+        url: URL,
+        data: obj,
+        contentType: "application/json; charset=utf-8",
+        crossDomain: true,
+        success: function () {
+            console.log("Parking space left successfully.");
+        },
+        error: function (jqXHR, status) {
+            console.log(jqXHR);
+            console.log('fail' + status.code);
+        }
+    });
+    $("#takenCardContainer").empty();
+    checkIfTakenParkingSpacesAndDisplayCard();
 }
