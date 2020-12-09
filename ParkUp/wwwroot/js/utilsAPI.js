@@ -1,4 +1,4 @@
-﻿
+﻿// API calls functions
 
 async function getCitiesArray() {
     console.log("Getting cities...");
@@ -27,5 +27,19 @@ async function getAreasArray(cityId) {
     return areas;
 }
 
+async function getParkingSpacesArray(areaId) {
+    console.log(areaId);
+    console.log(`Getting parking spaces for: ${areaId}`);
+    let parkingSpaces = [];
+    let URL = `https://localhost:44315/api/parkingspaces/${areaId}`;
+    await $.getJSON(URL, function (data) {
+        for (var i = 0; i < data.length; i++) {
+            parkingSpaces.push(data[i]);
+        }
+    })
+    console.log("Parking Spaces retrieved.");
+    return parkingSpaces;
+}
+
 // export
-export { getCitiesArray, getAreasArray }
+export { getCitiesArray, getAreasArray, getParkingSpacesArray }

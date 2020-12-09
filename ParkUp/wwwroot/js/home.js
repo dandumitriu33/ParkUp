@@ -1,7 +1,8 @@
-﻿import { getCitiesArray, getAreasArray } from './utilsAPI.js';
+﻿import { getCitiesArray, getAreasArray, getParkingSpacesArray } from './utilsAPI.js';
 
 refreshCitiesSelector();
 $("#CitiesSelect").change(function () { refreshCityAreasSelector(); });
+$("#AreassSelect").change(function () { refreshAreaSpaces(); });
 
 async function refreshCitiesSelector() {
     let cities = await getCitiesArray();
@@ -25,5 +26,17 @@ async function refreshCityAreasSelector() {
                         <option value="${areas[i].Id}">${areas[i].Name}</option>
                       `;
         $("#AreassSelect").append(element);
+    }
+}
+
+async function refreshAreaSpaces() {
+    let areaId = $("#AreassSelect").val();
+    let parkingSpaces = await getParkingSpacesArray(areaId);
+    $("#spacesContainer").empty();
+    for (var i = 0; i < parkingSpaces.length; i++) {
+        let element = `
+                        <p>${parkingSpaces[i].Name} ${parkingSpaces[i].StreetName} - ${parkingSpaces[i].HourlyPrice}</p>
+                      `;
+        $("#spacesContainer").append(element);
     }
 }
