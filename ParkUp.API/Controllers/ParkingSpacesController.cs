@@ -55,6 +55,21 @@ namespace ParkUp.API.Controllers
             return Ok($"Parking space taken successfully."); ;
         }
 
+        // POST: api/<ParkingSpacesController>/leave
+        [HttpPost]
+        [Route("leave")]
+        public async Task<IActionResult> LeaveParkingSpace([FromBody] TakenParkingSpaceDTO takenParkingSpaceDTO)
+        {
+            if (ModelState.IsValid == false)
+            {
+                return BadRequest("Bad request.");
+            }
+            TakenParkingSpace newTakenParkingSpace = _mapper.Map<TakenParkingSpaceDTO, TakenParkingSpace>(takenParkingSpaceDTO);
+            await _repository.LeaveParkingSpace(newTakenParkingSpace);
+
+            return Ok($"Parking space left successfully."); ;
+        }
+
         // GET: api/<ParkingSpacesController>/{userId}
         [HttpGet]
         [Route("{userId}")]

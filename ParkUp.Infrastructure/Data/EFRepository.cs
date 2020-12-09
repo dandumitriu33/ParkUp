@@ -97,6 +97,32 @@ namespace ParkUp.Infrastructure.Data
             }
         }
 
+        public async Task LeaveParkingSpace(TakenParkingSpace takenParkingSpace)
+        {
+            await using var transaction = await _dbContext.Database.BeginTransactionAsync();
+            try
+            {
+                var parkingSpace = await _dbContext.ParkingSpaces.Where(ps => ps.Id == takenParkingSpace.ParkingSpaceId && ps.IsTaken == true && ps.IsRemoved == false)
+                                                                 .FirstOrDefaultAsync();
+                parkingSpace.IsTaken = false;
+                _dbContext.ParkingSpaces.Attach(parkingSpace);
+                _dbContext.Entry(parkingSpace).State = EntityState.Modified;
+                await _dbContext.SaveChangesAsync();
+
+                var takenParkingSpaceInstanceFromDb = await _dbContext.TakenParkingSpaces.Where(tps => tps.ParkingSpaceId == takenParkingSpace.ParkingSpaceId &&
+                                                                                                        tps.UserId == takenParkingSpace.UserId)
+                                                                                         .FirstOrDefaultAsync();
+                _dbContext.TakenParkingSpaces.Remove(takenParkingSpaceInstanceFromDb);
+                await _dbContext.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+            }
+        }
+
         public async Task<List<TakenParkingSpace>> GetTakenInstancesByUserId(string userId)
         {
             return await _dbContext.TakenParkingSpaces.Where(tps => tps.UserId == userId)
