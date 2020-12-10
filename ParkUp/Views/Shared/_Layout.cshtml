@@ -1,4 +1,12 @@
 ﻿@inject SignInManager<ApplicationUser> signInManager;
+@inject UserManager<ApplicationUser> userManager;
+@{ 
+    string credits = "";
+    if (userManager.GetUserAsync(User).Result?.Credits != null)
+    {
+        credits = ((decimal) userManager.GetUserAsync(User).Result?.Credits).ToString("0.##"); ;
+    }
+}
 
 @inject IAuthorizationService authorizationService;
 
@@ -84,7 +92,9 @@
                 @if (signInManager.IsSignedIn(User))
                 {
                     <div class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">@User.Identity.Name</a>
+                        <a id="loggedInUserEmail" class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">@User.Identity.Name 
+                            <span id="userCredits"> (@credits) </span>
+                        </a>
                     </div>
                     <div class="nav-item">
                         <form method="post" asp-controller="Account" asp-action="Logout">

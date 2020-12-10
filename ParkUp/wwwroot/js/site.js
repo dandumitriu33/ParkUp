@@ -1,4 +1,9 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿console.log("hi from layout");
 
-// Write your JavaScript code.
+refreshUserCredits();
+
+async function refreshUserCredits() {
+    let userEmail = $("#loggedInUserEmail").text();
+    console.log("ue " + userEmail);
+
+}
