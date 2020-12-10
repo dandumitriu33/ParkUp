@@ -129,5 +129,10 @@ namespace ParkUp.Web.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult BuyCredits()
+        {
+            return View("BuyCredits");
+        }
     }
 }
