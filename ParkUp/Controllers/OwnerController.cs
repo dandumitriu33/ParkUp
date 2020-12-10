@@ -30,7 +30,8 @@ namespace ParkUp.Web.Controllers
         public async Task<IActionResult> MyParkingSpaces()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            List<ParkingSpace> parkingSpacesFromDb = await _repository.GetParkingSpacesForOwnerId(userId);
+            //List<ParkingSpace> parkingSpacesFromDb = await _repository.GetParkingSpacesForOwnerId(userId);
+            List<ParkingSpace> parkingSpacesFromDb = new List<ParkingSpace>();
             List<ParkingSpaceViewModel> parkingSpacesVM = _mapper.Map<List<ParkingSpace>, List<ParkingSpaceViewModel>>(parkingSpacesFromDb);
             return View("MyParkingSpaces", parkingSpacesVM);
         }

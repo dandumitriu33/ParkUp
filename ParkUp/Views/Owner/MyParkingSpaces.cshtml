@@ -57,8 +57,46 @@
     </div>
 </div>
 
+<h1> new JS area</h1>
+
+<div class="text-center">
+    <p hidden id="userId">@userManager.GetUserId(User)</p>
+    <div id="takenCardContainer">
+
+
+
+    </div>
+
+    <div id="citiesContainer">
+        <label for="citiesSelect">Select a city:</label>
+        <select name="citiesSelect" id="citiesSelect">
+            <option value="0">Select City...</option>
+        </select>
+    </div>
+
+    <div id="areasContainer">
+        <label for="areasSelect">Select an Area:</label>
+        <select name="areasSelect" id="areasSelect">
+            <option value="0">Select an Area...</option>
+        </select>
+    </div>
+
+    <div id="searchBarContainer">
+
+    </div>
+
+    <table class="table">
+        <tbody id="spacesContainer">
+        </tbody>
+    </table>
+    <div id="spacesContainer">
+
+    </div>
+
+</div>
 
 @section Scripts {
     <script type="module" src="~/js/spaces.js"></script>
+    <script type="module" src="~/js/utilsAPI.js"></script>
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }

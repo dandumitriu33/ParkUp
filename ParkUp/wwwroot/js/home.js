@@ -137,8 +137,6 @@ async function generateFreeParkingSpaceElement(parkingSpace) {
 
 async function handleTakeParkingSpace(parkingSpaceId, userId) {
     event.preventDefault();
-    //let cityId = parseInt($("#CitiesSelect").val());
-    //let newAreaName = $("#areaName").val();
     console.log("Taking parking space...");
     console.log("HNDpsID: " + parkingSpaceId + " " + typeof(parkingSpaceId));
     console.log("HNDusrID: " + userId + " " + typeof (userId));
@@ -165,8 +163,6 @@ async function handleTakeParkingSpace(parkingSpaceId, userId) {
 
 async function handleLeaveParkingSpace(parkingSpaceId, userId) {
     event.preventDefault();
-    //let cityId = parseInt($("#CitiesSelect").val());
-    //let newAreaName = $("#areaName").val();
     console.log("Leaving parking space...");
     console.log("HNDpsID: " + parkingSpaceId + " " + typeof (parkingSpaceId));
     console.log("HNDusrID: " + userId + " " + typeof (userId));

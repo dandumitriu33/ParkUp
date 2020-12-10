@@ -54,9 +54,24 @@ namespace ParkUp.Infrastructure.Data
             return await _dbContext.Areas.Where(a => a.CityId == cityId).OrderBy(a => a.Name).ToListAsync();
         }
 
-        public async Task<List<ParkingSpace>> GetParkingSpacesForOwnerId(string userId)
+        public async Task<List<ParkingSpace>> GetParkingSpacesForOwnerId(string userId, int areaId, string searchPhrase="")
         {
-            return await _dbContext.ParkingSpaces.Where(ps => ps.OwnerId == userId && ps.IsRemoved == false).OrderBy(ps => ps.Name).ToListAsync();
+            if (String.IsNullOrEmpty(searchPhrase) == true)
+            {
+                return await _dbContext.ParkingSpaces
+                    .Where(ps => ps.OwnerId == userId && ps.AreaId == areaId && ps.IsRemoved == false)
+                    .OrderBy(ps => ps.Name)
+                    .ToListAsync();
+            }
+            return await _dbContext.ParkingSpaces
+                .Where(ps => ps.OwnerId == userId 
+                        && ps.AreaId == areaId 
+                        && ps.IsRemoved == false 
+                        && (ps.Name.Contains(searchPhrase) 
+                                || ps.Description.Contains(searchPhrase) 
+                                || ps.StreetName.Contains(searchPhrase)))
+                .OrderBy(ps => ps.Name)
+                .ToListAsync();
         }
 
         public async Task<List<ParkingSpace>> GetAllParkingSpacesForArea(int areaId, string searchPhrase="")
@@ -69,7 +84,11 @@ namespace ParkUp.Infrastructure.Data
                 .ToListAsync();
             }
             return await _dbContext.ParkingSpaces
-                .Where(ps => ps.AreaId == areaId && ps.IsRemoved == false && (ps.Description.Contains(searchPhrase) || ps.StreetName.Contains(searchPhrase)))
+                .Where(ps => ps.AreaId == areaId 
+                        && ps.IsRemoved == false 
+                        && (ps.Name.Contains(searchPhrase) 
+                                || ps.Description.Contains(searchPhrase) 
+                                || ps.StreetName.Contains(searchPhrase)))
                 .OrderBy(ps => ps.Name)
                 .ToListAsync();
         }
