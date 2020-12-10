@@ -183,6 +183,13 @@ namespace ParkUp.Infrastructure.Data
             return result;
         }
 
+        public async Task<ParkingSpace> AddParkingSpace(ParkingSpace parkingSpace)
+        {
+            await _dbContext.ParkingSpaces.AddAsync(parkingSpace);
+            await _dbContext.SaveChangesAsync();
+            return parkingSpace;
+        }
+
         public async Task<List<ApplicationUser>> GetAllUsers()
         {
             return await _dbContext.Users.ToListAsync();
