@@ -88,7 +88,7 @@ async function refreshAreaSpaces() {
     let parkingSpaces = await getParkingSpacesArray(areaId, searchPhrase);
     $("#spacesContainer").empty();
     for (var i = 0; i < parkingSpaces.length; i++) {
-        if (parkingSpaces[i].IsTaken == false) {
+        if (parkingSpaces[i].IsTaken == false && parkingSpaces[i].IsApproved == true) {
             let element = await generateFreeParkingSpaceElement(parkingSpaces[i]);
             $("#spacesContainer").append(element);
         }
@@ -137,8 +137,6 @@ async function generateFreeParkingSpaceElement(parkingSpace) {
 
 async function handleTakeParkingSpace(parkingSpaceId, userId) {
     event.preventDefault();
-    //let cityId = parseInt($("#CitiesSelect").val());
-    //let newAreaName = $("#areaName").val();
     console.log("Taking parking space...");
     console.log("HNDpsID: " + parkingSpaceId + " " + typeof(parkingSpaceId));
     console.log("HNDusrID: " + userId + " " + typeof (userId));
@@ -165,8 +163,6 @@ async function handleTakeParkingSpace(parkingSpaceId, userId) {
 
 async function handleLeaveParkingSpace(parkingSpaceId, userId) {
     event.preventDefault();
-    //let cityId = parseInt($("#CitiesSelect").val());
-    //let newAreaName = $("#areaName").val();
     console.log("Leaving parking space...");
     console.log("HNDpsID: " + parkingSpaceId + " " + typeof (parkingSpaceId));
     console.log("HNDusrID: " + userId + " " + typeof (userId));

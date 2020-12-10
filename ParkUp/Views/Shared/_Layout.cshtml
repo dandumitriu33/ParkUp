@@ -1,4 +1,12 @@
 ﻿@inject SignInManager<ApplicationUser> signInManager;
+@inject UserManager<ApplicationUser> userManager;
+@{ 
+    string credits = "";
+    if (userManager.GetUserAsync(User).Result?.Credits != null)
+    {
+        credits = ((decimal) userManager.GetUserAsync(User).Result?.Credits).ToString("0.##"); ;
+    }
+}
 
 @inject IAuthorizationService authorizationService;
 
@@ -25,8 +33,16 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="accountNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Account
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="accountNavbarDropdown">
+                                <a class="dropdown-item" asp-action="BuyCredits" asp-controller="Account">Buy Credits</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="managementNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -35,6 +51,7 @@
                             <div class="dropdown-menu" aria-labelledby="managementNavbarDropdown">
                                 <a class="dropdown-item" asp-action="AllCities" asp-controller="City">All Cities</a>
                                 <a class="dropdown-item" asp-action="AllAreas" asp-controller="Area">All Areas</a>
+                                <a class="dropdown-item" asp-action="ApproveParkingSpaces" asp-controller="Administration">Approvals</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#">Something else here</a>
                             </div>
@@ -76,7 +93,9 @@
                 @if (signInManager.IsSignedIn(User))
                 {
                     <div class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">@User.Identity.Name</a>
+                        <a id="loggedInUserEmail" class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">@User.Identity.Name 
+                            <span id="userCredits"> (@credits) </span>
+                        </a>
                     </div>
                     <div class="nav-item">
                         <form method="post" asp-controller="Account" asp-action="Logout">

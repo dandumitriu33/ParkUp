@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,6 +11,7 @@ namespace ParkUp.Web.ViewModels
         public string Id { get; set; }
         public string Email { get; set; }
         public DateTime DateAdded { get; set; }
-        public int Reputation { get; set; }
+        [Column(TypeName = "money")]
+        public decimal Credits { get; set; }
     }
 }

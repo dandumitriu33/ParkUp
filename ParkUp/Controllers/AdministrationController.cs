@@ -230,5 +230,21 @@ namespace ParkUp.Web.Controllers
                 return View("Error");
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ApproveParkingSpaces()
+        {
+            // get list of unapproved parking spaces
+            List<ParkingSpace> parkingSpacesFromDb = await _repository.GetUnapprovedParkingSpaces();
+            List<ParkingSpaceViewModel> parkingSpacesVM = _mapper.Map<List<ParkingSpace>, List<ParkingSpaceViewModel>> (parkingSpacesFromDb);
+            return View("ApproveParkingSpaces", parkingSpacesVM);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ApproveParkingSpace(int parkingSpaceId)
+        {
+            await _repository.ApproveParkingSpace(parkingSpaceId);
+            return RedirectToAction("ApproveParkingSpaces");
+        }
     }
 }

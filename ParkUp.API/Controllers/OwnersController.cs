@@ -28,12 +28,12 @@ namespace ParkUp.API.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/<OwnersController>
+        // GET: api/<OwnersController>/abcd16/area/5/search/someText
         [HttpGet]
-        [Route("{userId?}")]
-        public async Task<string> GetMyParkingSpaces(string userId)
+        [Route("{userId?}/area/{areaId?}/search/{searchPhrase?}")]
+        public async Task<string> GetMyParkingSpaces(string userId, int areaId, string searchPhrase)
         {
-            List<ParkingSpace> parkingSpacesFromDb = await _repository.GetParkingSpacesForOwnerId(userId);
+            List<ParkingSpace> parkingSpacesFromDb = await _repository.GetParkingSpacesForOwnerId(userId, areaId, searchPhrase);
             List<ParkingSpaceDTO> allParkingSpacesDTO = _mapper.Map<List<ParkingSpace>, List<ParkingSpaceDTO>>(parkingSpacesFromDb);
             var payload = JsonSerializer.Serialize(allParkingSpacesDTO);
             return payload;

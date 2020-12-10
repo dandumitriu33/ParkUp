@@ -41,5 +41,19 @@ async function getParkingSpacesArray(areaId, searchPhrase) {
     return parkingSpaces;
 }
 
+async function getMyParkingSpacesArray(userId, areaId, searchPhrase) {
+    console.log(areaId);
+    console.log(`Getting parking spaces for: ${areaId}`);
+    let parkingSpaces = [];
+    let URL = `https://localhost:44315/api/owners/${userId}/area/${areaId}/search/${searchPhrase}`;
+    await $.getJSON(URL, function (data) {
+        for (var i = 0; i < data.length; i++) {
+            parkingSpaces.push(data[i]);
+        }
+    })
+    console.log("Parking Spaces retrieved.");
+    return parkingSpaces;
+}
+
 // export
-export { getCitiesArray, getAreasArray, getParkingSpacesArray }
+export { getCitiesArray, getAreasArray, getParkingSpacesArray, getMyParkingSpacesArray }
