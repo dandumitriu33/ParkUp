@@ -1,0 +1,22 @@
+﻿@model List<ParkingSpaceViewModel>
+
+@{ 
+    ViewData["Title"] = "Approve Parking Spaces";
+}
+
+<h1>Approve parking spaces</h1>
+
+<table class="table table-striped">
+    <tbody>
+        @foreach (var space in Model)
+        {
+            <tr>
+                <td>@space.Name</td>
+                <td>@space.StreetName</td>
+                <td>@space.Description</td>
+                <td>@space.HourlyPrice</td>
+                <td><a class="btn btn-danger" asp-action="ApproveParkingSpace" asp-controller="Administration" asp-route-parkingSpaceId="@space.Id">Approve</a></td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -190,6 +190,11 @@ namespace ParkUp.Infrastructure.Data
             return parkingSpace;
         }
 
+        public async Task<List<ParkingSpace>> GetUnapprovedParkingSpaces()
+        {
+            return await _dbContext.ParkingSpaces.Where(ps => ps.IsApproved == false && ps.IsRemoved == false).OrderBy(ps => ps.DateAdded).ToListAsync();
+        }
+
         public async Task<List<ApplicationUser>> GetAllUsers()
         {
             return await _dbContext.Users.ToListAsync();
@@ -201,6 +206,15 @@ namespace ParkUp.Infrastructure.Data
             userFromDb.Credits += amount;
             _dbContext.Users.Attach(userFromDb);
             _dbContext.Entry(userFromDb).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task ApproveParkingSpace(int parkingSpaceId)
+        {
+            ParkingSpace parkingSpaceFromDb = await _dbContext.ParkingSpaces.Where(ps => ps.Id == parkingSpaceId).FirstOrDefaultAsync();
+            parkingSpaceFromDb.IsApproved = true;
+            _dbContext.ParkingSpaces.Attach(parkingSpaceFromDb);
+            _dbContext.Entry(parkingSpaceFromDb).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
         }
 

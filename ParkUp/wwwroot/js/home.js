@@ -88,7 +88,7 @@ async function refreshAreaSpaces() {
     let parkingSpaces = await getParkingSpacesArray(areaId, searchPhrase);
     $("#spacesContainer").empty();
     for (var i = 0; i < parkingSpaces.length; i++) {
-        if (parkingSpaces[i].IsTaken == false) {
+        if (parkingSpaces[i].IsTaken == false && parkingSpaces[i].IsApproved == true) {
             let element = await generateFreeParkingSpaceElement(parkingSpaces[i]);
             $("#spacesContainer").append(element);
         }
