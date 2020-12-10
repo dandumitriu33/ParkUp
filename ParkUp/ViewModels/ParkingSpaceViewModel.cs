@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,7 +15,8 @@ namespace ParkUp.Web.ViewModels
         public string Name { get; set; }
         public string StreetName { get; set; }
         public string Description { get; set; }
-        public double HourlyPrice { get; set; }
+        [Column(TypeName = "money")]
+        public decimal HourlyPrice { get; set; }
         public bool IsActive { get; set; } = false;
         public bool IsTaken { get; set; } = false;
         public DateTime DateAdded { get; set; }
