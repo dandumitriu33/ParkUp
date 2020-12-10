@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ParkUp.Core.Entities;
+using ParkUp.Core.Interfaces;
 using ParkUp.Web.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace ParkUp.Web.Controllers
@@ -15,12 +17,15 @@ namespace ParkUp.Web.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IAsyncRepository _repository;
 
         public AccountController(UserManager<ApplicationUser> userManager,
-                                 SignInManager<ApplicationUser> signInManager)
+                                 SignInManager<ApplicationUser> signInManager,
+                                 IAsyncRepository repository)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _repository = repository;
         }
 
         [HttpGet]
@@ -132,6 +137,31 @@ namespace ParkUp.Web.Controllers
         [HttpGet]
         public IActionResult BuyCredits()
         {
+            return View("BuyCredits");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> BuyCredits(CreditPack creditPack)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    await _repository.BuyCredits(userId, creditPack.Amount);
+                    return View("BuyCredits");
+                }
+                catch (DbUpdateException dbex)
+                {
+                    ViewData["ErrorMessage"] = "DB issue - " + dbex.Message;
+                    return View("Error");
+                }
+                catch (Exception ex)
+                {
+                    ViewData["ErrorMessage"] = ex.Message;
+                    return View("Error");
+                }
+            }
             return View("BuyCredits");
         }
     }

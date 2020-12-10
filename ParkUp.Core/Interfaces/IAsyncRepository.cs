@@ -21,5 +21,6 @@ namespace ParkUp.Core.Interfaces
         Task<List<TakenParkingSpace>> GetTakenInstancesByUserId(string userId);
         Task<List<ParkingSpace>> GetTakenParkingSpacesByUserId(List<TakenParkingSpace> takenSpaces);
         Task<List<ApplicationUser>> GetAllUsers();
+        Task BuyCredits(string userId, decimal amount);
     }
 }

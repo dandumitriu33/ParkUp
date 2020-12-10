@@ -1,4 +1,6 @@
-﻿@{ 
+﻿@model CreditPack 
+
+@{ 
     ViewData["Title"] = "Buy Credits";
 }
 
@@ -8,25 +10,49 @@
         <div class="card" style="width: 18rem;">
             <img class="card-img-top" src="~/img/Credits50px400.jpg" alt="Card image cap">
             <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <form method="post" asp-action="BuyCredits" asp-controller="Account">
+                    <div class="form-group">
+                        <label for="price50">Price: 25 EUR</label>
+                        <input type="text" readonly hidden asp-for="Amount" name="Amount" class="form-control" id="price50" value="50" aria-describedby="price50Help">
+                    </div>
+                    <button type="submit" class="btn btn-success">Buy</button>
+                </form>
             </div>
         </div>
         <div class="card" style="width: 18rem;">
             <img class="card-img-top" src="~/img/Credits100px400.jpg" alt="Card image cap">
             <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <form method="post" asp-action="BuyCredits" asp-controller="Account">
+                    <div class="form-group">
+                        <label for="price100">Price: 49 EUR</label>
+                        <input type="text" readonly hidden asp-for="Amount" name="Amount" class="form-control" id="price100" value="100" aria-describedby="price100Help">
+                    </div>
+                    <button type="submit" class="btn btn-success">Buy</button>
+                </form>
             </div>
         </div>
         <div class="card" style="width: 18rem;">
             <img class="card-img-top" src="~/img/Credits500px400.jpg" alt="Card image cap">
             <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <form method="post" asp-action="BuyCredits" asp-controller="Account">
+                    <div class="form-group">
+                        <label for="price500">Price: 240 EUR</label>
+                        <input type="text" readonly hidden asp-for="Amount" name="Amount" class="form-control" id="price500" value="500" aria-describedby="price500Help">
+                    </div>
+                    <button type="submit" class="btn btn-success">Buy</button>
+                </form>
             </div>
         </div>
         <div class="card" style="width: 18rem;">
             <img class="card-img-top" src="~/img/Credits1000px400.jpg" alt="Card image cap">
             <div class="card-body">
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <form method="post" asp-action="BuyCredits" asp-controller="Account">
+                    <div class="form-group">
+                        <label for="price1000">Price: 450 EUR</label>
+                        <input type="text" readonly hidden asp-for="Amount" name="Amount" class="form-control" id="price1000" value="1000" aria-describedby="price1000Help">
+                    </div>
+                    <button type="submit" class="btn btn-success">Buy</button>
+                </form>
             </div>
         </div>
 

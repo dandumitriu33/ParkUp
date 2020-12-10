@@ -147,7 +147,14 @@ namespace ParkUp.Infrastructure.Data
             return await _dbContext.Users.ToListAsync();
         }
 
-        
+        public async Task BuyCredits(string userId, decimal amount)
+        {
+            var userFromDb = await _dbContext.Users.Where(u => u.Id == userId).FirstOrDefaultAsync();
+            userFromDb.Credits += amount;
+            _dbContext.Users.Attach(userFromDb);
+            _dbContext.Entry(userFromDb).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+        }
 
     }
 }
