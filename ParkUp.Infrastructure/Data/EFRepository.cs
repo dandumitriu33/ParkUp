@@ -102,16 +102,38 @@ namespace ParkUp.Infrastructure.Data
             await using var transaction = await _dbContext.Database.BeginTransactionAsync();
             try
             {
-                var parkingSpace = await _dbContext.ParkingSpaces.Where(ps => ps.Id == takenParkingSpace.ParkingSpaceId && ps.IsTaken == true && ps.IsRemoved == false)
+                var parkingSpaceFromDb = await _dbContext.ParkingSpaces.Where(ps => ps.Id == takenParkingSpace.ParkingSpaceId && ps.IsTaken == true && ps.IsRemoved == false)
                                                                  .FirstOrDefaultAsync();
-                parkingSpace.IsTaken = false;
-                _dbContext.ParkingSpaces.Attach(parkingSpace);
-                _dbContext.Entry(parkingSpace).State = EntityState.Modified;
-                await _dbContext.SaveChangesAsync();
-
                 var takenParkingSpaceInstanceFromDb = await _dbContext.TakenParkingSpaces.Where(tps => tps.ParkingSpaceId == takenParkingSpace.ParkingSpaceId &&
                                                                                                         tps.UserId == takenParkingSpace.UserId)
                                                                                          .FirstOrDefaultAsync();
+                // payment calculation and transfer
+                DateTime start = takenParkingSpaceInstanceFromDb.DateStarted;
+                DateTime end = DateTime.Now;
+                TimeSpan duration = end.Subtract(start);
+                // formula for charging half the hourly price every 30 min period has started
+                var payment = (decimal) Math.Ceiling(duration.TotalMinutes / 30) * (parkingSpaceFromDb.HourlyPrice/2);
+
+                var userFromDb = await _dbContext.Users.Where(u => u.Id == takenParkingSpace.UserId).FirstOrDefaultAsync();
+                userFromDb.Credits -= payment;
+                _dbContext.Users.Attach(userFromDb);
+                _dbContext.Entry(userFromDb).State = EntityState.Modified;
+                await _dbContext.SaveChangesAsync();
+
+                var parkingspaceFromDb = await _dbContext.ParkingSpaces.Where(ps => ps.Id == takenParkingSpace.ParkingSpaceId).FirstOrDefaultAsync();
+                var ownerFromDb = await _dbContext.Users.Where(u => u.Id == parkingspaceFromDb.OwnerId).FirstOrDefaultAsync();
+                ownerFromDb.Credits += payment;
+                _dbContext.Users.Attach(ownerFromDb);
+                _dbContext.Entry(ownerFromDb).State = EntityState.Modified;
+                await _dbContext.SaveChangesAsync();
+
+                // freeing up the space
+                parkingSpaceFromDb.IsTaken = false;
+                _dbContext.ParkingSpaces.Attach(parkingSpaceFromDb);
+                _dbContext.Entry(parkingSpaceFromDb).State = EntityState.Modified;
+                await _dbContext.SaveChangesAsync();
+
+                // removing the taken instance
                 _dbContext.TakenParkingSpaces.Remove(takenParkingSpaceInstanceFromDb);
                 await _dbContext.SaveChangesAsync();
 
