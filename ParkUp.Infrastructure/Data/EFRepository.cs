@@ -126,6 +126,7 @@ namespace ParkUp.Infrastructure.Data
                 var takenParkingSpaceInstanceFromDb = await _dbContext.TakenParkingSpaces.Where(tps => tps.ParkingSpaceId == takenParkingSpace.ParkingSpaceId &&
                                                                                                         tps.UserId == takenParkingSpace.UserId)
                                                                                          .FirstOrDefaultAsync();
+                
                 // payment calculation and transfer
                 DateTime start = takenParkingSpaceInstanceFromDb.DateStarted;
                 DateTime end = DateTime.Now;
@@ -139,9 +140,10 @@ namespace ParkUp.Infrastructure.Data
                 _dbContext.Entry(userFromDb).State = EntityState.Modified;
                 await _dbContext.SaveChangesAsync();
 
-                var parkingspaceFromDb = await _dbContext.ParkingSpaces.Where(ps => ps.Id == takenParkingSpace.ParkingSpaceId).FirstOrDefaultAsync();
-                var ownerFromDb = await _dbContext.Users.Where(u => u.Id == parkingspaceFromDb.OwnerId).FirstOrDefaultAsync();
-                ownerFromDb.Credits += payment;
+                var ownerFromDb = await _dbContext.Users.Where(u => u.Id == parkingSpaceFromDb.OwnerId).FirstOrDefaultAsync();
+                decimal partnerPercentage = ownerFromDb.PartnerPercentage;
+                decimal ownerIncome = ((100 - partnerPercentage)/100)*10;
+                ownerFromDb.Credits += ownerIncome;
                 _dbContext.Users.Attach(ownerFromDb);
                 _dbContext.Entry(ownerFromDb).State = EntityState.Modified;
                 await _dbContext.SaveChangesAsync();
@@ -200,13 +202,55 @@ namespace ParkUp.Infrastructure.Data
             return await _dbContext.Users.ToListAsync();
         }
 
-        public async Task BuyCredits(string userId, decimal amount)
+        public async Task<ApplicationUser> GetUserById(string userId)
         {
-            var userFromDb = await _dbContext.Users.Where(u => u.Id == userId).FirstOrDefaultAsync();
-            userFromDb.Credits += amount;
+            return await _dbContext.Users.Where(u => u.Id == userId).FirstOrDefaultAsync();
+        }
+
+        public async Task<ApplicationUser> EditUser(ApplicationUser userPartialData)
+        {
+            ApplicationUser userFromDb = await _dbContext.Users.Where(u => u.Id == userPartialData.Id).FirstOrDefaultAsync();
+            // username also needs to change as it is the same as the email
+            userFromDb.UserName = userPartialData.Email;
+            userFromDb.Email = userPartialData.Email;
+            userFromDb.FirstName = userPartialData.FirstName;
+            userFromDb.LastName = userPartialData.LastName;
+            userFromDb.PartnerPercentage = userPartialData.PartnerPercentage;
             _dbContext.Users.Attach(userFromDb);
             _dbContext.Entry(userFromDb).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
+            return userFromDb;
+        }
+
+        public async Task BuyCredits(string userId, decimal amount)
+        {
+            await using var transaction = await _dbContext.Database.BeginTransactionAsync();
+            try
+            {
+
+                var userFromDb = await _dbContext.Users.Where(u => u.Id == userId).FirstOrDefaultAsync();
+                userFromDb.Credits += amount;
+                _dbContext.Users.Attach(userFromDb);
+                _dbContext.Entry(userFromDb).State = EntityState.Modified;
+                await _dbContext.SaveChangesAsync();
+
+                // at this time the ration is 2 credits 1 EUR hardcoded
+                decimal creditPrice = 0.5m;
+                CreditPackPurchase creditPackPurchase = new CreditPackPurchase();
+                creditPackPurchase.UserId = userFromDb.Id;
+                creditPackPurchase.UserEmail = userFromDb.Email;
+                creditPackPurchase.Amount = amount;
+                creditPackPurchase.AmountPaid = amount * creditPrice;
+                creditPackPurchase.DateOfPurchase = DateTime.Now;
+                await _dbContext.CreditPackPurchases.AddAsync(creditPackPurchase);
+                await _dbContext.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+            }
         }
 
         public async Task ApproveParkingSpace(int parkingSpaceId)
@@ -218,5 +262,48 @@ namespace ParkUp.Infrastructure.Data
             await _dbContext.SaveChangesAsync();
         }
 
+        public async Task<CashOut> AddCashOutRequest(CashOut cashOut)
+        {
+            await _dbContext.CashOuts.AddAsync(cashOut);
+            await _dbContext.SaveChangesAsync();
+            return cashOut;
+        }
+
+        public async Task<List<CashOut>> GetUnapprovedCashOuts()
+        {
+            return await _dbContext.CashOuts.Where(co => co.IsApproved == false).OrderBy(co => co.DateSubmitted).ToListAsync();
+        }
+
+        public async Task ApproveCashOut(int cashOutRequestId, string adminId, string adminEmail)
+        {
+            await using var transaction = await _dbContext.Database.BeginTransactionAsync();
+            try
+            {
+                CashOut cashOutRequestFromDb = await _dbContext.CashOuts.Where(co => co.Id == cashOutRequestId).FirstOrDefaultAsync();
+                cashOutRequestFromDb.IsApproved = true;
+                cashOutRequestFromDb.ApprovedById = adminId;
+                cashOutRequestFromDb.ApprovedByEmail = adminEmail;
+                _dbContext.CashOuts.Attach(cashOutRequestFromDb);
+                _dbContext.Entry(cashOutRequestFromDb).State = EntityState.Modified;
+                await _dbContext.SaveChangesAsync();
+
+                ApplicationUser userFromDb = await _dbContext.Users.Where(u => u.Id == cashOutRequestFromDb.UserId).FirstOrDefaultAsync();
+                userFromDb.Credits -= cashOutRequestFromDb.Amount;
+                _dbContext.Users.Attach(userFromDb);
+                _dbContext.Entry(userFromDb).State = EntityState.Modified;
+                await _dbContext.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+            }
+        }
+
+        public async Task<List<CreditPackPurchase>> GetUserPurchaseHistoryById(string userId)
+        {
+            return await _dbContext.CreditPackPurchases.Where(cpp => cpp.UserId == userId).OrderBy(cpp => cpp.DateOfPurchase).ToListAsync();
+        }
     }
 }

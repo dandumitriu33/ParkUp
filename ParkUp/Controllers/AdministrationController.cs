@@ -246,5 +246,88 @@ namespace ParkUp.Web.Controllers
             await _repository.ApproveParkingSpace(parkingSpaceId);
             return RedirectToAction("ApproveParkingSpaces");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> AllUsers()
+        {
+            List<ApplicationUser> allUsers = await _repository.GetAllUsers();
+            return View("AllUsers", allUsers);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> EditUser(string userId)
+        {
+            ApplicationUser userFromDb = await _repository.GetUserById(userId);
+            ApplicationUserViewModel appUserVM = _mapper.Map<ApplicationUser, ApplicationUserViewModel>(userFromDb);
+            return View("EditUser", appUserVM);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditUser(ApplicationUserViewModel applicationUserViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    // at this time just Email, First Name, Last Name and Partner Percentage
+                    ApplicationUser userPartialData = new ApplicationUser();
+                    userPartialData.Id = applicationUserViewModel.Id;
+                    userPartialData.Email = applicationUserViewModel.Email;
+                    userPartialData.FirstName = applicationUserViewModel.FirstName;
+                    userPartialData.LastName = applicationUserViewModel.LastName;
+                    userPartialData.PartnerPercentage = applicationUserViewModel.PartnerPercentage;
+                    await _repository.EditUser(userPartialData);
+                    return RedirectToAction("AllUsers");
+                }
+                catch (DbUpdateException dbex)
+                {
+                    ViewData["ErrorMessage"] = "DB issue - " + dbex.Message;
+                    return View("Error");
+                }
+                catch (Exception ex)
+                {
+                    ViewData["ErrorMessage"] = ex.Message;
+                    return View("Error");
+                }
+            }
+            return View("EditUSer");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ApproveCashOuts()
+        {
+            // get list of unapproved cash out requests
+            List<CashOut> cashOutRequestsFromDb = await _repository.GetUnapprovedCashOuts();
+            foreach (var cashOutRequest in cashOutRequestsFromDb)
+            {
+                var user = await _repository.GetUserById(cashOutRequest.UserId);
+                cashOutRequest.UserAvailable = user.Credits;
+            }
+            List<CashOutViewModel> cashOutsVM = _mapper.Map<List<CashOut>, List<CashOutViewModel>>(cashOutRequestsFromDb);
+            return View("ApproveCashOuts", cashOutsVM);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ApproveCashOut(int cashOutRequestId)
+        {
+            try
+            {
+                ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
+                string adminEmail = applicationUser.Email;
+                string adminId = applicationUser.Id;
+                await _repository.ApproveCashOut(cashOutRequestId, adminId, adminEmail);
+                return RedirectToAction("ApproveCashOuts");
+            }
+            catch (DbUpdateException dbex)
+            {
+                ViewData["ErrorMessage"] = "DB issue - " + dbex.Message;
+                return View("Error");
+            }
+            catch (Exception ex)
+            {
+                ViewData["ErrorMessage"] = ex.Message;
+                return View("Error");
+            }
+        }
     }
 }

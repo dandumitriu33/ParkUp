@@ -7,6 +7,10 @@
   <ItemGroup>
     <Compile Remove="Migrations\20201210123418_AddUserCreditsAndChangeAllMoneyToDecimal.cs" />
     <Compile Remove="Migrations\20201210123418_AddUserCreditsAndChangeAllMoneyToDecimal.Designer.cs" />
+    <Compile Remove="Migrations\20201211132150_AddCashOutsUserEmail.cs" />
+    <Compile Remove="Migrations\20201211132150_AddCashOutsUserEmail.Designer.cs" />
+    <Compile Remove="Migrations\20201211140425_AddCreditPackPurchase.cs" />
+    <Compile Remove="Migrations\20201211140425_AddCreditPackPurchase.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

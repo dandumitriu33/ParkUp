@@ -1,0 +1,69 @@
+﻿@model ApplicationUserViewModel
+
+@{
+    ViewData["Title"] = "Edit User";
+}
+
+<h1>Edit user @Model.Email</h1>
+
+<div class="text-center">
+    <div class="row">
+        <div class="col-md-12">
+            <form method="post" asp-action="EditUser" asp-controller="Administration">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <input type="text" readonly hidden asp-for="Id" id="Id" class="form-control" value="@Model.Id" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email"></label>
+                    <input asp-for="Email"
+                           value="@Model.Email"
+                           class="form-control"
+                           data-val="true"
+                           data-val-required="The email address is required."
+                           data-val-email="The email address is not valid."
+                           aria-describedby="email-error"
+                           aria-invalid="true" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="FirstName"></label>
+                    <input asp-for="FirstName"
+                           value="@Model.FirstName"
+                           class="form-control"
+                           data-val="true"
+                           data-val-required="The first name is required."
+                           data-val-email="The first name is not valid."
+                           aria-describedby="first-name-error"
+                           aria-invalid="true" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LastName"></label>
+                    <input asp-for="LastName"
+                           value="@Model.LastName"
+                           class="form-control"
+                           data-val="true"
+                           data-val-required="The last name is required."
+                           data-val-email="The last name is not valid."
+                           aria-describedby="last-name-error"
+                           aria-invalid="true" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PartnerPercentage"></label>
+                    <input asp-for="PartnerPercentage"
+                           value="@Model.PartnerPercentage"
+                           class="form-control"
+                           data-val="true"
+                           data-val-required="The partner percentage is required."
+                           data-val-email="The partner percentage is not valid."
+                           aria-describedby="partner-percentage-error"
+                           aria-invalid="true" />
+                    <span asp-validation-for="PartnerPercentage" class="text-danger"></span>
+                </div>
+                <button id="submitUserEdit" class="btn btn-warning">Edit User</button>
+            </form>
+        </div>
+    </div>
+</div>

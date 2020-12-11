@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ParkUp.Infrastructure.Data;
 
 namespace ParkUp.Infrastructure.Migrations
 {
     [DbContext(typeof(ParkUpContext))]
-    partial class ParkUpContextModelSnapshot : ModelSnapshot
+    [Migration("20201211140927_AddCreditPackPurchaseUserEmail")]
+    partial class AddCreditPackPurchaseUserEmail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -415,54 +417,6 @@ namespace ParkUp.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ParkingSpaces");
-                });
-
-            modelBuilder.Entity("ParkUp.Core.Entities.ParkingSpaceRental", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<decimal>("AmountPaidByUser")
-                        .HasColumnType("money");
-
-                    b.Property<decimal>("AmountReceivedByOwner")
-                        .HasColumnType("money");
-
-                    b.Property<DateTime>("DateEnded")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("DateStarted")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("DurationMinutes")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("HourlyPrice")
-                        .HasColumnType("money");
-
-                    b.Property<string>("OwnerEmail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("OwnerId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ParkingSpaceId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ParkingSpaceName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserEmail")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ParkingSpaceRentals");
                 });
 
             modelBuilder.Entity("ParkUp.Core.Entities.TakenParkingSpace", b =>

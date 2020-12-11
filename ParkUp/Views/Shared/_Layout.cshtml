@@ -4,7 +4,12 @@
     string credits = "";
     if (userManager.GetUserAsync(User).Result?.Credits != null)
     {
-        credits = ((decimal) userManager.GetUserAsync(User).Result?.Credits).ToString("0.##"); ;
+        credits = ((decimal) userManager.GetUserAsync(User).Result?.Credits).ToString("0.##");
+    }
+    string displayName = User.Identity.Name;
+    if (userManager.GetUserAsync(User).Result?.FirstName != null)
+    {
+        displayName = userManager.GetUserAsync(User).Result?.FirstName;
     }
 }
 
@@ -39,6 +44,7 @@
                             </a>
                             <div class="dropdown-menu" aria-labelledby="accountNavbarDropdown">
                                 <a class="dropdown-item" asp-action="BuyCredits" asp-controller="Account">Buy Credits</a>
+                                <a class="dropdown-item" asp-action="PurchaseHistory" asp-controller="Account">Purchase History</a>
                                 <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#">Something else here</a>
@@ -51,7 +57,9 @@
                             <div class="dropdown-menu" aria-labelledby="managementNavbarDropdown">
                                 <a class="dropdown-item" asp-action="AllCities" asp-controller="City">All Cities</a>
                                 <a class="dropdown-item" asp-action="AllAreas" asp-controller="Area">All Areas</a>
-                                <a class="dropdown-item" asp-action="ApproveParkingSpaces" asp-controller="Administration">Approvals</a>
+                                <a class="dropdown-item" asp-action="ApproveParkingSpaces" asp-controller="Administration">Approve Spaces</a>
+                                <a class="dropdown-item" asp-action="ApproveCashOuts" asp-controller="Administration">Approve Cash Out</a>
+                                <a class="dropdown-item" asp-action="AllUsers" asp-controller="Administration">All Users</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#">Something else here</a>
                             </div>
@@ -65,6 +73,7 @@
                                 <div class="dropdown-menu" aria-labelledby="parkingSpacesNavbarDropdown">
                                     <a class="dropdown-item" asp-action="MyParkingSpaces" asp-controller="Owner">My Parking Spaces</a>
                                     <a class="dropdown-item" asp-action="AddParkingSpace" asp-controller="Owner">Add Parking Space</a>
+                                    <a class="dropdown-item" asp-action="RequestCashOut" asp-controller="Owner">Cash Out</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="#">Something else here</a>
                                 </div>
@@ -93,8 +102,8 @@
                 @if (signInManager.IsSignedIn(User))
                 {
                     <div class="nav-item">
-                        <a id="loggedInUserEmail" class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">@User.Identity.Name 
-                            <span id="userCredits"> (@credits) </span>
+                        <a id="loggedInUserEmail" class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">@displayName 
+                            <span id="userCredits" class="font-weight-bold"> @credits </span>
                         </a>
                     </div>
                     <div class="nav-item">

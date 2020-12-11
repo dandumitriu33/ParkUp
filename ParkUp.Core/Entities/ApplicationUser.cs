@@ -11,5 +11,9 @@ namespace ParkUp.Core.Entities
         public DateTime DateAdded { get; set; }
         [Column(TypeName = "money")]
         public decimal Credits { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        [Column(TypeName = "money")]
+        public decimal PartnerPercentage { get; set; } = 30;
     }
 }

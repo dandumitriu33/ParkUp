@@ -64,5 +64,38 @@ namespace ParkUp.Web.Controllers
             }
             return View("AddParkingSpace", parkingSpaceViewModel);
         }
+
+        [HttpGet]
+        public IActionResult RequestCashOut()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RequestCashOut(CashOutViewModel cashOutViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    cashOutViewModel.DateSubmitted = DateTime.Now;
+                    CashOut newCashOut = _mapper.Map<CashOutViewModel, CashOut>(cashOutViewModel);
+                    await _repository.AddCashOutRequest(newCashOut);
+                    return RedirectToAction("Index", "Home");
+                }
+                catch (DbUpdateException dbex)
+                {
+                    ViewData["ErrorMessage"] = "DB issue - " + dbex.Message;
+                    return View("Error");
+                }
+                catch (Exception ex)
+                {
+                    ViewData["ErrorMessage"] = ex.Message;
+                    return View("Error");
+                }
+            }
+            return View("RequestCashOut");
+
+        }
     }
 }
