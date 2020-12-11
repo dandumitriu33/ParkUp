@@ -1,0 +1,39 @@
+﻿@model List<ParkingSpaceRentalViewModel>
+
+@{
+    ViewData["Title"] = "Transaction History";
+}
+
+<h1>Parking space rental history for @Model[0].OwnerEmail</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Space ID</th>
+            <th scope="col">Space Name</th>
+            <th scope="col">Space price/h</th>
+            <th scope="col">Date Started</th>
+            <th scope="col">Date Ended</th>
+            <th scope="col">Duration (m)</th>
+            <th scope="col">Amount Paid</th>
+            <th scope="col">Income</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var rental in Model)
+        {
+            <tr>
+                <td>@rental.Id</td>
+                <td>@rental.ParkingSpaceId</td>
+                <td>@rental.ParkingSpaceName</td>
+                <td>@rental.HourlyPrice.ToString("0.##") Credits</td>
+                <td>@rental.DateStarted</td>
+                <td>@rental.DateEnded</td>
+                <td>@rental.DurationMinutes</td>
+                <td>@rental.AmountPaidByUser.ToString("0.##") Credits</td>
+                <td>@rental.AmountReceivedByOwner.ToString("0.##") Credits</td>
+            </tr>
+        }
+    </tbody>
+</table>

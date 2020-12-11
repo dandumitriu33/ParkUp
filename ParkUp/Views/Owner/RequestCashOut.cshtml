@@ -1,0 +1,41 @@
+﻿@inject UserManager<ApplicationUser> userManager;
+@model CashOutViewModel
+
+@{
+    ViewData["Title"] = "Request Cash Out";
+}
+<h1>Request Cash Out</h1>
+
+<div class="text-center">
+    <div class="row">
+        <div class="col-md-12">
+            <form method="post" asp-action="RequestCashOut" asp-controller="Owner">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <input type="text" readonly hidden asp-for="UserId" id="UserId" class="form-control" value="@userManager.GetUserId(User)" />
+                </div>
+                <div class="form-group">
+                    <input type="text" readonly hidden asp-for="UserEmail" id="UserEmail" class="form-control" value="@userManager.GetUserAsync(User).Result?.Email" />
+                </div>
+                <div class="form-group">
+                    <input type="text" readonly hidden asp-for="UserAvailable" id="UserAvailable" class="form-control" value="@userManager.GetUserAsync(User).Result?.Credits" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Amount"></label>
+                    <input asp-for="Amount"
+                           class="form-control"
+                           data-val="true"
+                           data-val-required="The amount is required."
+                           aria-describedby="amount-error"
+                           aria-invalid="true" />
+                    <span asp-validation-for="Amount" class="text-danger"></span>
+                </div>
+                <button id="submitNewCashOutRequest" class="btn btn-primary">Submit Cash Out Request</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

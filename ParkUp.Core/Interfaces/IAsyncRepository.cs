@@ -24,6 +24,14 @@ namespace ParkUp.Core.Interfaces
         Task<List<ParkingSpace>> GetUnapprovedParkingSpaces();
         Task ApproveParkingSpace(int parkingSpaceId);
         Task<List<ApplicationUser>> GetAllUsers();
+        Task<ApplicationUser> GetUserById(string userId);
+        Task<ApplicationUser> EditUser(ApplicationUser userPartialData);
         Task BuyCredits(string userId, decimal amount);
+        Task<CashOut> AddCashOutRequest(CashOut cashOut);
+        Task<List<CashOut>> GetUnapprovedCashOuts();
+        Task ApproveCashOut(int cashOutRequestId, string adminId, string adminEmail);
+        Task<List<CreditPackPurchase>> GetUserPurchaseHistoryById(string userId);
+        Task<List<ParkingSpaceRental>> GetUserRentalsById(string userId);
+        Task<List<ParkingSpaceRental>> GetOwnerRentalsById(string userId);
     }
 }

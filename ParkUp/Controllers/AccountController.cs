@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -18,14 +19,17 @@ namespace ParkUp.Web.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IAsyncRepository _repository;
+        private readonly IMapper _mapper;
 
         public AccountController(UserManager<ApplicationUser> userManager,
                                  SignInManager<ApplicationUser> signInManager,
-                                 IAsyncRepository repository)
+                                 IAsyncRepository repository,
+                                 IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _repository = repository;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -163,6 +167,26 @@ namespace ParkUp.Web.Controllers
                 }
             }
             return View("BuyCredits");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> PurchaseHistory()
+        {
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
+            string userId = applicationUser.Id;
+            List<CreditPackPurchase> historyFromDb = await _repository.GetUserPurchaseHistoryById(userId);
+            List<CreditPackPurchaseViewModel> userPurchaseHistory = _mapper.Map<List<CreditPackPurchase>, List<CreditPackPurchaseViewModel>>(historyFromDb);
+            return View("PurchaseHistory", userPurchaseHistory);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> RentalHistory()
+        {
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
+            string userId = applicationUser.Id;
+            List<ParkingSpaceRental> rentalsFromDb = await _repository.GetUserRentalsById(userId);
+            List<ParkingSpaceRentalViewModel> rentalsViewModel = _mapper.Map<List<ParkingSpaceRental>, List<ParkingSpaceRentalViewModel>>(rentalsFromDb);
+            return View("RentalHistory", rentalsViewModel);
         }
     }
 }

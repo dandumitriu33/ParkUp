@@ -1,0 +1,40 @@
+﻿@model List<ApplicationUser>
+
+@{ 
+    ViewData["Title"] = "All Users";
+}
+
+<h1>All Users</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Email</th>
+            <th scope="col">Credits</th>
+            <th scope="col">Percentage</th>
+            <th scope="col">Date added</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var appUser in Model)
+        {
+            <tr>
+                <td>@appUser.Id</td>
+                <td>@appUser.Email</td>
+                <td>@appUser.Credits</td>
+                <td>@appUser.PartnerPercentage</td>
+                <td>@appUser.DateAdded</td>
+                <td>
+                    <a class="btn btn-warning btn-sm" 
+                       asp-action="EditUser" 
+                       asp-controller="Administration" 
+                       asp-route-userId="@appUser.Id">
+                    Edit
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

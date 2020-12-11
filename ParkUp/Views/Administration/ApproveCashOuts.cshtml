@@ -1,0 +1,48 @@
+﻿@model List<CashOutViewModel>
+
+@{ 
+    ViewData["Title"] = "Approve Cash Outs";
+}
+
+<h1>Approve cash out requests</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">UserID</th>
+            <th scope="col">UserEmail</th>
+            <th scope="col">Credits (now)</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Date added</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cashOutRequest in Model)
+        {
+            <tr>
+                <td>@cashOutRequest.Id</td>
+                <td>@cashOutRequest.UserId</td>
+                <td>@cashOutRequest.UserEmail</td>
+                <td>@cashOutRequest.UserAvailable</td>
+                <td>@cashOutRequest.Amount</td>
+                <td>@cashOutRequest.DateSubmitted</td>
+                <td>
+                    <a class="btn btn-danger"
+                       asp-action="tbd"
+                       asp-controller="tdb"
+                       asp-route-cashOutRequestId="@cashOutRequest.UserId">
+                        User History
+                    </a>
+                    <a class="btn btn-danger"
+                       asp-action="ApproveCashOut"
+                       asp-controller="Administration"
+                       asp-route-cashOutRequestId="@cashOutRequest.Id">
+                        Approve
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
