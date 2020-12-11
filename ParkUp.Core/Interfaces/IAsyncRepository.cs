@@ -31,5 +31,7 @@ namespace ParkUp.Core.Interfaces
         Task<List<CashOut>> GetUnapprovedCashOuts();
         Task ApproveCashOut(int cashOutRequestId, string adminId, string adminEmail);
         Task<List<CreditPackPurchase>> GetUserPurchaseHistoryById(string userId);
+
+        Task<List<ParkingSpaceRental>> GetUserRentalsById(string userId);
     }
 }

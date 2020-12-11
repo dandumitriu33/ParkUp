@@ -24,6 +24,8 @@ namespace ParkUp.Web.AutomapperProfiles
                 .ReverseMap();
             CreateMap<CreditPackPurchase, CreditPackPurchaseViewModel>()
                 .ReverseMap();
+            CreateMap<ParkingSpaceRental, ParkingSpaceRentalViewModel>()
+                .ReverseMap();
         }
     }
 }

@@ -178,5 +178,15 @@ namespace ParkUp.Web.Controllers
             List<CreditPackPurchaseViewModel> userPurchaseHistory = _mapper.Map<List<CreditPackPurchase>, List<CreditPackPurchaseViewModel>>(historyFromDb);
             return View("PurchaseHistory", userPurchaseHistory);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> RentalHistory()
+        {
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
+            string userId = applicationUser.Id;
+            List<ParkingSpaceRental> rentalsFromDb = await _repository.GetUserRentalsById(userId);
+            List<ParkingSpaceRentalViewModel> rentalsViewModel = _mapper.Map<List<ParkingSpaceRental>, List<ParkingSpaceRentalViewModel>>(rentalsFromDb);
+            return View("RentalHistory", rentalsViewModel);
+        }
     }
 }
