@@ -142,7 +142,7 @@ namespace ParkUp.Infrastructure.Data
 
                 var ownerFromDb = await _dbContext.Users.Where(u => u.Id == parkingSpaceFromDb.OwnerId).FirstOrDefaultAsync();
                 decimal partnerPercentage = ownerFromDb.PartnerPercentage;
-                decimal ownerIncome = ((100 - partnerPercentage)/100)*10;
+                decimal ownerIncome = ((100 - partnerPercentage)/100)*payment;
                 ownerFromDb.Credits += ownerIncome;
                 _dbContext.Users.Attach(ownerFromDb);
                 _dbContext.Entry(ownerFromDb).State = EntityState.Modified;
