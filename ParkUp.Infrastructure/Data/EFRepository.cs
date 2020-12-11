@@ -158,6 +158,23 @@ namespace ParkUp.Infrastructure.Data
                 _dbContext.TakenParkingSpaces.Remove(takenParkingSpaceInstanceFromDb);
                 await _dbContext.SaveChangesAsync();
 
+                // adding instance of ParkingSpaceRental transaction
+                ParkingSpaceRental newParkingSpaceRental = new ParkingSpaceRental();
+                newParkingSpaceRental.ParkingSpaceId = parkingSpaceFromDb.Id;
+                newParkingSpaceRental.ParkingSpaceName = parkingSpaceFromDb.Name;
+                newParkingSpaceRental.HourlyPrice = parkingSpaceFromDb.HourlyPrice;
+                newParkingSpaceRental.OwnerId = parkingSpaceFromDb.OwnerId;
+                newParkingSpaceRental.OwnerEmail = ownerFromDb.Email;
+                newParkingSpaceRental.UserId = userFromDb.Id;
+                newParkingSpaceRental.UserEmail = userFromDb.Email;
+                newParkingSpaceRental.DateStarted = start;
+                newParkingSpaceRental.DateEnded = end;
+                newParkingSpaceRental.DurationMinutes = (int) duration.TotalMinutes;
+                newParkingSpaceRental.AmountPaidByUser = payment;
+                newParkingSpaceRental.AmountReceivedByOwner = ownerIncome;
+                await _dbContext.ParkingSpaceRentals.AddAsync(newParkingSpaceRental);
+                await _dbContext.SaveChangesAsync();
+
                 await transaction.CommitAsync();
             }
             catch (Exception)
