@@ -17,12 +17,15 @@ namespace ParkUp.Web.Controllers
     [Authorize(Roles = "SuperAdmin,Admin,Owner")]
     public class OwnerController : Controller
     {
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IAsyncRepository _repository;
         private readonly IMapper _mapper;
 
-        public OwnerController(IAsyncRepository repository,
+        public OwnerController(UserManager<ApplicationUser> userManager,
+                               IAsyncRepository repository,
                                IMapper mapper)
         {
+            _userManager = userManager;
             _repository = repository;
             _mapper = mapper;
         }
@@ -95,7 +98,16 @@ namespace ParkUp.Web.Controllers
                 }
             }
             return View("RequestCashOut");
+        }
 
+        [HttpGet]
+        public async Task<IActionResult> TransactionHistory()
+        {
+            ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
+            string userId = applicationUser.Id;
+            List<ParkingSpaceRental> rentalsFromDb = await _repository.GetOwnerRentalsById(userId);
+            List<ParkingSpaceRentalViewModel> rentalsViewModel = _mapper.Map<List<ParkingSpaceRental>, List<ParkingSpaceRentalViewModel>>(rentalsFromDb);
+            return View("TransactionHistory", rentalsViewModel);
         }
     }
 }
