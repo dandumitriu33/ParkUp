@@ -33,5 +33,6 @@ namespace ParkUp.Core.Interfaces
         Task<List<CreditPackPurchase>> GetUserPurchaseHistoryById(string userId);
         Task<List<ParkingSpaceRental>> GetUserRentalsById(string userId);
         Task<List<ParkingSpaceRental>> GetOwnerRentalsById(string userId);
+        Task<List<ParkingSpaceRental>> GetParkingSpaceTransactionsById(int parkingSpaceId);
     }
 }
