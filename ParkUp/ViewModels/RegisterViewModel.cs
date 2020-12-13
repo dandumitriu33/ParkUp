@@ -8,6 +8,10 @@ namespace ParkUp.Web.ViewModels
 {
     public class RegisterViewModel
     {
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
         [Required]
         [EmailAddress]
         [Display(Name = "Email (username)")]
