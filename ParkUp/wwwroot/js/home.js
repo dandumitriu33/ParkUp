@@ -209,5 +209,5 @@ async function handleLeaveParkingSpace(parkingSpaceId, userId) {
     });
     $("#takenCardContainer").empty();
     checkIfTakenParkingSpacesAndDisplayCard();
-    refreshAreaSpaces();
+    location.reload();
 }
