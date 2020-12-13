@@ -35,36 +35,22 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="accountNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Account
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="accountNavbarDropdown">
-                                <a class="dropdown-item" asp-action="BuyCredits" asp-controller="Account">Buy Credits</a>
-                                <a class="dropdown-item" asp-action="PurchaseHistory" asp-controller="Account">Purchase History</a>
-                                <a class="dropdown-item" asp-action="RentalHistory" asp-controller="Account">Rental History</a>
-                                <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="managementNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Management
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="managementNavbarDropdown">
-                                <a class="dropdown-item" asp-action="AllCities" asp-controller="City">All Cities</a>
-                                <a class="dropdown-item" asp-action="AllAreas" asp-controller="Area">All Areas</a>
-                                <a class="dropdown-item" asp-action="ApproveParkingSpaces" asp-controller="Administration">Approve Spaces</a>
-                                <a class="dropdown-item" asp-action="ApproveCashOuts" asp-controller="Administration">Approve Cash Out</a>
-                                <a class="dropdown-item" asp-action="AllUsers" asp-controller="Administration">All Users</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
-                        </li>
+                        @if (signInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="accountNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Account
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="accountNavbarDropdown">
+                                    <a class="dropdown-item" asp-action="BuyCredits" asp-controller="Account">Buy Credits</a>
+                                    <a class="dropdown-item" asp-action="PurchaseHistory" asp-controller="Account">Purchase History</a>
+                                    <a class="dropdown-item" asp-action="RentalHistory" asp-controller="Account">Rental History</a>
+                                    <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
+                            </li>
+                        }
                         @if (signInManager.IsSignedIn(User) && (User.IsInRole("SuperAdmin") || User.IsInRole("Owner")))
                         {
                             <li class="nav-item dropdown">
@@ -76,6 +62,23 @@
                                     <a class="dropdown-item" asp-action="AddParkingSpace" asp-controller="Owner">Add Parking Space</a>
                                     <a class="dropdown-item" asp-action="RequestCashOut" asp-controller="Owner">Cash Out</a>
                                     <a class="dropdown-item" asp-action="TransactionHistory" asp-controller="Owner">Transaction History</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
+                            </li>
+                        }
+                        @if (signInManager.IsSignedIn(User) && (User.IsInRole("SuperAdmin") || User.IsInRole("Admin")))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="managementNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Management
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="managementNavbarDropdown">
+                                    <a class="dropdown-item" asp-action="AllCities" asp-controller="City">All Cities</a>
+                                    <a class="dropdown-item" asp-action="AllAreas" asp-controller="Area">All Areas</a>
+                                    <a class="dropdown-item" asp-action="ApproveParkingSpaces" asp-controller="Administration">Approve Spaces</a>
+                                    <a class="dropdown-item" asp-action="ApproveCashOuts" asp-controller="Administration">Approve Cash Out</a>
+                                    <a class="dropdown-item" asp-action="AllUsers" asp-controller="Administration">All Users</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="#">Something else here</a>
                                 </div>

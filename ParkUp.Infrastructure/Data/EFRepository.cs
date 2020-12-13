@@ -332,5 +332,10 @@ namespace ParkUp.Infrastructure.Data
         {
             return await _dbContext.ParkingSpaceRentals.Where(psr => psr.OwnerId == userId).OrderByDescending(psr => psr.DateEnded).ToListAsync();
         }
+
+        public async Task<List<ParkingSpaceRental>> GetParkingSpaceTransactionsById(int parkingSpaceId)
+        {
+            return await _dbContext.ParkingSpaceRentals.Where(psr => psr.ParkingSpaceId == parkingSpaceId).OrderByDescending(psr => psr.DateEnded).ToListAsync();
+        }
     }
 }

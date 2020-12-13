@@ -124,7 +124,10 @@ async function removeSearchBar() {
 }
 
 async function generateFreeParkingSpaceElement(parkingSpace) {
-    let element = `
+    var userId = $("#userId").text();
+    let element = "";
+    if (userId.length > 0) {
+        element = `
                     <tr>
                         <td>${parkingSpace.Name}</td>
                         <td>${parkingSpace.StreetName}</td>
@@ -132,6 +135,17 @@ async function generateFreeParkingSpaceElement(parkingSpace) {
                         <td><button id="parkingSpace${parkingSpace.Id}" class="btn btn-success">Take</button></td>
                     </tr>
                   `;
+    } else {
+        element = `
+                    <tr>
+                        <td>${parkingSpace.Name}</td>
+                        <td>${parkingSpace.StreetName}</td>
+                        <td>${parkingSpace.HourlyPrice} Credits</td>
+                        <td><button id="parkingSpace${parkingSpace.Id}" class="btn btn-success" disabled>Take</button></td>
+                    </tr>
+                  `;
+    }
+    
     return element;
 }
 

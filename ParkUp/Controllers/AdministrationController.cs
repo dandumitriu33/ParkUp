@@ -329,5 +329,26 @@ namespace ParkUp.Web.Controllers
                 return View("Error");
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> ParkingSpaceTransactions(int parkingSpaceId)
+        {
+            try
+            {
+                List<ParkingSpaceRental> transactionsFromDb = await _repository.GetParkingSpaceTransactionsById(parkingSpaceId);
+                List<ParkingSpaceRentalViewModel> allTransactionsVM = _mapper.Map<List<ParkingSpaceRental>, List<ParkingSpaceRentalViewModel>>(transactionsFromDb);
+                return View("ParkingSpaceTransactions", allTransactionsVM);
+            }
+            catch (DbUpdateException dbex)
+            {
+                ViewData["ErrorMessage"] = "DB issue - " + dbex.Message;
+                return View("Error");
+            }
+            catch (Exception ex)
+            {
+                ViewData["ErrorMessage"] = ex.Message;
+                return View("Error");
+            }
+        }
     }
 }

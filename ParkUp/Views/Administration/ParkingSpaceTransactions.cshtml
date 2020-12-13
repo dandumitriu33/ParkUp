@@ -1,0 +1,47 @@
+﻿@model List<ParkingSpaceRentalViewModel>
+
+@{
+    ViewData["Title"] = "Parking Space transaction history.";
+}
+
+<h1>Parking Space Transaction History</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">PS ID</th>
+            <th scope="col">PS Name</th>
+            <th scope="col">Own ID</th>
+            <th scope="col">Own Email</th>
+            <th scope="col">User ID</th>
+            <th scope="col">User Email</th>
+            <th scope="col">Hourly Price</th>
+            <th scope="col">Date Started</th>
+            <th scope="col">Date Ended</th>
+            <th scope="col">Duration(m)</th>
+            <th scope="col">User paid</th>
+            <th scope="col">Own amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var rental in Model)
+        {
+            <tr>
+                <td>@rental.Id</td>
+                <td>@rental.ParkingSpaceId</td>
+                <td>@rental.ParkingSpaceName</td>
+                <td>@rental.OwnerId</td>
+                <td>@rental.OwnerEmail</td>
+                <td>@rental.UserId</td>
+                <td>@rental.UserEmail</td>
+                <td>@rental.HourlyPrice.ToString("0.##")</td>
+                <td>@rental.DateStarted</td>
+                <td>@rental.DateEnded</td>
+                <td>@rental.DurationMinutes</td>
+                <td>@rental.AmountPaidByUser.ToString("0.##")</td>
+                <td>@rental.AmountReceivedByOwner.ToString("0.##")</td>
+            </tr>
+        }
+    </tbody>
+</table>
