@@ -55,6 +55,12 @@ async function addSearchBar() {
                         `;
     $("#searchBarContainer").append(searchElement);
     $("#refreshButton").click(function () { refreshAreaSpaces(); });
+    $('#searchPhrase').keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            refreshAreaSpaces();
+        }
+    });
 }
 
 async function removeSearchBar() {
