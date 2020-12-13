@@ -28,37 +28,5 @@ namespace ParkUp.Web.Controllers
             List<CityViewModel> allCitiesVM = _mapper.Map<List<City>, List<CityViewModel>>(citiesFromDb);
             return View("AllCities", allCitiesVM);
         }
-
-        [HttpGet]
-        public IActionResult AddCity()
-        {
-            return View("AddCity");
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> AddCity(CityViewModel cityViewModel)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    City newCity = _mapper.Map<CityViewModel, City>(cityViewModel);
-                    var result = await _repository.AddCity(newCity);
-                    return RedirectToAction("AllCities");
-                }
-                catch (DbUpdateException dbex)
-                {
-                    ViewData["ErrorMessage"] = "DB issue - " + dbex.Message;
-                    return View("Error");
-                }
-                catch (Exception ex)
-                {
-                    ViewData["ErrorMessage"] = ex.Message;
-                    return View("Error");
-                }
-            }
-            return View("AddCity", cityViewModel);
-        }
-
     }
 }
