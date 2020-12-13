@@ -76,8 +76,11 @@ async function refreshAreaSpaces() {
     let parkingSpaces = await getMyParkingSpacesArray(userId, areaId, searchPhrase);
     $("#spacesContainer").empty();
     for (var i = 0; i < parkingSpaces.length; i++) {
-        if (parkingSpaces[i].IsApproved != null) {
+        if (parkingSpaces[i].IsApproved == true) {
             let element = await generateFreeParkingSpaceElement(parkingSpaces[i]);
+            $("#spacesContainer").append(element);
+        } else {
+            let element = await generateUnapprovedParkingSpaceElement(parkingSpaces[i]);
             $("#spacesContainer").append(element);
         }
     }
@@ -96,6 +99,20 @@ async function generateFreeParkingSpaceElement(parkingSpace) {
                         <td>${parkingSpace.Name}</td>
                         <td>${parkingSpace.StreetName}</td>
                         <td>${parkingSpace.HourlyPrice} Credits</td>
+                        <td>Approved</td>
+                        <td><button id="parkingSpace${parkingSpace.Id}" class="btn btn-success">Do Stuff</button></td>
+                    </tr>
+                  `;
+    return element;
+}
+
+async function generateUnapprovedParkingSpaceElement(parkingSpace) {
+    let element = `
+                    <tr>
+                        <td>${parkingSpace.Name}</td>
+                        <td>${parkingSpace.StreetName}</td>
+                        <td>${parkingSpace.HourlyPrice} Credits</td>
+                        <td>Not Approved</td>
                         <td><button id="parkingSpace${parkingSpace.Id}" class="btn btn-success">Do Stuff</button></td>
                     </tr>
                   `;
