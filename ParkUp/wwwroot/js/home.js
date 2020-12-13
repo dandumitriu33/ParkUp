@@ -82,7 +82,10 @@ async function refreshCityAreasSelector() {
 }
 
 async function refreshAreaSpaces() {
-    event.preventDefault();
+    if (event) {
+        event.preventDefault();
+    }
+    
     let areaId = $("#areasSelect").val();
     let searchPhrase = $("#searchPhrase").val();
     let parkingSpaces = await getParkingSpacesArray(areaId, searchPhrase);
@@ -117,6 +120,12 @@ async function addSearchBar() {
                         `;
     $("#searchBarContainer").append(searchElement);
     $("#refreshButton").click(function () { refreshAreaSpaces(); });
+    $('#searchPhrase').keypress(function (event) {
+        var keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            refreshAreaSpaces();
+        }
+    });
 }
 
 async function removeSearchBar() {
@@ -171,6 +180,7 @@ async function handleTakeParkingSpace(parkingSpaceId, userId) {
             console.log('fail' + status.code);
         }
     });
+    refreshAreaSpaces();
     $("#takenCardContainer").empty();
     checkIfTakenParkingSpacesAndDisplayCard();
 }
@@ -199,4 +209,5 @@ async function handleLeaveParkingSpace(parkingSpaceId, userId) {
     });
     $("#takenCardContainer").empty();
     checkIfTakenParkingSpacesAndDisplayCard();
+    location.reload();
 }

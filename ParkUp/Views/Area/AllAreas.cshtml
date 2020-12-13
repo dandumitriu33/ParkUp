@@ -6,17 +6,6 @@
 
 <h1>All areas</h1>
 
-<p>
-    @foreach (var area in Model)
-    {
-        <span>@area.Name (@area.Id)</span>
-    }
-</p>
-
-<a class="btn btn-outline-primary" asp-action="AddArea" asp-controller="Area">Add Area</a>
-<hr />
-<h3>API data</h3>
-
 <div>
     <label for="CitiesSelect">Select a city:</label>
     <select name="CitiesSelect" id="CitiesSelect">

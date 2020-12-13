@@ -6,17 +6,6 @@
 
 <h1>All cities</h1>
 
-<p>
-    @foreach (var city in Model)
-    {
-        <span>@city.Name (@city.Id)</span>
-    }
-</p>
-
-<a class="btn btn-outline-primary" asp-action="AddCity" asp-controller="City">Add City</a>
-
-<hr />
-<h3>via JS API</h3>
 <p id="citiesContainer">
 
 </p>

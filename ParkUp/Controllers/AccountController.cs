@@ -47,6 +47,8 @@ namespace ParkUp.Web.Controllers
                 {
                     var user = new ApplicationUser
                     {
+                        FirstName = registerViewModel.FirstName,
+                        LastName = registerViewModel.LastName,
                         UserName = registerViewModel.Email,
                         Email = registerViewModel.Email,
                         DateAdded = DateTime.Now

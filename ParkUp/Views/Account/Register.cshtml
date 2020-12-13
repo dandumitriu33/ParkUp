@@ -11,6 +11,26 @@
         <form method="post">
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
+                <label asp-for="FirstName"></label>
+                <input asp-for="FirstName"
+                       class="form-control"
+                       data-val="true"
+                       data-val-required="The first name address is required."
+                       aria-describedby="first-name-error"
+                       aria-invalid="true" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName"></label>
+                <input asp-for="LastName"
+                       class="form-control"
+                       data-val="true"
+                       data-val-required="The last name address is required."
+                       aria-describedby="last-name-error"
+                       aria-invalid="true" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Email"></label>
                 <input asp-for="Email"
                        class="form-control"
