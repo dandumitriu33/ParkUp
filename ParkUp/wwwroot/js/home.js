@@ -82,7 +82,10 @@ async function refreshCityAreasSelector() {
 }
 
 async function refreshAreaSpaces() {
-    event.preventDefault();
+    if (event) {
+        event.preventDefault();
+    }
+    
     let areaId = $("#areasSelect").val();
     let searchPhrase = $("#searchPhrase").val();
     let parkingSpaces = await getParkingSpacesArray(areaId, searchPhrase);
@@ -177,6 +180,7 @@ async function handleTakeParkingSpace(parkingSpaceId, userId) {
             console.log('fail' + status.code);
         }
     });
+    refreshAreaSpaces();
     $("#takenCardContainer").empty();
     checkIfTakenParkingSpacesAndDisplayCard();
 }
@@ -205,4 +209,5 @@ async function handleLeaveParkingSpace(parkingSpaceId, userId) {
     });
     $("#takenCardContainer").empty();
     checkIfTakenParkingSpacesAndDisplayCard();
+    refreshAreaSpaces();
 }
