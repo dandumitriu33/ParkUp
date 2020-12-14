@@ -1,0 +1,90 @@
+﻿@model ParkingSpaceViewModel
+
+@{ 
+    ViewData["Title"] = "Edit Parking Space";
+}
+
+<h1>Edit Parking Space</h1>
+
+<div class="text-center">
+    <div class="row">
+        <div class="col-md-12">
+            <form method="post" asp-action="EditParkingSpace" asp-controller="ParkingSpace">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="container">
+                    <div class="row">
+                        <div class="form-group">
+                            <label asp-for="Id">Parking Space ID</label>
+                            <input type="text" readonly asp-for="Id" id="Id" class="form-control" value="@Model.Id" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="AreaId">Area ID</label>
+                            <input type="text" readonly asp-for="AreaId" class="form-control" value="@Model.AreaId" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="OwnerId">Owner ID</label>
+                            <input type="text" readonly asp-for="OwnerId" class="form-control" value="@Model.OwnerId" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="IsApproved">Approved</label>
+                            <input type="text" readonly asp-for="IsApproved" class="form-control" value="@Model.IsApproved" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="DateAdded">Added On</label>
+                            <input type="text" readonly asp-for="DateAdded" class="form-control" value="@Model.DateAdded" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Name"></label>
+                    <input asp-for="Name"
+                           value="@Model.Name"
+                           class="form-control"
+                           data-val="true"
+                           data-val-required="The name is required."
+                           data-val-email="The name is not valid."
+                           aria-describedby="name-error"
+                           aria-invalid="true" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="StreetName"></label>
+                    <input asp-for="StreetName"
+                           value="@Model.StreetName"
+                           class="form-control"
+                           data-val="true"
+                           data-val-required="The street name is required."
+                           data-val-email="The street name is not valid."
+                           aria-describedby="street-name-error"
+                           aria-invalid="true" />
+                    <span asp-validation-for="StreetName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description"></label>
+                    <input asp-for="Description"
+                           value="@Model.Description"
+                           class="form-control"
+                           data-val="true"
+                           data-val-required="The description is required."
+                           data-val-email="The description is not valid."
+                           aria-describedby="description-error"
+                           aria-invalid="true" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="HourlyPrice"></label>
+                    <input asp-for="HourlyPrice"
+                           value="@Model.HourlyPrice.ToString("0.##")"
+                           class="form-control"
+                           data-val="true"
+                           data-val-required="The hourly price is required."
+                           data-val-email="The hourly price is not valid."
+                           aria-describedby="hourly-price-error"
+                           aria-invalid="true" />
+                    <span asp-validation-for="HourlyPrice" class="text-danger"></span>
+                </div>
+                <button id="submitParkingSpaceEdit" class="btn btn-warning">Edit Parking Space</button>
+            </form>
+        </div>
+    </div>
+</div>

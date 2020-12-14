@@ -15,10 +15,16 @@ namespace ParkUp.Core.Interfaces
         Task<CityArea> AddCityArea(CityArea cityArea);
         Task<List<Area>> GetAllAreasForCity(int cityId);
         Task<List<ParkingSpace>> GetParkingSpacesForOwnerId(string userId, int areaId, string searchPhrase = "");
+        Task<List<ParkingSpace>> GetAllParkingSpaces();
         Task<List<ParkingSpace>> GetAllParkingSpacesForArea(int areaId, string searchPhrase = "");
+        Task<List<ParkingSpace>> GetParkingSpacesByOwnerId(string ownerId);
+        Task<ParkingSpace> GetParkingSpaceById(int parkingSpaceId);
+        Task<ParkingSpace> EditParkingSpace(ParkingSpace parkingSpace);
+        Task<ParkingSpace> RemoveParkingSpaceById(int parkingSpaceId);
         Task TakeParkingSpace(TakenParkingSpace takenParkingSpace);
         Task LeaveParkingSpace(TakenParkingSpace takenParkingSpace);
         Task<List<TakenParkingSpace>> GetTakenInstancesByUserId(string userId);
+        Task<TakenParkingSpace> GetTakenInstanceByParkingSpaceId(int parkingSpaceId);
         Task<List<ParkingSpace>> GetTakenParkingSpacesByUserId(List<TakenParkingSpace> takenSpaces);
         Task<ParkingSpace> AddParkingSpace(ParkingSpace parkingSpace);
         Task<List<ParkingSpace>> GetUnapprovedParkingSpaces();
@@ -34,5 +40,6 @@ namespace ParkUp.Core.Interfaces
         Task<List<ParkingSpaceRental>> GetUserRentalsById(string userId);
         Task<List<ParkingSpaceRental>> GetOwnerRentalsById(string userId);
         Task<List<ParkingSpaceRental>> GetParkingSpaceTransactionsById(int parkingSpaceId);
+        Task<List<CashOut>> GetApprovedCashOutsForUserId(string userId);
     }
 }

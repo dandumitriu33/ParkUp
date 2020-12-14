@@ -20,5 +20,6 @@ namespace ParkUp.Core.Entities
         public bool IsTaken { get; set; } = false;
         public DateTime DateAdded { get; set; }
         public bool IsRemoved { get; set; } = false;
+        public string GPS { get; set; }
     }
 }

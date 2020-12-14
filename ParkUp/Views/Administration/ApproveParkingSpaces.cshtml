@@ -15,6 +15,10 @@
                 <td>@space.StreetName</td>
                 <td>@space.Description</td>
                 <td>@space.HourlyPrice</td>
+                <td>
+                    <a href=@("https://google.com/search?q=" + space.GPS.Replace(" ","")) target="_blank">GGL</a> / 
+                    <a href=@("https://duckduckgo.com/?q=" + space.GPS.Replace(" ","") + "&ia=web&iaxm=maps") target="_blank">DDG</a>
+                </td>
                 <td><a class="btn btn-danger" asp-action="ApproveParkingSpace" asp-controller="Administration" asp-route-parkingSpaceId="@space.Id">Approve</a></td>
             </tr>
         }

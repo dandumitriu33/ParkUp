@@ -84,25 +84,76 @@ async function refreshAreaSpaces() {
             $("#spacesContainer").append(element);
         }
     }
-    $("[class*=btn][class*=btn-success]").click(function () {
-        let parkingSpaceId = this.id.replace("parkingSpace", "");
-        console.log("psID: " + parkingSpaceId);
-        let userId = $("#userId").text();
-        console.log("usrID: " + userId);
-        handleTakeParkingSpace(parkingSpaceId, userId);
-    })
+    //$("[class*=btn][class*=btn-warning]").click(function () {
+    //    let parkingSpaceId = this.id.replace("parkingSpace", "");
+    //    console.log("psID: " + parkingSpaceId);
+    //    let userId = $("#userId").text();
+    //    console.log("usrID: " + userId);
+    //    handleTakeParkingSpace(parkingSpaceId, userId);
+    //})
 }
 
 async function generateFreeParkingSpaceElement(parkingSpace) {
-    let element = `
+    let element = "";
+    if (parkingSpace.IsTaken == true) {
+        element = `
                     <tr>
                         <td>${parkingSpace.Name}</td>
                         <td>${parkingSpace.StreetName}</td>
                         <td>${parkingSpace.HourlyPrice} Credits</td>
+                        <td>
+                            <a href="https://google.com/search?q=${parkingSpace.GPS}" target="_blank">GGL</a> / 
+                            <a href="https://duckduckgo.com/?q=${parkingSpace.GPS}&ia=web&iaxm=maps" target="_blank">DDG</a>
+                        </td>
                         <td>Approved</td>
-                        <td><button id="parkingSpace${parkingSpace.Id}" class="btn btn-success">Do Stuff</button></td>
+                        <td>
+                            <a href="/ParkingSpace/ForceFreeParkingSpace?parkingSpaceId=${parkingSpace.Id}"
+                                    class="btn btn-success">
+                                Force Free
+                            </a>
+                        </td>
+                        <td>
+                            <a href="/ParkingSpace/EditParkingSpace?parkingSpaceId=${parkingSpace.Id}"
+                                    class="btn btn-warning">
+                                Edit
+                            </a>
+                        </td>
+                        <td>
+                            <a href="/ParkingSpace/RemoveParkingSpace?parkingSpaceId=${parkingSpace.Id}"
+                                    class="btn btn-danger">
+                                Remove
+                            </a>
+                        </td>
                     </tr>
                   `;
+    } else {
+        element = `
+                    <tr>
+                        <td>${parkingSpace.Name}</td>
+                        <td>${parkingSpace.StreetName}</td>
+                        <td>${parkingSpace.HourlyPrice} Credits</td>
+                        <td>
+                            <a href="https://google.com/search?q=${parkingSpace.GPS}" target="_blank">GGL</a> / 
+                            <a href="https://duckduckgo.com/?q=${parkingSpace.GPS}&ia=web&iaxm=maps" target="_blank">DDG</a>
+                        </td>
+                        <td>Approved</td>
+                        <td></td>
+                        <td>
+                            <a href="/ParkingSpace/EditParkingSpace?parkingSpaceId=${parkingSpace.Id}"
+                                    class="btn btn-warning">
+                                Edit
+                            </a>
+                        </td>
+                        <td>
+                            <a href="/ParkingSpace/RemoveParkingSpace?parkingSpaceId=${parkingSpace.Id}"
+                                    class="btn btn-danger">
+                                Remove
+                            </a>
+                        </td>
+                    </tr>
+                  `;
+    }
+    
     return element;
 }
 
@@ -112,8 +163,24 @@ async function generateUnapprovedParkingSpaceElement(parkingSpace) {
                         <td>${parkingSpace.Name}</td>
                         <td>${parkingSpace.StreetName}</td>
                         <td>${parkingSpace.HourlyPrice} Credits</td>
+                        <td>
+                            <a href="https://google.com/search?q=${parkingSpace.GPS}" target="_blank">GGL</a> / 
+                            <a href="https://duckduckgo.com/?q=${parkingSpace.GPS}&ia=web&iaxm=maps" target="_blank">DDG</a>
+                        </td>
                         <td>Not Approved</td>
-                        <td><button id="parkingSpace${parkingSpace.Id}" class="btn btn-success">Do Stuff</button></td>
+                        <td></td>
+                        <td>
+                            <a href="/ParkingSpace/EditParkingSpace?parkingSpaceId=${parkingSpace.Id}"
+                                    class="btn btn-warning">
+                                Edit
+                            </a>
+                        </td>
+                        <td>
+                            <a href="/ParkingSpace/RemoveParkingSpace?parkingSpaceId=${parkingSpace.Id}"
+                                    class="btn btn-danger">
+                                Remove
+                            </a>
+                        </td>
                     </tr>
                   `;
     return element;

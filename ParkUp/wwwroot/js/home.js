@@ -27,6 +27,10 @@ async function checkIfTakenParkingSpacesAndDisplayCard() {
                                 <h5 class="card-title">Price: ${takenParkingSpaces[i].HourlyPrice}</h5>
                                 <p class="card-text">Elapsed: ${timeElapsed} minutes</p>
                                 <p class="card-text">Charge: ${currentCharge} Credits</p>
+                                <P>GPS 
+                                    <a class="btn btn-light btn-sm" href="https://google.com/search?q=${takenParkingSpaces[i].GPS}" target="_blank">GGL</a> / 
+                                    <a class="btn btn-light btn-sm" href="https://duckduckgo.com/?q=${takenParkingSpaces[i].GPS}&ia=web&iaxm=maps" target="_blank">DDG</a>
+                                </p>
                                 <button id="leaveParkingSpace${takenParkingSpaces[i].Id}" class="btn btn-warning">Leave</button>
                               </div>
                             </div>
@@ -141,6 +145,10 @@ async function generateFreeParkingSpaceElement(parkingSpace) {
                         <td>${parkingSpace.Name}</td>
                         <td>${parkingSpace.StreetName}</td>
                         <td>${parkingSpace.HourlyPrice} Credits</td>
+                        <td>
+                            <a href="https://google.com/search?q=${parkingSpace.GPS}" target="_blank">GGL</a> / 
+                            <a href="https://duckduckgo.com/?q=${parkingSpace.GPS}&ia=web&iaxm=maps" target="_blank">DDG</a>
+                        </td>
                         <td><button id="parkingSpace${parkingSpace.Id}" class="btn btn-success">Take</button></td>
                     </tr>
                   `;
@@ -150,6 +158,10 @@ async function generateFreeParkingSpaceElement(parkingSpace) {
                         <td>${parkingSpace.Name}</td>
                         <td>${parkingSpace.StreetName}</td>
                         <td>${parkingSpace.HourlyPrice} Credits</td>
+                        <td>
+                            <a href="https://google.com/search?q=${parkingSpace.GPS}" target="_blank">GGL</a> / 
+                            <a href="https://duckduckgo.com/?q=${parkingSpace.GPS}&ia=web&iaxm=maps" target="_blank">DDG</a>
+                        </td>
                         <td><button id="parkingSpace${parkingSpace.Id}" class="btn btn-success" disabled>Take</button></td>
                     </tr>
                   `;

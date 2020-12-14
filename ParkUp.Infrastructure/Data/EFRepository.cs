@@ -74,13 +74,18 @@ namespace ParkUp.Infrastructure.Data
                 .ToListAsync();
         }
 
+        public async Task<List<ParkingSpace>> GetAllParkingSpaces()
+        {
+            return await _dbContext.ParkingSpaces.Where(ps => ps.IsRemoved == false).OrderByDescending(ps => ps.DateAdded).ToListAsync();
+        }
+
         public async Task<List<ParkingSpace>> GetAllParkingSpacesForArea(int areaId, string searchPhrase="")
         {
             if (String.IsNullOrEmpty(searchPhrase) == true)
             {
                 return await _dbContext.ParkingSpaces
                 .Where(ps => ps.AreaId == areaId && ps.IsRemoved == false)
-                .OrderBy(ps => ps.Name)
+                .OrderBy(ps => ps.HourlyPrice)
                 .ToListAsync();
             }
             return await _dbContext.ParkingSpaces
@@ -89,8 +94,43 @@ namespace ParkUp.Infrastructure.Data
                         && (ps.Name.Contains(searchPhrase) 
                                 || ps.Description.Contains(searchPhrase) 
                                 || ps.StreetName.Contains(searchPhrase)))
-                .OrderBy(ps => ps.Name)
+                .OrderBy(ps => ps.HourlyPrice)
                 .ToListAsync();
+        }
+
+        public async Task<List<ParkingSpace>> GetParkingSpacesByOwnerId(string ownerId)
+        {
+            return await _dbContext.ParkingSpaces.Where(ps => ps.OwnerId == ownerId && ps.IsRemoved == false).OrderByDescending(ps => ps.DateAdded).ToListAsync();
+        }
+
+        public async Task<ParkingSpace> GetParkingSpaceById(int parkingSpaceId)
+        {
+            return await _dbContext.ParkingSpaces.Where(ps => ps.Id == parkingSpaceId).FirstOrDefaultAsync();
+        }
+                
+        public async Task<ParkingSpace> EditParkingSpace(ParkingSpace parkingSpace)
+        {
+            ParkingSpace parkingSpaceFromDb = await _dbContext.ParkingSpaces.Where(ps => ps.Id == parkingSpace.Id).FirstOrDefaultAsync();
+            parkingSpaceFromDb.Name = parkingSpace.Name;
+            parkingSpaceFromDb.StreetName = parkingSpace.StreetName;
+            parkingSpaceFromDb.Description = parkingSpace.Description;
+            parkingSpaceFromDb.HourlyPrice = parkingSpace.HourlyPrice;
+            
+            _dbContext.ParkingSpaces.Attach(parkingSpaceFromDb);
+            _dbContext.Entry(parkingSpaceFromDb).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+            return parkingSpaceFromDb;
+        }
+
+        public async Task<ParkingSpace> RemoveParkingSpaceById(int parkingSpaceId)
+        {
+            ParkingSpace parkingSpaceFromDb = await _dbContext.ParkingSpaces.Where(ps => ps.Id == parkingSpaceId).FirstOrDefaultAsync();
+            parkingSpaceFromDb.IsRemoved = true;
+
+            _dbContext.ParkingSpaces.Attach(parkingSpaceFromDb);
+            _dbContext.Entry(parkingSpaceFromDb).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+            return parkingSpaceFromDb;
         }
 
         public async Task TakeParkingSpace(TakenParkingSpace takenParkingSpace)
@@ -188,7 +228,12 @@ namespace ParkUp.Infrastructure.Data
             return await _dbContext.TakenParkingSpaces.Where(tps => tps.UserId == userId)
                                                       .OrderByDescending(tps => tps.DateStarted)
                                                       .ToListAsync();
-        } 
+        }
+
+        public async Task<TakenParkingSpace> GetTakenInstanceByParkingSpaceId(int parkingSpaceId) 
+        {
+            return await _dbContext.TakenParkingSpaces.Where(tps => tps.ParkingSpaceId == parkingSpaceId).FirstOrDefaultAsync();
+        }
 
         public async Task<List<ParkingSpace>> GetTakenParkingSpacesByUserId(List<TakenParkingSpace> takenSpaces)
         {
@@ -336,6 +381,11 @@ namespace ParkUp.Infrastructure.Data
         public async Task<List<ParkingSpaceRental>> GetParkingSpaceTransactionsById(int parkingSpaceId)
         {
             return await _dbContext.ParkingSpaceRentals.Where(psr => psr.ParkingSpaceId == parkingSpaceId).OrderByDescending(psr => psr.DateEnded).ToListAsync();
+        }
+
+        public async Task<List<CashOut>> GetApprovedCashOutsForUserId(string userId)
+        {
+            return await _dbContext.CashOuts.Where(co => co.UserId == userId && co.IsApproved == true).OrderByDescending(co => co.DateSubmitted).ToListAsync();
         }
     }
 }

@@ -27,11 +27,17 @@
                 <td>@appUser.PartnerPercentage</td>
                 <td>@appUser.DateAdded</td>
                 <td>
-                    <a class="btn btn-warning btn-sm" 
-                       asp-action="EditUser" 
-                       asp-controller="Administration" 
+                    <a class="btn btn-warning btn-sm"
+                       asp-action="EditUser"
+                       asp-controller="Administration"
                        asp-route-userId="@appUser.Id">
-                    Edit
+                        Edit
+                    </a>
+                    <a class="btn btn-primary btn-sm"
+                       asp-action="UserReport"
+                       asp-controller="Administration"
+                       asp-route-userId="@appUser.Id">
+                        Report
                     </a>
                 </td>
             </tr>

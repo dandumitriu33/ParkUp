@@ -20,5 +20,6 @@ namespace ParkUp.Web.ViewModels
         public bool IsActive { get; set; } = false;
         public bool IsTaken { get; set; } = false;
         public DateTime DateAdded { get; set; }
+        public string GPS { get; set; }
     }
 }

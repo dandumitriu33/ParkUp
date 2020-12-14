@@ -29,11 +29,11 @@
                 <td>@cashOutRequest.Amount</td>
                 <td>@cashOutRequest.DateSubmitted</td>
                 <td>
-                    <a class="btn btn-danger"
-                       asp-action="tbd"
-                       asp-controller="tdb"
-                       asp-route-cashOutRequestId="@cashOutRequest.UserId">
-                        User History
+                    <a class="btn btn-primary"
+                       asp-action="UserReport"
+                       asp-controller="Administration"
+                       asp-route-userId="@cashOutRequest.UserId">
+                        User Report
                     </a>
                     <a class="btn btn-danger"
                        asp-action="ApproveCashOut"
