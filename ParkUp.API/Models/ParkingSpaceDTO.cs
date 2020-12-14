@@ -19,5 +19,6 @@ namespace ParkUp.API.Models
         public bool IsTaken { get; set; } = false;
         public DateTime DateAdded { get; set; }
         public DateTime DateStarted { get; set; }
+        public string GPS { get; set; }
     }
 }
