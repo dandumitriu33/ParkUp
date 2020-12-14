@@ -27,6 +27,10 @@ async function checkIfTakenParkingSpacesAndDisplayCard() {
                                 <h5 class="card-title">Price: ${takenParkingSpaces[i].HourlyPrice}</h5>
                                 <p class="card-text">Elapsed: ${timeElapsed} minutes</p>
                                 <p class="card-text">Charge: ${currentCharge} Credits</p>
+                                <P>GPS 
+                                    <a href="https://google.com/search?q=${takenParkingSpaces[i].GPS}" target="_blank">GGL</a> / 
+                                    <a href="https://duckduckgo.com/?q=${takenParkingSpaces[i].GPS}&ia=web&iaxm=maps" target="_blank">DDG</a>
+                                </p>
                                 <button id="leaveParkingSpace${takenParkingSpaces[i].Id}" class="btn btn-warning">Leave</button>
                               </div>
                             </div>
