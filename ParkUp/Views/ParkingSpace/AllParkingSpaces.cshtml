@@ -1,0 +1,48 @@
+﻿@model List<ParkingSpaceViewModel>
+
+@{
+    ViewData["Title"] = "All parking spaces";
+}
+
+<h1>All Parking Spaces</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Area ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Street</th>
+            <th scope="col">Description</th>
+            <th scope="col">Price/h</th>
+            <th scope="col">Owner ID</th>
+            <th scope="col">Approved</th>
+            <th scope="col">Added on</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var space in Model)
+        {
+            <tr>
+                <td>@space.Id</td>
+                <td>@space.AreaId</td>
+                <td>@space.Name</td>
+                <td>@space.StreetName</td>
+                <td>@space.Description</td>
+                <td>@space.HourlyPrice.ToString("0.##")</td>
+                <td>@space.OwnerId</td>
+                <td>@space.IsApproved</td>
+                <td>@space.DateAdded</td>
+                <td>
+                    <a class="btn btn-warning btn-sm">
+                        Edit
+                    </a>
+                    <a class="btn btn-danger btn-sm">
+                        Remove
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
