@@ -84,13 +84,13 @@ async function refreshAreaSpaces() {
             $("#spacesContainer").append(element);
         }
     }
-    $("[class*=btn][class*=btn-success]").click(function () {
-        let parkingSpaceId = this.id.replace("parkingSpace", "");
-        console.log("psID: " + parkingSpaceId);
-        let userId = $("#userId").text();
-        console.log("usrID: " + userId);
-        handleTakeParkingSpace(parkingSpaceId, userId);
-    })
+    //$("[class*=btn][class*=btn-warning]").click(function () {
+    //    let parkingSpaceId = this.id.replace("parkingSpace", "");
+    //    console.log("psID: " + parkingSpaceId);
+    //    let userId = $("#userId").text();
+    //    console.log("usrID: " + userId);
+    //    handleTakeParkingSpace(parkingSpaceId, userId);
+    //})
 }
 
 async function generateFreeParkingSpaceElement(parkingSpace) {
@@ -100,7 +100,8 @@ async function generateFreeParkingSpaceElement(parkingSpace) {
                         <td>${parkingSpace.StreetName}</td>
                         <td>${parkingSpace.HourlyPrice} Credits</td>
                         <td>Approved</td>
-                        <td><button id="parkingSpace${parkingSpace.Id}" class="btn btn-success">Do Stuff</button></td>
+                        <td><a href="/ParkingSpace/EditParkingSpace?parkingSpaceId=${parkingSpace.Id}"
+                                    id="parkingSpace${parkingSpace.Id}" class="btn btn-warning">Edit</a></td>
                     </tr>
                   `;
     return element;
@@ -113,7 +114,7 @@ async function generateUnapprovedParkingSpaceElement(parkingSpace) {
                         <td>${parkingSpace.StreetName}</td>
                         <td>${parkingSpace.HourlyPrice} Credits</td>
                         <td>Not Approved</td>
-                        <td><button id="parkingSpace${parkingSpace.Id}" class="btn btn-success">Do Stuff</button></td>
+                        <td><button id="parkingSpace${parkingSpace.Id}" class="btn btn-warning">Edit</button></td>
                     </tr>
                   `;
     return element;

@@ -53,7 +53,7 @@ namespace ParkUp.Web.Controllers
                     tempParkingSpace.Description = parkingSpaceViewModel.Description;
                     tempParkingSpace.HourlyPrice = parkingSpaceViewModel.HourlyPrice;
                     await _repository.EditParkingSpace(tempParkingSpace);
-                    return RedirectToAction("AllParkingSpaces");
+                    return RedirectToAction("Index", "Home");
                 }
                 catch (DbUpdateException dbex)
                 {
