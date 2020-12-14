@@ -80,7 +80,7 @@ namespace ParkUp.Infrastructure.Data
             {
                 return await _dbContext.ParkingSpaces
                 .Where(ps => ps.AreaId == areaId && ps.IsRemoved == false)
-                .OrderBy(ps => ps.Name)
+                .OrderBy(ps => ps.HourlyPrice)
                 .ToListAsync();
             }
             return await _dbContext.ParkingSpaces
@@ -89,7 +89,7 @@ namespace ParkUp.Infrastructure.Data
                         && (ps.Name.Contains(searchPhrase) 
                                 || ps.Description.Contains(searchPhrase) 
                                 || ps.StreetName.Contains(searchPhrase)))
-                .OrderBy(ps => ps.Name)
+                .OrderBy(ps => ps.HourlyPrice)
                 .ToListAsync();
         }
 
