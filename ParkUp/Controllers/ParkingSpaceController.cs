@@ -28,5 +28,12 @@ namespace ParkUp.Web.Controllers
             List<ParkingSpaceViewModel> parkingSpacesVM = _mapper.Map<List<ParkingSpace>, List<ParkingSpaceViewModel>>(parkingSpacesFromDb);
             return View("AllParkingSpaces", parkingSpacesVM);
         }
+
+        public async Task<IActionResult> EditParkingSpace(int parkingSpaceId)
+        {
+            ParkingSpace parkingSpaceFromDb = await _repository.GetParkingSpaceById(parkingSpaceId);
+            ParkingSpaceViewModel tempParkingSpaceVM = _mapper.Map<ParkingSpace, ParkingSpaceViewModel>(parkingSpaceFromDb);
+            return View("EditParkingSpace", tempParkingSpaceVM);
+        }
     }
 }

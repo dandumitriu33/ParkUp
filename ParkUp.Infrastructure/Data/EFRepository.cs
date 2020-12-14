@@ -98,6 +98,11 @@ namespace ParkUp.Infrastructure.Data
                 .ToListAsync();
         }
 
+        public async Task<ParkingSpace> GetParkingSpaceById(int parkingSpaceId)
+        {
+            return await _dbContext.ParkingSpaces.Where(ps => ps.Id == parkingSpaceId).FirstOrDefaultAsync();
+        }
+
         public async Task TakeParkingSpace(TakenParkingSpace takenParkingSpace)
         {
             await using var transaction = await _dbContext.Database.BeginTransactionAsync();
