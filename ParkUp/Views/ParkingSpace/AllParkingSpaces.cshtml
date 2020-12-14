@@ -17,6 +17,7 @@
             <th scope="col">Price/h</th>
             <th scope="col">Owner ID</th>
             <th scope="col">Approved</th>
+            <th scope="col">GPS</th>
             <th scope="col">Added on</th>
             <th scope="col">Actions</th>
         </tr>
@@ -33,6 +34,10 @@
                 <td>@space.HourlyPrice.ToString("0.##")</td>
                 <td>@space.OwnerId</td>
                 <td>@space.IsApproved</td>
+                <td>
+                    <a href=@("https://google.com/search?q=" + space.GPS.Replace(" ","")) target="_blank">GGL</a> /
+                    <a href=@("https://duckduckgo.com/?q=" + space.GPS.Replace(" ","") + "&ia=web&iaxm=maps") target="_blank">DDG</a>
+                </td>
                 <td>@space.DateAdded</td>
                 <td>
                     <a asp-action="EditParkingSpace"
