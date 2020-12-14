@@ -102,7 +102,7 @@ namespace ParkUp.Infrastructure.Data
         {
             return await _dbContext.ParkingSpaces.Where(ps => ps.Id == parkingSpaceId).FirstOrDefaultAsync();
         }
-
+                
         public async Task<ParkingSpace> EditParkingSpace(ParkingSpace parkingSpace)
         {
             ParkingSpace parkingSpaceFromDb = await _dbContext.ParkingSpaces.Where(ps => ps.Id == parkingSpace.Id).FirstOrDefaultAsync();
@@ -223,7 +223,12 @@ namespace ParkUp.Infrastructure.Data
             return await _dbContext.TakenParkingSpaces.Where(tps => tps.UserId == userId)
                                                       .OrderByDescending(tps => tps.DateStarted)
                                                       .ToListAsync();
-        } 
+        }
+
+        public async Task<TakenParkingSpace> GetTakenInstanceByParkingSpaceId(int parkingSpaceId) 
+        {
+            return await _dbContext.TakenParkingSpaces.Where(tps => tps.ParkingSpaceId == parkingSpaceId).FirstOrDefaultAsync();
+        }
 
         public async Task<List<ParkingSpace>> GetTakenParkingSpacesByUserId(List<TakenParkingSpace> takenSpaces)
         {

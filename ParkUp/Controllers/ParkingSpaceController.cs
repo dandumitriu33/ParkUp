@@ -38,6 +38,28 @@ namespace ParkUp.Web.Controllers
             return View("EditParkingSpace", tempParkingSpaceVM);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> ForceFreeParkingSpace(int parkingSpaceId)
+        {
+            try
+            {
+                TakenParkingSpace instance = await _repository.GetTakenInstanceByParkingSpaceId(parkingSpaceId);
+                await _repository.LeaveParkingSpace(instance);
+
+                return RedirectToAction("Index", "Home");
+            }
+            catch (DbUpdateException dbex)
+            {
+                ViewData["ErrorMessage"] = "DB issue - " + dbex.Message;
+                return View("Error");
+            }
+            catch (Exception ex)
+            {
+                ViewData["ErrorMessage"] = ex.Message;
+                return View("Error");
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> EditParkingSpace(ParkingSpaceViewModel parkingSpaceViewModel)
         {

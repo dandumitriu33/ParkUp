@@ -94,12 +94,20 @@ async function refreshAreaSpaces() {
 }
 
 async function generateFreeParkingSpaceElement(parkingSpace) {
-    let element = `
+    let element = "";
+    if (parkingSpace.IsTaken == true) {
+        element = `
                     <tr>
                         <td>${parkingSpace.Name}</td>
                         <td>${parkingSpace.StreetName}</td>
                         <td>${parkingSpace.HourlyPrice} Credits</td>
                         <td>Approved</td>
+                        <td>
+                            <a href="/ParkingSpace/ForceFreeParkingSpace?parkingSpaceId=${parkingSpace.Id}"
+                                    class="btn btn-success">
+                                Force Free
+                            </a>
+                        </td>
                         <td>
                             <a href="/ParkingSpace/EditParkingSpace?parkingSpaceId=${parkingSpace.Id}"
                                     class="btn btn-warning">
@@ -114,6 +122,30 @@ async function generateFreeParkingSpaceElement(parkingSpace) {
                         </td>
                     </tr>
                   `;
+    } else {
+        element = `
+                    <tr>
+                        <td>${parkingSpace.Name}</td>
+                        <td>${parkingSpace.StreetName}</td>
+                        <td>${parkingSpace.HourlyPrice} Credits</td>
+                        <td>Approved</td>
+                        <td></td>
+                        <td>
+                            <a href="/ParkingSpace/EditParkingSpace?parkingSpaceId=${parkingSpace.Id}"
+                                    class="btn btn-warning">
+                                Edit
+                            </a>
+                        </td>
+                        <td>
+                            <a href="/ParkingSpace/RemoveParkingSpace?parkingSpaceId=${parkingSpace.Id}"
+                                    class="btn btn-danger">
+                                Remove
+                            </a>
+                        </td>
+                    </tr>
+                  `;
+    }
+    
     return element;
 }
 
@@ -124,6 +156,7 @@ async function generateUnapprovedParkingSpaceElement(parkingSpace) {
                         <td>${parkingSpace.StreetName}</td>
                         <td>${parkingSpace.HourlyPrice} Credits</td>
                         <td>Not Approved</td>
+                        <td></td>
                         <td>
                             <a href="/ParkingSpace/EditParkingSpace?parkingSpaceId=${parkingSpace.Id}"
                                     class="btn btn-warning">
