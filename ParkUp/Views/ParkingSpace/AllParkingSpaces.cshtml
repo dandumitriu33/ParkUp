@@ -35,7 +35,10 @@
                 <td>@space.IsApproved</td>
                 <td>@space.DateAdded</td>
                 <td>
-                    <a class="btn btn-warning btn-sm">
+                    <a asp-action="EditParkingSpace"
+                       asp-controller="ParkingSpace"
+                       asp-route-parkingSpaceId="@space.Id" 
+                       class="btn btn-warning btn-sm">
                         Edit
                     </a>
                     <a class="btn btn-danger btn-sm">
