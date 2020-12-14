@@ -350,5 +350,71 @@ namespace ParkUp.Web.Controllers
                 return View("Error");
             }
         }
+
+        [HttpGet]
+        [Route("{report/{userId}")]
+        public async Task<IActionResult> UserReport(string userId)
+        {
+            ApplicationUser userFromDb = await _repository.GetUserById(userId);
+            List<ParkingSpace> userParkingSpaces = await _repository.GetParkingSpacesByOwnerId(userId);
+            List<ParkingSpaceRental> userRentalsAsOwner = await _repository.GetOwnerRentalsById(userId);
+            List<CashOut> userCashOuts = await _repository.GetApprovedCashOutsForUserId(userId);
+            UserReportViewModel report = assembleUserReport(userFromDb, userParkingSpaces, userRentalsAsOwner, userCashOuts);
+            return View("UserReport", report);
+        }
+
+        private UserReportViewModel assembleUserReport(ApplicationUser userFromDb, 
+                                                       List<ParkingSpace> userParkingSpaces, 
+                                                       List<ParkingSpaceRental> userRentalsAsOwner, 
+                                                       List<CashOut> userCashOuts)
+        {
+            UserReportViewModel result = new UserReportViewModel();
+
+            // userVM
+            ApplicationUserViewModel userVM = _mapper.Map<ApplicationUser, ApplicationUserViewModel>(userFromDb);
+            result.AppUser = userVM;
+
+            // parking spaces
+            List<ParkingSpaceViewModel> parkingSpacesVM = _mapper.Map<List<ParkingSpace>, List<ParkingSpaceViewModel>>(userParkingSpaces);
+            result.ParkingSpaces = parkingSpacesVM;
+
+            // transactions as owner
+            List<ParkingSpaceRentalViewModel> rentalsVM = _mapper.Map<List<ParkingSpaceRental>, List<ParkingSpaceRentalViewModel>>(userRentalsAsOwner);
+            result.TransactionHistory = rentalsVM;
+
+            // cash outs
+            List<CashOutViewModel> cashOutsVM = _mapper.Map<List<CashOut>, List<CashOutViewModel>>(userCashOuts);
+            result.CashOuts = cashOutsVM;
+
+            // days joined
+            DateTime start = userVM.DateAdded;
+            DateTime end = DateTime.Now;
+            TimeSpan duration = end.Subtract(start);
+            int daysJoined = (int) duration.TotalMinutes * 60 * 24;
+            result.DaysJoined = daysJoined;
+
+            // lifetime sales
+            decimal lifetimeGeneratedSales = rentalsVM.Select(r => r.AmountPaidByUser).Sum();
+            result.LifetimeGeneratedSales = lifetimeGeneratedSales;
+
+            // lifetime profit (for ParkUp)
+            decimal lifetimeProfitGenerated = lifetimeGeneratedSales - rentalsVM.Select(r => r.AmountReceivedByOwner).Sum();
+            result.LifetimeProfitGenerated = lifetimeProfitGenerated;
+
+            // lifetime CashOut
+            decimal lifetimeCashOut = cashOutsVM.Select(co => co.Amount).Sum();
+            result.LifeTimeCashOut = lifetimeCashOut;
+
+            // monthly average sales
+            decimal months = Math.Round((decimal)daysJoined / 30);
+            decimal monthlyAverageSales = lifetimeGeneratedSales / (months < 1 ? 1 : months);
+            result.MonthlyAverageSales = monthlyAverageSales;
+
+            // average CashOut
+            decimal avergaCashOut = Math.Round(lifetimeCashOut / cashOutsVM.Count);
+            result.AverageCashOut = avergaCashOut;
+
+            return result;
+        }
     }
 }

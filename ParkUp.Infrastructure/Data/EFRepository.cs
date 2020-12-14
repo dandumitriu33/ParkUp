@@ -98,6 +98,11 @@ namespace ParkUp.Infrastructure.Data
                 .ToListAsync();
         }
 
+        public async Task<List<ParkingSpace>> GetParkingSpacesByOwnerId(string ownerId)
+        {
+            return await _dbContext.ParkingSpaces.Where(ps => ps.OwnerId == ownerId && ps.IsRemoved == false).OrderByDescending(ps => ps.DateAdded).ToListAsync();
+        }
+
         public async Task<ParkingSpace> GetParkingSpaceById(int parkingSpaceId)
         {
             return await _dbContext.ParkingSpaces.Where(ps => ps.Id == parkingSpaceId).FirstOrDefaultAsync();
@@ -376,6 +381,11 @@ namespace ParkUp.Infrastructure.Data
         public async Task<List<ParkingSpaceRental>> GetParkingSpaceTransactionsById(int parkingSpaceId)
         {
             return await _dbContext.ParkingSpaceRentals.Where(psr => psr.ParkingSpaceId == parkingSpaceId).OrderByDescending(psr => psr.DateEnded).ToListAsync();
+        }
+
+        public async Task<List<CashOut>> GetApprovedCashOutsForUserId(string userId)
+        {
+            return await _dbContext.CashOuts.Where(co => co.UserId == userId && co.IsApproved == true).OrderByDescending(co => co.DateSubmitted).ToListAsync();
         }
     }
 }
