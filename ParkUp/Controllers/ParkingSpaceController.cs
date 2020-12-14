@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ParkUp.Core.Entities;
 using ParkUp.Core.Interfaces;
 using ParkUp.Web.ViewModels;
@@ -29,11 +30,43 @@ namespace ParkUp.Web.Controllers
             return View("AllParkingSpaces", parkingSpacesVM);
         }
 
+        [HttpGet]
         public async Task<IActionResult> EditParkingSpace(int parkingSpaceId)
         {
             ParkingSpace parkingSpaceFromDb = await _repository.GetParkingSpaceById(parkingSpaceId);
             ParkingSpaceViewModel tempParkingSpaceVM = _mapper.Map<ParkingSpace, ParkingSpaceViewModel>(parkingSpaceFromDb);
             return View("EditParkingSpace", tempParkingSpaceVM);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditParkingSpace(ParkingSpaceViewModel parkingSpaceViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    // at this time just Name, Street Name, Description and price
+                    ParkingSpace tempParkingSpace = new ParkingSpace();
+                    tempParkingSpace.Id = parkingSpaceViewModel.Id;
+                    tempParkingSpace.Name = parkingSpaceViewModel.Name;
+                    tempParkingSpace.StreetName = parkingSpaceViewModel.StreetName;
+                    tempParkingSpace.Description = parkingSpaceViewModel.Description;
+                    tempParkingSpace.HourlyPrice = parkingSpaceViewModel.HourlyPrice;
+                    await _repository.EditParkingSpace(tempParkingSpace);
+                    return RedirectToAction("AllParkingSpaces");
+                }
+                catch (DbUpdateException dbex)
+                {
+                    ViewData["ErrorMessage"] = "DB issue - " + dbex.Message;
+                    return View("Error");
+                }
+                catch (Exception ex)
+                {
+                    ViewData["ErrorMessage"] = ex.Message;
+                    return View("Error");
+                }
+            }
+            return View("EditParkingSpace");
         }
     }
 }

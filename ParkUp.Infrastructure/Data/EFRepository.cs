@@ -103,6 +103,20 @@ namespace ParkUp.Infrastructure.Data
             return await _dbContext.ParkingSpaces.Where(ps => ps.Id == parkingSpaceId).FirstOrDefaultAsync();
         }
 
+        public async Task<ParkingSpace> EditParkingSpace(ParkingSpace parkingSpace)
+        {
+            ParkingSpace parkingSpaceFromDb = await _dbContext.ParkingSpaces.Where(ps => ps.Id == parkingSpace.Id).FirstOrDefaultAsync();
+            parkingSpaceFromDb.Name = parkingSpace.Name;
+            parkingSpaceFromDb.StreetName = parkingSpace.StreetName;
+            parkingSpaceFromDb.Description = parkingSpace.Description;
+            parkingSpaceFromDb.HourlyPrice = parkingSpace.HourlyPrice;
+            
+            _dbContext.ParkingSpaces.Attach(parkingSpaceFromDb);
+            _dbContext.Entry(parkingSpaceFromDb).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+            return parkingSpaceFromDb;
+        }
+
         public async Task TakeParkingSpace(TakenParkingSpace takenParkingSpace)
         {
             await using var transaction = await _dbContext.Database.BeginTransactionAsync();
