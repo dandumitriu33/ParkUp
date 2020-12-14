@@ -141,6 +141,10 @@ async function generateFreeParkingSpaceElement(parkingSpace) {
                         <td>${parkingSpace.Name}</td>
                         <td>${parkingSpace.StreetName}</td>
                         <td>${parkingSpace.HourlyPrice} Credits</td>
+                        <td>
+                            <a href="https://google.com/search?q=${parkingSpace.GPS}" target="_blank">GGL</a> / 
+                            <a href="https://duckduckgo.com/?q=${parkingSpace.GPS}&ia=web&iaxm=maps" target="_blank">DDG</a>
+                        </td>
                         <td><button id="parkingSpace${parkingSpace.Id}" class="btn btn-success">Take</button></td>
                     </tr>
                   `;
@@ -150,6 +154,10 @@ async function generateFreeParkingSpaceElement(parkingSpace) {
                         <td>${parkingSpace.Name}</td>
                         <td>${parkingSpace.StreetName}</td>
                         <td>${parkingSpace.HourlyPrice} Credits</td>
+                        <td>
+                            <a href="https://google.com/search?q=${parkingSpace.GPS}" target="_blank">GGL</a> / 
+                            <a href="https://duckduckgo.com/?q=${parkingSpace.GPS}&ia=web&iaxm=maps" target="_blank">DDG</a>
+                        </td>
                         <td><button id="parkingSpace${parkingSpace.Id}" class="btn btn-success" disabled>Take</button></td>
                     </tr>
                   `;
