@@ -76,7 +76,7 @@ namespace ParkUp.Infrastructure.Data
 
         public async Task<List<ParkingSpace>> GetAllParkingSpaces()
         {
-            return await _dbContext.ParkingSpaces.OrderByDescending(ps => ps.DateAdded).ToListAsync();
+            return await _dbContext.ParkingSpaces.Where(ps => ps.IsRemoved == false).OrderByDescending(ps => ps.DateAdded).ToListAsync();
         }
 
         public async Task<List<ParkingSpace>> GetAllParkingSpacesForArea(int areaId, string searchPhrase="")
