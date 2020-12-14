@@ -117,6 +117,17 @@ namespace ParkUp.Infrastructure.Data
             return parkingSpaceFromDb;
         }
 
+        public async Task<ParkingSpace> RemoveParkingSpaceById(int parkingSpaceId)
+        {
+            ParkingSpace parkingSpaceFromDb = await _dbContext.ParkingSpaces.Where(ps => ps.Id == parkingSpaceId).FirstOrDefaultAsync();
+            parkingSpaceFromDb.IsRemoved = true;
+
+            _dbContext.ParkingSpaces.Attach(parkingSpaceFromDb);
+            _dbContext.Entry(parkingSpaceFromDb).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+            return parkingSpaceFromDb;
+        }
+
         public async Task TakeParkingSpace(TakenParkingSpace takenParkingSpace)
         {
             await using var transaction = await _dbContext.Database.BeginTransactionAsync();

@@ -68,5 +68,25 @@ namespace ParkUp.Web.Controllers
             }
             return View("EditParkingSpace");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> RemoveParkingSpace(int parkingSpaceId)
+        {
+            try
+            {
+                await _repository.RemoveParkingSpaceById(parkingSpaceId);
+                return RedirectToAction("Index", "Home");
+            }
+            catch (DbUpdateException dbex)
+            {
+                ViewData["ErrorMessage"] = "DB issue - " + dbex.Message;
+                return View("Error");
+            }
+            catch (Exception ex)
+            {
+                ViewData["ErrorMessage"] = ex.Message;
+                return View("Error");
+            }
+        }
     }
 }
