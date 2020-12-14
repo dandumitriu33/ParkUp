@@ -100,8 +100,18 @@ async function generateFreeParkingSpaceElement(parkingSpace) {
                         <td>${parkingSpace.StreetName}</td>
                         <td>${parkingSpace.HourlyPrice} Credits</td>
                         <td>Approved</td>
-                        <td><a href="/ParkingSpace/EditParkingSpace?parkingSpaceId=${parkingSpace.Id}"
-                                    id="parkingSpace${parkingSpace.Id}" class="btn btn-warning">Edit</a></td>
+                        <td>
+                            <a href="/ParkingSpace/EditParkingSpace?parkingSpaceId=${parkingSpace.Id}"
+                                    class="btn btn-warning">
+                                Edit
+                            </a>
+                        </td>
+                        <td>
+                            <a href="/ParkingSpace/RemoveParkingSpace?parkingSpaceId=${parkingSpace.Id}"
+                                    class="btn btn-danger">
+                                Remove
+                            </a>
+                        </td>
                     </tr>
                   `;
     return element;
@@ -114,7 +124,18 @@ async function generateUnapprovedParkingSpaceElement(parkingSpace) {
                         <td>${parkingSpace.StreetName}</td>
                         <td>${parkingSpace.HourlyPrice} Credits</td>
                         <td>Not Approved</td>
-                        <td><button id="parkingSpace${parkingSpace.Id}" class="btn btn-warning">Edit</button></td>
+                        <td>
+                            <a href="/ParkingSpace/EditParkingSpace?parkingSpaceId=${parkingSpace.Id}"
+                                    class="btn btn-warning">
+                                Edit
+                            </a>
+                        </td>
+                        <td>
+                            <a href="/ParkingSpace/RemoveParkingSpace?parkingSpaceId=${parkingSpace.Id}"
+                                    class="btn btn-danger">
+                                Remove
+                            </a>
+                        </td>
                     </tr>
                   `;
     return element;
