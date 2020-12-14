@@ -1,6 +1,146 @@
-﻿@{ 
+﻿@model UserReportViewModel
+
+@{ 
     ViewData["Title"] = "User Report";
 }
 
-<h1>User Report</h1>
+<div class="text-center">
+    <h1>User Report</h1>
+    
+</div>
 
+<div>
+    <p><span class="font-weight-bold">Full name and ID:</span> @Model.AppUser.FirstName @Model.AppUser.LastName (@Model.AppUser.Id)</p>
+    <p><span class="font-weight-bold">Date Joined:</span> @Model.AppUser.DateAdded (@Model.DaysJoined days ago)</p>
+    <p><span class="font-weight-bold">Lifetime Sales:</span> @Model.LifetimeGeneratedSales.ToString("0.##") (@Model.MonthlyAverageSales.ToString("0.##") monthly average)</p>
+    <p><span class="font-weight-bold">Lifetime ParkUp:</span> @Model.LifetimeProfitGenerated.ToString("0.##")</p>
+    <p><span class="font-weight-bold">Lifetime Cash Out:</span>  @Model.LifeTimeCashOut.ToString("0.##") (@Model.AverageCashOut.ToString("0.##") average Cash Out)</p>
+</div>
+
+<hr />
+<div class="text-center">
+    <h4>Parking Spaces</h4>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Area ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Street</th>
+            <th scope="col">Description</th>
+            <th scope="col">Price/h</th>
+            <th scope="col">Owner ID</th>
+            <th scope="col">Approved</th>
+            <th scope="col">GPS</th>
+            <th scope="col">Added on</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var space in Model.ParkingSpaces)
+        {
+            <tr>
+                <td>@space.Id</td>
+                <td>@space.AreaId</td>
+                <td>@space.Name</td>
+                <td>@space.StreetName</td>
+                <td>@space.Description</td>
+                <td>@space.HourlyPrice.ToString("0.##")</td>
+                <td>@space.OwnerId</td>
+                <td>@space.IsApproved</td>
+                <td>
+                    <a href=@("https://google.com/search?q=" + space.GPS.Replace(" ","")) target="_blank">GGL</a> /
+                    <a href=@("https://duckduckgo.com/?q=" + space.GPS.Replace(" ","") + "&ia=web&iaxm=maps") target="_blank">DDG</a>
+                </td>
+                <td>@space.DateAdded</td>
+                <td>
+                    <a asp-action="EditParkingSpace"
+                       asp-controller="ParkingSpace"
+                       asp-route-parkingSpaceId="@space.Id"
+                       class="btn btn-warning btn-sm">
+                        Edit
+                    </a>
+                    <a asp-action="RemoveParkingSpace"
+                       asp-controller="ParkingSpace"
+                       asp-route-parkingSpaceId="@space.Id"
+                       class="btn btn-danger btn-sm">
+                        Remove
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+<div class="text-center">
+    <h4>Tranzactions</h4>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Space ID</th>
+            <th scope="col">Space Name</th>
+            <th scope="col">Space price/h</th>
+            <th scope="col">Date Started</th>
+            <th scope="col">Date Ended</th>
+            <th scope="col">Duration (m)</th>
+            <th scope="col">Amount Paid</th>
+            <th scope="col">Income</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var rental in Model.TransactionHistory)
+        {
+            <tr>
+                <td>@rental.Id</td>
+                <td>@rental.ParkingSpaceId</td>
+                <td>@rental.ParkingSpaceName</td>
+                <td>@rental.HourlyPrice.ToString("0.##") Credits</td>
+                <td>@rental.DateStarted</td>
+                <td>@rental.DateEnded</td>
+                <td>@rental.DurationMinutes</td>
+                <td>@rental.AmountPaidByUser.ToString("0.##") Credits</td>
+                <td>@rental.AmountReceivedByOwner.ToString("0.##") Credits</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<hr />
+<div class="text-center">
+    <h4>Cash Outs</h4>
+</div>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">User ID</th>
+            <th scope="col">User Email</th>
+            <th scope="col">User Available</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Date Submitted</th>
+            <th scope="col">Approved</th>
+            <th scope="col">Approved by Email</th>
+            <th scope="col">Approved by ID</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var cashOut in Model.CashOuts)
+        {
+            <tr>
+                <td>@cashOut.Id</td>
+                <td>@cashOut.UserId</td>
+                <td>@cashOut.UserEmail</td>
+                <td>@cashOut.UserAvailable.ToString("0.##") Credits</td>
+                <td>@cashOut.Amount.ToString("0.##") Credits</td>
+                <td>@cashOut.DateSubmitted</td>
+                <td>@cashOut.IsApproved</td>
+                <td>@cashOut.ApprovedByEmail</td>
+                <td>@cashOut.ApprovedById</td>
+            </tr>
+        }
+    </tbody>
+</table>

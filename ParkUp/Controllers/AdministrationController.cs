@@ -352,7 +352,7 @@ namespace ParkUp.Web.Controllers
         }
 
         [HttpGet]
-        [Route("{report/{userId}")]
+        [Route("administration/report/{userId}")]
         public async Task<IActionResult> UserReport(string userId)
         {
             ApplicationUser userFromDb = await _repository.GetUserById(userId);
@@ -390,7 +390,7 @@ namespace ParkUp.Web.Controllers
             DateTime start = userVM.DateAdded;
             DateTime end = DateTime.Now;
             TimeSpan duration = end.Subtract(start);
-            int daysJoined = (int) duration.TotalMinutes * 60 * 24;
+            int daysJoined = (int) duration.TotalMinutes / 60 / 24;
             result.DaysJoined = daysJoined;
 
             // lifetime sales
@@ -398,7 +398,8 @@ namespace ParkUp.Web.Controllers
             result.LifetimeGeneratedSales = lifetimeGeneratedSales;
 
             // lifetime profit (for ParkUp)
-            decimal lifetimeProfitGenerated = lifetimeGeneratedSales - rentalsVM.Select(r => r.AmountReceivedByOwner).Sum();
+            decimal totalAmountReceviedByUser = rentalsVM.Select(r => r.AmountReceivedByOwner).Sum();
+            decimal lifetimeProfitGenerated = lifetimeGeneratedSales - totalAmountReceviedByUser;
             result.LifetimeProfitGenerated = lifetimeProfitGenerated;
 
             // lifetime CashOut
