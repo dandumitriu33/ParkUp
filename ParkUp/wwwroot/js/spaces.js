@@ -101,6 +101,10 @@ async function generateFreeParkingSpaceElement(parkingSpace) {
                         <td>${parkingSpace.Name}</td>
                         <td>${parkingSpace.StreetName}</td>
                         <td>${parkingSpace.HourlyPrice} Credits</td>
+                        <td>
+                            <a href="https://google.com/search?q=${parkingSpace.GPS}" target="_blank">GGL</a> / 
+                            <a href="https://duckduckgo.com/?q=${parkingSpace.GPS}&ia=web&iaxm=maps" target="_blank">DDG</a>
+                        </td>
                         <td>Approved</td>
                         <td>
                             <a href="/ParkingSpace/ForceFreeParkingSpace?parkingSpaceId=${parkingSpace.Id}"
@@ -128,6 +132,10 @@ async function generateFreeParkingSpaceElement(parkingSpace) {
                         <td>${parkingSpace.Name}</td>
                         <td>${parkingSpace.StreetName}</td>
                         <td>${parkingSpace.HourlyPrice} Credits</td>
+                        <td>
+                            <a href="https://google.com/search?q=${parkingSpace.GPS}" target="_blank">GGL</a> / 
+                            <a href="https://duckduckgo.com/?q=${parkingSpace.GPS}&ia=web&iaxm=maps" target="_blank">DDG</a>
+                        </td>
                         <td>Approved</td>
                         <td></td>
                         <td>
@@ -155,6 +163,10 @@ async function generateUnapprovedParkingSpaceElement(parkingSpace) {
                         <td>${parkingSpace.Name}</td>
                         <td>${parkingSpace.StreetName}</td>
                         <td>${parkingSpace.HourlyPrice} Credits</td>
+                        <td>
+                            <a href="https://google.com/search?q=${parkingSpace.GPS}" target="_blank">GGL</a> / 
+                            <a href="https://duckduckgo.com/?q=${parkingSpace.GPS}&ia=web&iaxm=maps" target="_blank">DDG</a>
+                        </td>
                         <td>Not Approved</td>
                         <td></td>
                         <td>
