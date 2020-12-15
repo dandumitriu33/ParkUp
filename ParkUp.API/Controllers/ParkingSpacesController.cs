@@ -39,6 +39,17 @@ namespace ParkUp.API.Controllers
             return payload;
         }
 
+        //GET: api/<ParkingSpaceController>/nearby
+        [HttpGet]
+        [Route("nearby/{latitude}/{longitude}")]
+        public async Task<string> GetNearbyParkingSpaces(double latitude, double longitude)
+        {
+            List<ParkingSpace> parkingSpacesFromDb = await _repository.GetAllNearbyParkingSpaces(latitude, longitude);
+            List<ParkingSpaceDTO> allParkingSpacesDTO = _mapper.Map<List<ParkingSpace>, List<ParkingSpaceDTO>>(parkingSpacesFromDb);
+            var payload = JsonSerializer.Serialize(allParkingSpacesDTO);
+            return payload;
+        }
+
         // POST: api/<ParkingSpacesController>/take
         [HttpPost]
         [Route("take")]

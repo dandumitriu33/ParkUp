@@ -17,6 +17,7 @@ namespace ParkUp.Core.Interfaces
         Task<List<ParkingSpace>> GetParkingSpacesForOwnerId(string userId, int areaId, string searchPhrase = "");
         Task<List<ParkingSpace>> GetAllParkingSpaces();
         Task<List<ParkingSpace>> GetAllParkingSpacesForArea(int areaId, string searchPhrase = "");
+        Task<List<ParkingSpace>> GetAllNearbyParkingSpaces(double latitude, double longitude);
         Task<List<ParkingSpace>> GetParkingSpacesByOwnerId(string ownerId);
         Task<ParkingSpace> GetParkingSpaceById(int parkingSpaceId);
         Task<ParkingSpace> EditParkingSpace(ParkingSpace parkingSpace);
