@@ -390,7 +390,7 @@ namespace ParkUp.Infrastructure.Data
 
         public async Task<List<CreditPackPurchase>> GetUserPurchaseHistoryById(string userId)
         {
-            return await _dbContext.CreditPackPurchases.Where(cpp => cpp.UserId == userId).OrderBy(cpp => cpp.DateOfPurchase).ToListAsync();
+            return await _dbContext.CreditPackPurchases.Where(cpp => cpp.UserId == userId).OrderByDescending(cpp => cpp.DateOfPurchase).ToListAsync();
         }
 
         public async Task<List<ParkingSpaceRental>> GetUserRentalsById(string userId)
