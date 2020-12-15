@@ -72,14 +72,13 @@
                                     Management
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="managementNavbarDropdown">
-                                    <a class="dropdown-item" asp-action="AllCities" asp-controller="City">All Cities</a>
-                                    <a class="dropdown-item" asp-action="AllAreas" asp-controller="Area">All Areas</a>
                                     <a class="dropdown-item" asp-action="ApproveParkingSpaces" asp-controller="Administration">Approve Spaces</a>
                                     <a class="dropdown-item" asp-action="ApproveCashOuts" asp-controller="Administration">Approve Cash Out</a>
+                                    <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" asp-action="AllUsers" asp-controller="Administration">All Users</a>
                                     <a class="dropdown-item" asp-action="AllParkingSpaces" asp-controller="ParkingSpace">All Spaces</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Something else here</a>
+                                    <a class="dropdown-item" asp-action="AllAreas" asp-controller="Area">All Areas</a>
+                                    <a class="dropdown-item" asp-action="AllCities" asp-controller="City">All Cities</a>
                                 </div>
                             </li>
                         }
