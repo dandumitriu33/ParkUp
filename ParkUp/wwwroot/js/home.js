@@ -1,16 +1,17 @@
-﻿import { getCitiesArray, getAreasArray, getParkingSpacesArray } from './utilsAPI.js';
+﻿import { getCitiesArray, getAreasArray, getParkingSpacesArray, getNearbyParkingSpacesArray } from './utilsAPI.js';
 
 // Taken Parking Space Card
 checkIfTakenParkingSpacesAndDisplayCard();
 $("#searchNearby").click(function () { displayNearbyParkingSpaces();});
 
 async function displayNearbyParkingSpaces(){
-
+    console.log("Entered nearby search and display process...");
     function success(position) {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
 
-        alert(latitude + " " + longitude);
+        console.log(latitude + " " + longitude);
+        refreshNearbySpaces(latitude, longitude);
     }
 
     function error() {
@@ -115,6 +116,28 @@ async function refreshAreaSpaces() {
     let areaId = $("#areasSelect").val();
     let searchPhrase = $("#searchPhrase").val();
     let parkingSpaces = await getParkingSpacesArray(areaId, searchPhrase);
+    $("#spacesContainer").empty();
+    for (var i = 0; i < parkingSpaces.length; i++) {
+        if (parkingSpaces[i].IsTaken == false && parkingSpaces[i].IsApproved == true) {
+            let element = await generateFreeParkingSpaceElement(parkingSpaces[i]);
+            $("#spacesContainer").append(element);
+        }
+    }
+    $("[class*=btn][class*=btn-success]").click(function () {
+        let parkingSpaceId = this.id.replace("parkingSpace", "");
+        console.log("psID: " + parkingSpaceId);
+        let userId = $("#userId").text();
+        console.log("usrID: " + userId);
+        handleTakeParkingSpace(parkingSpaceId, userId);
+    })
+}
+
+async function refreshNearbySpaces(latitude, longitude) {
+    if (event) {
+        event.preventDefault();
+    }
+
+    let parkingSpaces = await getNearbyParkingSpacesArray(latitude, longitude);
     $("#spacesContainer").empty();
     for (var i = 0; i < parkingSpaces.length; i++) {
         if (parkingSpaces[i].IsTaken == false && parkingSpaces[i].IsApproved == true) {
