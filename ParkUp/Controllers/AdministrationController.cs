@@ -428,8 +428,16 @@ namespace ParkUp.Web.Controllers
             result.MonthlyAverageSales = monthlyAverageSales;
 
             // average CashOut
-            decimal avergaCashOut = Math.Round(lifetimeCashOut / cashOutsVM.Count);
-            result.AverageCashOut = avergaCashOut;
+            decimal averageCashOut = 0;
+            if (cashOutsVM.Count == 0)
+            {
+                averageCashOut = Math.Round(lifetimeCashOut / 1);
+            }
+            else
+            {
+                averageCashOut = Math.Round(lifetimeCashOut / cashOutsVM.Count);
+            }
+            result.AverageCashOut = averageCashOut;
 
             return result;
         }
