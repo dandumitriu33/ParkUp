@@ -6,6 +6,9 @@ $("#searchNearby").click(function () { displayNearbyParkingSpaces();});
 
 async function displayNearbyParkingSpaces(){
     console.log("Entered nearby search and display process...");
+    refreshCitiesSelector();
+    refreshCityAreasSelector();
+    removeSearchBar();
     function success(position) {
         const latitude = position.coords.latitude;
         const longitude = position.coords.longitude;
