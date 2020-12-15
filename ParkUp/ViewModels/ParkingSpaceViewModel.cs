@@ -21,5 +21,7 @@ namespace ParkUp.Web.ViewModels
         public bool IsTaken { get; set; } = false;
         public DateTime DateAdded { get; set; }
         public string GPS { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
     }
 }

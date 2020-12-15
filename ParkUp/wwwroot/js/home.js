@@ -2,6 +2,28 @@
 
 // Taken Parking Space Card
 checkIfTakenParkingSpacesAndDisplayCard();
+$("#searchNearby").click(function () { displayNearbyParkingSpaces();});
+
+async function displayNearbyParkingSpaces(){
+
+    function success(position) {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+
+        alert(latitude + " " + longitude);
+    }
+
+    function error() {
+        alert('Unable to retrieve your location');
+    }
+
+    if (!navigator.geolocation) {
+        alert('Geolocation is not supported by your browser');
+    } else {
+        //status.textContent = 'Locating…';
+        navigator.geolocation.getCurrentPosition(success, error);
+    }
+}
 
 async function checkIfTakenParkingSpacesAndDisplayCard() {
     console.log("Checking for taken parking spaces...");
