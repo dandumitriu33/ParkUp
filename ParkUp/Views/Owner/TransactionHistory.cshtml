@@ -25,7 +25,14 @@
         {
             <tr>
                 <td>@rental.Id</td>
-                <td>@rental.ParkingSpaceId</td>
+                <td>
+                    @rental.ParkingSpaceId
+                    <a asp-action="ParkingSpaceTransactions"
+                       asp-controller="Administration"
+                       asp-route-parkingSpaceId="@rental.ParkingSpaceId">
+                        more...
+                    </a>
+                </td>
                 <td>@rental.ParkingSpaceName</td>
                 <td>@rental.HourlyPrice.ToString("0.##") Credits</td>
                 <td>@rental.DateStarted</td>
