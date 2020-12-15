@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace ParkUp.Web.Controllers
 {
-    [Authorize(Roles = "SuperAdmin")]
+    [Authorize]
     public class AdministrationController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
@@ -31,12 +31,15 @@ namespace ParkUp.Web.Controllers
             _repository = repository;
             _mapper = mapper;
         }
+
+        [Authorize(Roles = "SuperAdmin")]
         [HttpGet]
         public IActionResult CreateRole()
         {
             return View("CreateRole");
         }
 
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPost]
         public async Task<IActionResult> CreateRole(RoleViewModel roleViewModel)
         {
@@ -74,6 +77,7 @@ namespace ParkUp.Web.Controllers
             return View("CreateRole", roleViewModel);
         }
 
+        [Authorize(Roles = "SuperAdmin")]
         [HttpGet]
         public async Task<IActionResult> AllRoles()
         {
@@ -111,6 +115,7 @@ namespace ParkUp.Web.Controllers
             }
         }
 
+        [Authorize(Roles = "SuperAdmin")]
         [HttpGet]
         public async Task<IActionResult> EditUsersInRole(string roleId)
         {
@@ -144,6 +149,7 @@ namespace ParkUp.Web.Controllers
             }
         }
 
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPost]
         public async Task<IActionResult> AddUserToRole(UserRoleViewModel userRoleViewModel)
         {
@@ -189,6 +195,7 @@ namespace ParkUp.Web.Controllers
             return RedirectToAction("AllRoles", "Administration");
         }
 
+        [Authorize(Roles = "SuperAdmin")]
         [HttpGet]
         [Route("administration/{roleId}/remove/{userEmail}")]
         public async Task<IActionResult> RemoveUserFromRole(string userEmail, string roleId)
@@ -231,6 +238,7 @@ namespace ParkUp.Web.Controllers
             }
         }
 
+        [Authorize(Roles = "SuperAdmin,Admin")]
         [HttpGet]
         public async Task<IActionResult> ApproveParkingSpaces()
         {
@@ -240,6 +248,7 @@ namespace ParkUp.Web.Controllers
             return View("ApproveParkingSpaces", parkingSpacesVM);
         }
 
+        [Authorize(Roles = "SuperAdmin,Admin")]
         [HttpGet]
         public async Task<IActionResult> ApproveParkingSpace(int parkingSpaceId)
         {
@@ -247,6 +256,7 @@ namespace ParkUp.Web.Controllers
             return RedirectToAction("ApproveParkingSpaces");
         }
 
+        [Authorize(Roles = "SuperAdmin,Admin")]
         [HttpGet]
         public async Task<IActionResult> AllUsers()
         {
@@ -254,6 +264,7 @@ namespace ParkUp.Web.Controllers
             return View("AllUsers", allUsers);
         }
 
+        [Authorize(Roles = "SuperAdmin,Admin")]
         [HttpGet]
         public async Task<IActionResult> EditUser(string userId)
         {
@@ -262,6 +273,7 @@ namespace ParkUp.Web.Controllers
             return View("EditUser", appUserVM);
         }
 
+        [Authorize(Roles = "SuperAdmin,Admin")]
         [HttpPost]
         public async Task<IActionResult> EditUser(ApplicationUserViewModel applicationUserViewModel)
         {
@@ -293,6 +305,7 @@ namespace ParkUp.Web.Controllers
             return View("EditUSer");
         }
 
+        [Authorize(Roles = "SuperAdmin,Admin")]
         [HttpGet]
         public async Task<IActionResult> ApproveCashOuts()
         {
@@ -307,6 +320,7 @@ namespace ParkUp.Web.Controllers
             return View("ApproveCashOuts", cashOutsVM);
         }
 
+        [Authorize(Roles = "SuperAdmin,Admin")]
         [HttpGet]
         public async Task<IActionResult> ApproveCashOut(int cashOutRequestId)
         {
@@ -331,6 +345,7 @@ namespace ParkUp.Web.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "SuperAdmin,Admin,Owner")]
         public async Task<IActionResult> ParkingSpaceTransactions(int parkingSpaceId)
         {
             try
@@ -351,6 +366,7 @@ namespace ParkUp.Web.Controllers
             }
         }
 
+        [Authorize(Roles = "SuperAdmin,Admin")]
         [HttpGet]
         [Route("administration/report/{userId}")]
         public async Task<IActionResult> UserReport(string userId)
@@ -412,8 +428,16 @@ namespace ParkUp.Web.Controllers
             result.MonthlyAverageSales = monthlyAverageSales;
 
             // average CashOut
-            decimal avergaCashOut = Math.Round(lifetimeCashOut / cashOutsVM.Count);
-            result.AverageCashOut = avergaCashOut;
+            decimal averageCashOut = 0;
+            if (cashOutsVM.Count == 0)
+            {
+                averageCashOut = Math.Round(lifetimeCashOut / 1);
+            }
+            else
+            {
+                averageCashOut = Math.Round(lifetimeCashOut / cashOutsVM.Count);
+            }
+            result.AverageCashOut = averageCashOut;
 
             return result;
         }

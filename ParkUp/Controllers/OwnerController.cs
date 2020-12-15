@@ -50,6 +50,8 @@ namespace ParkUp.Web.Controllers
                 try
                 {
                     ParkingSpace newParkingSpace = _mapper.Map<ParkingSpaceViewModel, ParkingSpace>(parkingSpaceViewModel);
+                    newParkingSpace.Latitude = Convert.ToDouble(newParkingSpace.GPS.Split(',')[0].Replace(" ", ""));
+                    newParkingSpace.Longitude = Convert.ToDouble(newParkingSpace.GPS.Split(',')[1].Replace(" ", ""));
                     newParkingSpace.DateAdded = DateTime.Now;
                     await _repository.AddParkingSpace(newParkingSpace);
                     return RedirectToAction("MyParkingSpaces");

@@ -21,5 +21,7 @@ namespace ParkUp.Core.Entities
         public DateTime DateAdded { get; set; }
         public bool IsRemoved { get; set; } = false;
         public string GPS { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
     }
 }

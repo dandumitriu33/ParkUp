@@ -1,33 +1,41 @@
 ﻿@model List<CreditPackPurchaseViewModel>
 
-@{ 
-    ViewData["Title"] = "Purchase history.";
+@{
+    ViewData["Title"] = "Credit Purchase History";
 }
 
-<h1>Purchase history for @Model[0].UserEmail</h1>
+<h1>Credit Purchase History</h1>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">User ID</th>
-            <th scope="col">User Email</th>
-            <th scope="col">No Of Credits</th>
-            <th scope="col">Amount Paid</th>
-            <th scope="col">Date Of Purchase</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var purchase in Model)
-        {
+@if (Model.Count > 0)
+{
+    <table class="table table-striped">
+        <thead>
             <tr>
-                <td>@purchase.Id</td>
-                <td>@purchase.UserId</td>
-                <td>@purchase.UserEmail</td>
-                <td>@purchase.Amount.ToString("0.##")</td>
-                <td>@purchase.AmountPaid.ToString("0.##") EUR</td>
-                <td>@purchase.DateOfPurchase</td>
+                <th scope="col">ID</th>
+                <th scope="col">User ID</th>
+                <th scope="col">User Email</th>
+                <th scope="col">No Of Credits</th>
+                <th scope="col">Amount Paid</th>
+                <th scope="col">Date Of Purchase</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var purchase in Model)
+            {
+                <tr>
+                    <td>@purchase.Id</td>
+                    <td>@purchase.UserId</td>
+                    <td>@purchase.UserEmail</td>
+                    <td>@purchase.Amount.ToString("0.##")</td>
+                    <td>@purchase.AmountPaid.ToString("0.##") EUR</td>
+                    <td>@purchase.DateOfPurchase</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>There are no Credit purchases for this account.</p>
+}
+

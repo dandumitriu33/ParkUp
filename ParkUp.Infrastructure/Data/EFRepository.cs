@@ -98,6 +98,31 @@ namespace ParkUp.Infrastructure.Data
                 .ToListAsync();
         }
 
+        public async Task<List<ParkingSpace>> GetAllNearbyParkingSpaces(double latitude, double longitude)
+        {
+            return await _dbContext.ParkingSpaces.Where(ps => ps.IsRemoved == false
+                                                              && ps.IsTaken == false
+                                                              && Math.Abs(ps.Latitude - latitude) < 0.01
+                                                              && Math.Abs(ps.Longitude - longitude) < 0.01)
+                                                 .OrderBy(ps => ps.HourlyPrice)
+                                                 .ToListAsync();
+            //if (String.IsNullOrEmpty(searchPhrase) == true)
+            //{
+            //    return await _dbContext.ParkingSpaces
+            //    .Where(ps => ps.AreaId == areaId && ps.IsRemoved == false)
+            //    .OrderBy(ps => ps.HourlyPrice)
+            //    .ToListAsync();
+            //}
+            //return await _dbContext.ParkingSpaces
+            //    .Where(ps => ps.AreaId == areaId
+            //            && ps.IsRemoved == false
+            //            && (ps.Name.Contains(searchPhrase)
+            //                    || ps.Description.Contains(searchPhrase)
+            //                    || ps.StreetName.Contains(searchPhrase)))
+            //    .OrderBy(ps => ps.HourlyPrice)
+            //    .ToListAsync();
+        }
+
         public async Task<List<ParkingSpace>> GetParkingSpacesByOwnerId(string ownerId)
         {
             return await _dbContext.ParkingSpaces.Where(ps => ps.OwnerId == ownerId && ps.IsRemoved == false).OrderByDescending(ps => ps.DateAdded).ToListAsync();
@@ -365,7 +390,7 @@ namespace ParkUp.Infrastructure.Data
 
         public async Task<List<CreditPackPurchase>> GetUserPurchaseHistoryById(string userId)
         {
-            return await _dbContext.CreditPackPurchases.Where(cpp => cpp.UserId == userId).OrderBy(cpp => cpp.DateOfPurchase).ToListAsync();
+            return await _dbContext.CreditPackPurchases.Where(cpp => cpp.UserId == userId).OrderByDescending(cpp => cpp.DateOfPurchase).ToListAsync();
         }
 
         public async Task<List<ParkingSpaceRental>> GetUserRentalsById(string userId)

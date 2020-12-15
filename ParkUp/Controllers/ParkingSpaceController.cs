@@ -74,6 +74,9 @@ namespace ParkUp.Web.Controllers
                     tempParkingSpace.StreetName = parkingSpaceViewModel.StreetName;
                     tempParkingSpace.Description = parkingSpaceViewModel.Description;
                     tempParkingSpace.HourlyPrice = parkingSpaceViewModel.HourlyPrice;
+                    tempParkingSpace.GPS = parkingSpaceViewModel.GPS;
+                    tempParkingSpace.Latitude = Convert.ToDouble(tempParkingSpace.GPS.Split(',')[0].Replace(" ", ""));
+                    tempParkingSpace.Longitude = Convert.ToDouble(tempParkingSpace.GPS.Split(',')[1].Replace(" ", ""));
                     await _repository.EditParkingSpace(tempParkingSpace);
                     return RedirectToAction("Index", "Home");
                 }

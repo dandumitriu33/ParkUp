@@ -1,44 +1,45 @@
 ﻿@model List<ParkingSpaceRentalViewModel>
 
-@{ 
-    ViewData["Title"] = "Parking Space Rental History";
+@{
+    ViewData["Title"] = "Rental History";
 }
 
-<h1>Parking space rental history for @Model[0].UserEmail</h1>
+<h1>Rental History</h1>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th scope="col">ID</th>
-            <th scope="col">Space ID</th>
-            <th scope="col">Space Name</th>
-            <th scope="col">Space price/h</th>
-            <th scope="col">Date Started</th>
-            <th scope="col">Date Ended</th>
-            <th scope="col">Duration (m)</th>
-            <th scope="col">Amount Paid</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var rental in Model)
-        {
+@if (Model.Count > 0)
+{
+    <table class="table table-striped">
+        <thead>
             <tr>
-                <td>@rental.Id</td>
-                <td>
-                    @rental.ParkingSpaceId 
-                    <a asp-action="ParkingSpaceTransactions" 
-                       asp-controller="Administration" 
-                       asp-route-parkingSpaceId="@rental.ParkingSpaceId">
-                        more...
-                    </a>
-                </td>
-                <td>@rental.ParkingSpaceName</td>
-                <td>@rental.HourlyPrice.ToString("0.##") Credits</td>
-                <td>@rental.DateStarted</td>
-                <td>@rental.DateEnded</td>
-                <td>@rental.DurationMinutes</td>
-                <td>@rental.AmountPaidByUser.ToString("0.##") Credits</td>
+                <th scope="col">ID</th>
+                <th scope="col">Space ID</th>
+                <th scope="col">Space Name</th>
+                <th scope="col">Space price/h</th>
+                <th scope="col">Date Started</th>
+                <th scope="col">Date Ended</th>
+                <th scope="col">Duration (m)</th>
+                <th scope="col">Amount Paid</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var rental in Model)
+            {
+                <tr>
+                    <td>@rental.Id</td>
+                    <td>@rental.ParkingSpaceId</td>
+                    <td>@rental.ParkingSpaceName</td>
+                    <td>@rental.HourlyPrice.ToString("0.##") Credits</td>
+                    <td>@rental.DateStarted</td>
+                    <td>@rental.DateEnded</td>
+                    <td>@rental.DurationMinutes</td>
+                    <td>@rental.AmountPaidByUser.ToString("0.##") Credits</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>There is no parking space rental history to display for this account.</p>
+}
+

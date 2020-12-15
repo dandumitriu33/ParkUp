@@ -20,5 +20,7 @@ namespace ParkUp.API.Models
         public DateTime DateAdded { get; set; }
         public DateTime DateStarted { get; set; }
         public string GPS { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
     }
 }
