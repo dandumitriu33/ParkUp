@@ -83,6 +83,18 @@
                            aria-invalid="true" />
                     <span asp-validation-for="HourlyPrice" class="text-danger"></span>
                 </div>
+                <div class="form-group">
+                    <label asp-for="GPS"></label>
+                    <input asp-for="GPS"
+                           value="@Model.GPS"
+                           class="form-control"
+                           data-val="true"
+                           data-val-required="The GPS coordinates are required."
+                           data-val-email="The GPS coordinates are not valid."
+                           aria-describedby="GPS-error"
+                           aria-invalid="true" />
+                    <span asp-validation-for="GPS" class="text-danger"></span>
+                </div>
                 <button id="submitParkingSpaceEdit" class="btn btn-warning">Edit Parking Space</button>
             </form>
         </div>
