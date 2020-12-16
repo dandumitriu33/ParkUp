@@ -23,17 +23,17 @@ namespace ParkUp.Core.Entities
         [MaxLength(150)]
         public string UserEmail { get; set; }
         [Column(TypeName = "money")]
-        [Range(0, double.MaxValue, ErrorMessage = "Only positive values allowded.")]
+        [Range(0, double.MaxValue, ErrorMessage = "Only positive values allowed.")]
         public decimal HourlyPrice { get; set; }
         public DateTime DateStarted { get; set; }
         public DateTime DateEnded { get; set; }
         [Range(0, int.MaxValue, ErrorMessage ="Only positive values allowed.")]
         public int DurationMinutes { get; set; }
         [Column(TypeName = "money")]
-        [Range(0, double.MaxValue, ErrorMessage = "Only positive values allowded.")]
+        [Range(0, double.MaxValue, ErrorMessage = "Only positive values allowed.")]
         public decimal AmountPaidByUser { get; set; }
         [Column(TypeName = "money")]
-        [Range(0, double.MaxValue, ErrorMessage = "Only positive values allowded.")]
+        [Range(0, double.MaxValue, ErrorMessage = "Only positive values allowed.")]
         public decimal AmountReceivedByOwner { get; set; }
     }
 }

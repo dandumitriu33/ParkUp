@@ -19,7 +19,7 @@ namespace ParkUp.Core.Entities
         [MaxLength(100)]
         public string Description { get; set; }
         [Column(TypeName = "money")]
-        [Range(0, double.MaxValue, ErrorMessage = "Only positive values allowded.")]
+        [Range(0, double.MaxValue, ErrorMessage = "Only positive values allowed.")]
         public decimal HourlyPrice { get; set; }
         public bool IsActive { get; set; } = false;
         public bool IsTaken { get; set; } = false;

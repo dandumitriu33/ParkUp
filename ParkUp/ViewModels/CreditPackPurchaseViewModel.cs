@@ -15,10 +15,10 @@ namespace ParkUp.Web.ViewModels
         [MaxLength(150)]
         public string UserEmail { get; set; }
         [Column(TypeName = "money")]
-        [Range(0, double.MaxValue, ErrorMessage = "Only positive values allowded.")]
+        [Range(0, double.MaxValue, ErrorMessage = "Only positive values allowed.")]
         public decimal Amount { get; set; }
         [Column(TypeName = "money")]
-        [Range(0, double.MaxValue, ErrorMessage = "Only positive values allowded.")]
+        [Range(0, double.MaxValue, ErrorMessage = "Only positive values allowed.")]
         public decimal AmountPaid { get; set; }
         public DateTime DateOfPurchase { get; set; }
     }

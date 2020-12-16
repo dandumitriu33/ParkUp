@@ -15,10 +15,10 @@ namespace ParkUp.Core.Entities
         [MaxLength(150)]
         public string UserEmail { get; set; }
         [Column(TypeName = "money")]
-        [Range(0, double.MaxValue, ErrorMessage = "Only positive values allowded.")]
+        [Range(0, double.MaxValue, ErrorMessage = "Only positive values allowed.")]
         public decimal UserAvailable { get; set; }
         [Column(TypeName = "money")]
-        [Range(100, double.MaxValue, ErrorMessage = "Only positive values allowded.")]
+        [Range(100, double.MaxValue, ErrorMessage = "Only positive values allowed.")]
         public decimal Amount { get; set; }
         public DateTime DateSubmitted { get; set; }
         public bool IsApproved { get; set; } = false;

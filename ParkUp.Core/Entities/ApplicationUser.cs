@@ -11,7 +11,7 @@ namespace ParkUp.Core.Entities
     {
         public DateTime DateAdded { get; set; }
         [Column(TypeName = "money")]
-        [Range(0, double.MaxValue, ErrorMessage ="Only positive values allowded.")]
+        [Range(0, double.MaxValue, ErrorMessage ="Only positive values allowed.")]
         public decimal Credits { get; set; }
         [MaxLength(100)]
         public string FirstName { get; set; }

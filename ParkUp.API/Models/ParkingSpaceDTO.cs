@@ -18,7 +18,7 @@ namespace ParkUp.API.Models
         public string StreetName { get; set; }
         [MaxLength(100)]
         public string Description { get; set; }
-        [Range(0, double.MaxValue, ErrorMessage = "Only positive values allowded.")]
+        [Range(0, double.MaxValue, ErrorMessage = "Only positive values allowed.")]
         public decimal HourlyPrice { get; set; }
         public bool IsActive { get; set; } = false;
         public bool IsTaken { get; set; } = false;
