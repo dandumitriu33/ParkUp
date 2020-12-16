@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ParkUp.API.Models;
 using ParkUp.Core.Entities;
 using ParkUp.Core.Interfaces;
@@ -42,14 +43,26 @@ namespace ParkUp.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] CityDTO cityDTO)
         {
-            if (ModelState.IsValid == false)
+            if (ModelState.IsValid)
             {
-                return BadRequest("Bad request.");
-            }
-            City newCity = _mapper.Map<CityDTO, City>(cityDTO);
-            await _repository.AddCity(newCity);
+                try
+                {
+                    City newCity = _mapper.Map<CityDTO, City>(cityDTO);
+                    await _repository.AddCity(newCity);
 
-            return Ok($"City \"{newCity.Name}\" was added successfully.");
+                    return Ok($"City \"{newCity.Name}\" was added successfully.");
+                }
+                catch (DbUpdateException dbex)
+                {
+                    // TODO: log error w/ message
+                    return BadRequest("Bad request.");
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest("Bad request.");
+                }
+            }
+            return BadRequest("Bad request.");
         }
     }
 }

@@ -302,7 +302,7 @@ namespace ParkUp.Web.Controllers
                     return View("Error");
                 }
             }
-            return View("EditUSer");
+            return View("EditUSer", applicationUserViewModel);
         }
 
         [Authorize(Roles = "SuperAdmin,Admin")]

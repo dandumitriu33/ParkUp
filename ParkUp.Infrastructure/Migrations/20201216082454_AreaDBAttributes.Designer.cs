@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ParkUp.Infrastructure.Data;
 
 namespace ParkUp.Infrastructure.Migrations
 {
     [DbContext(typeof(ParkUpContext))]
-    partial class ParkUpContextModelSnapshot : ModelSnapshot
+    [Migration("20201216082454_AreaDBAttributes")]
+    partial class AreaDBAttributes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -286,8 +288,7 @@ namespace ParkUp.Infrastructure.Migrations
                         .HasColumnType("money");
 
                     b.Property<string>("ApprovedByEmail")
-                        .HasColumnType("nvarchar(150)")
-                        .HasMaxLength(150);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ApprovedById")
                         .HasColumnType("nvarchar(max)");
@@ -302,12 +303,10 @@ namespace ParkUp.Infrastructure.Migrations
                         .HasColumnType("money");
 
                     b.Property<string>("UserEmail")
-                        .HasColumnType("nvarchar(150)")
-                        .HasMaxLength(150);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -322,8 +321,7 @@ namespace ParkUp.Infrastructure.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -369,8 +367,7 @@ namespace ParkUp.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UserEmail")
-                        .HasColumnType("nvarchar(150)")
-                        .HasMaxLength(150);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(max)");
@@ -394,12 +391,10 @@ namespace ParkUp.Infrastructure.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GPS")
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("HourlyPrice")
                         .HasColumnType("money");
@@ -423,15 +418,13 @@ namespace ParkUp.Infrastructure.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OwnerId")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("StreetName")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -464,27 +457,22 @@ namespace ParkUp.Infrastructure.Migrations
                         .HasColumnType("money");
 
                     b.Property<string>("OwnerEmail")
-                        .HasColumnType("nvarchar(150)")
-                        .HasMaxLength(150);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OwnerId")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ParkingSpaceId")
                         .HasColumnType("int");
 
                     b.Property<string>("ParkingSpaceName")
-                        .HasColumnType("nvarchar(100)")
-                        .HasMaxLength(100);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserEmail")
-                        .HasColumnType("nvarchar(150)")
-                        .HasMaxLength(150);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -505,8 +493,7 @@ namespace ParkUp.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(50)")
-                        .HasMaxLength(50);
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

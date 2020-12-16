@@ -11,6 +11,7 @@ namespace ParkUp.Web.ViewModels
         [Required]
         [Display(Name = "Email (username)")]
         [EmailAddress]
+        [MaxLength(150)]
         public string Email { get; set; }
 
         [Required]

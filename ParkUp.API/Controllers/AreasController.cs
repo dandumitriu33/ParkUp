@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ParkUp.API.Models;
 using ParkUp.Core.Entities;
 using ParkUp.Core.Interfaces;
@@ -44,19 +45,31 @@ namespace ParkUp.API.Controllers
         [Route("{cityId?}")]
         public async Task<IActionResult> AddNewArea([FromBody] AreaDTO areaDTO)
         {
-            if (ModelState.IsValid == false)
+            if (ModelState.IsValid)
             {
-                return BadRequest("Bad request.");
+                try
+                {
+                    Area newArea = _mapper.Map<AreaDTO, Area>(areaDTO);
+                    await _repository.AddArea(newArea);
+                    CityArea newCityArea = new CityArea
+                    {
+                        CityId = newArea.CityId,
+                        AreaId = newArea.Id
+                    };
+                    await _repository.AddCityArea(newCityArea);
+                    return Ok($"Area \"{newArea.Name}\" was added successfully.");
+                }
+                catch (DbUpdateException dbex)
+                {
+                    // TODO: log error w/ message
+                    return BadRequest("Bad request.");
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest("Bad request.");
+                }
             }
-            Area newArea = _mapper.Map<AreaDTO, Area>(areaDTO);
-            await _repository.AddArea(newArea);
-            CityArea newCityArea = new CityArea
-            {
-                CityId = newArea.CityId,
-                AreaId = newArea.Id
-            };
-            await _repository.AddCityArea(newCityArea);
-            return Ok($"City \"{newArea.Name}\" was added successfully."); ;
+            return BadRequest("Bad request.");
         }
     }
 }
