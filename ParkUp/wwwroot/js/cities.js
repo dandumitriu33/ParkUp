@@ -56,7 +56,7 @@ async function addNewCity() {
 }
 
 async function validateNewCityName(cityName) {
-    cityName.trim();
+    cityName = cityName.trim();
     if (cityName.length > 0 && cityName.length < 100) {
         return true;
     } else {

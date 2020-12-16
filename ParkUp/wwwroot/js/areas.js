@@ -108,7 +108,7 @@ async function addNewArea() {
 }
 
 async function validateAreaName(areaName) {
-    areaName.trim();
+    areaName = areaName.trim();
     if (areaName.length > 0 && areaName.length < 100) {
         return true;
     } else {
