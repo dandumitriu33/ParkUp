@@ -51,6 +51,7 @@ async function populateCityAreas() {
                                             <div class="form-group">
                                                 <label for="areaName"></label>
                                                 <input type="text" id="areaName" class="form-control" />
+                                                <span id="addAreaValidationErrorMessage" class="text-danger"></span>
                                             </div>
                                             <button id="submitNewArea" class="btn btn-primary">Add Area</button>
                                         </form>
@@ -64,38 +65,53 @@ async function populateCityAreas() {
 
 async function addNewArea() {
     event.preventDefault();
+    $("#addAreaValidationErrorMessage").empty();
     let cityId = parseInt($("#CitiesSelect").val());
     let newAreaName = $("#areaName").val();
-    console.log("Adding new area...");
-    let URL = `https://localhost:44315/api/areas/${cityId}`;
-    var obj = JSON.stringify({ Id: 0, Name: newAreaName, CityId: cityId });
-    await $.ajax({
-        type: "POST",
-        url: URL,
-        data: obj,
-        contentType: "application/json; charset=utf-8",
-        crossDomain: true,
-        success: function () {
-            console.log("Area added successfully.");
-        },
-        error: function (jqXHR, status) {
-            console.log(jqXHR);
-            console.log('fail' + status.code);
-        }
-    });
-    console.log("Area Added...");
-    console.log("Repopulating areas...");
-    let GETURL = `https://localhost:44315/api/areas/${cityId}`;
-    await $.getJSON(GETURL, function (data) {
-        $("#CityAreas").empty();
-        for (var i = 0; i < data.length; i++) {
-            let area = data[i];
-            let element = `
+    if (await validateAreaName(newAreaName) == false) {
+        $("#addAreaValidationErrorMessage").text("The area name is required and must be less than 100 characters long.");
+    } else {
+        console.log("Adding new area...");
+        let URL = `https://localhost:44315/api/areas/${cityId}`;
+        var obj = JSON.stringify({ Id: 0, Name: newAreaName, CityId: cityId });
+        await $.ajax({
+            type: "POST",
+            url: URL,
+            data: obj,
+            contentType: "application/json; charset=utf-8",
+            crossDomain: true,
+            success: function () {
+                console.log("Area added successfully.");
+            },
+            error: function (jqXHR, status) {
+                console.log(jqXHR);
+                console.log('fail' + status.code);
+                $("#addAreaValidationErrorMessage").text("Name length or connection error.");
+            }
+        });
+        console.log("Area Added...");
+        console.log("Repopulating areas...");
+        let GETURL = `https://localhost:44315/api/areas/${cityId}`;
+        await $.getJSON(GETURL, function (data) {
+            $("#CityAreas").empty();
+            for (var i = 0; i < data.length; i++) {
+                let area = data[i];
+                let element = `
                             <span>
                                 ${area.Name} (${area.Id}) 
                             </span>
                           `;
-            $("#CityAreas").append(element);
-        }
-    })
+                $("#CityAreas").append(element);
+            }
+        })
+    }
+}
+
+async function validateAreaName(areaName) {
+    areaName.trim();
+    if (areaName.length > 0 && areaName.length < 100) {
+        return true;
+    } else {
+        return false;
+    }
 }
