@@ -10,6 +10,7 @@ namespace ParkUp.Web.ViewModels
     public class ParkingSpaceViewModel
     {
         public int Id { get; set; }
+        [Required(ErrorMessage ="The area is required.")]
         public int AreaId { get; set; }
         public bool IsApproved { get; set; }
         public string OwnerId { get; set; }
