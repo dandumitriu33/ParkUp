@@ -91,7 +91,7 @@ namespace ParkUp.Web.Controllers
                     return View("Error");
                 }
             }
-            return View("EditParkingSpace");
+            return View("EditParkingSpace", parkingSpaceViewModel);
         }
 
         [HttpGet]

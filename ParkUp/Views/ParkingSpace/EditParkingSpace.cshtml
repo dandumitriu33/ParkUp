@@ -1,12 +1,12 @@
 ﻿@model ParkingSpaceViewModel
 
-@{ 
+@{
     ViewData["Title"] = "Edit Parking Space";
 }
 
 <h1>Edit Parking Space</h1>
 
-<div class="text-center">
+<div class="container">
     <div class="row">
         <div class="col-md-12">
             <form method="post" asp-action="EditParkingSpace" asp-controller="ParkingSpace">
@@ -42,7 +42,6 @@
                            class="form-control"
                            data-val="true"
                            data-val-required="The name is required."
-                           data-val-email="The name is not valid."
                            aria-describedby="name-error"
                            aria-invalid="true" />
                     <span asp-validation-for="Name" class="text-danger"></span>
@@ -54,7 +53,6 @@
                            class="form-control"
                            data-val="true"
                            data-val-required="The street name is required."
-                           data-val-email="The street name is not valid."
                            aria-describedby="street-name-error"
                            aria-invalid="true" />
                     <span asp-validation-for="StreetName" class="text-danger"></span>
@@ -66,7 +64,6 @@
                            class="form-control"
                            data-val="true"
                            data-val-required="The description is required."
-                           data-val-email="The description is not valid."
                            aria-describedby="description-error"
                            aria-invalid="true" />
                     <span asp-validation-for="Description" class="text-danger"></span>
@@ -75,10 +72,10 @@
                     <label asp-for="HourlyPrice"></label>
                     <input asp-for="HourlyPrice"
                            value="@Model.HourlyPrice.ToString("0.##")"
+                           type="number"
                            class="form-control"
                            data-val="true"
                            data-val-required="The hourly price is required."
-                           data-val-email="The hourly price is not valid."
                            aria-describedby="hourly-price-error"
                            aria-invalid="true" />
                     <span asp-validation-for="HourlyPrice" class="text-danger"></span>
@@ -90,7 +87,6 @@
                            class="form-control"
                            data-val="true"
                            data-val-required="The GPS coordinates are required."
-                           data-val-email="The GPS coordinates are not valid."
                            aria-describedby="GPS-error"
                            aria-invalid="true" />
                     <span asp-validation-for="GPS" class="text-danger"></span>
@@ -100,3 +96,7 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

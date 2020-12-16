@@ -14,18 +14,25 @@ namespace ParkUp.Web.ViewModels
         public int AreaId { get; set; }
         public bool IsApproved { get; set; }
         public string OwnerId { get; set; }
-        [MaxLength(100)]
+        [Required]
+        [MaxLength(100, ErrorMessage ="The Parking Space Name must be between 1 and 100 characters long.")]
         public string Name { get; set; }
+        [Required]
         [MaxLength(100)]
+        [Display(Name = "Street Name")]
         public string StreetName { get; set; }
+        [Required]
         [MaxLength(100)]
         public string Description { get; set; }
+        [Required]
         [Column(TypeName = "money")]
+        [Display(Name = "Hourly Price")]
         [Range(0, double.MaxValue, ErrorMessage = "Only positive values allowed.")]
         public decimal HourlyPrice { get; set; }
         public bool IsActive { get; set; } = false;
         public bool IsTaken { get; set; } = false;
         public DateTime DateAdded { get; set; }
+        [Required]
         [MaxLength(30)]
         public string GPS { get; set; }
         public double Latitude { get; set; }
