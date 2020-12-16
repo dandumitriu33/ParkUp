@@ -4,9 +4,9 @@
     ViewData["Title"] = "Edit User";
 }
 
-<h1>Edit user @Model.Email</h1>
+<h1>Edit user</h1>
 
-<div class="text-center">
+<div class="container">
     <div class="row">
         <div class="col-md-12">
             <form method="post" asp-action="EditUser" asp-controller="Administration">
@@ -33,7 +33,6 @@
                            class="form-control"
                            data-val="true"
                            data-val-required="The first name is required."
-                           data-val-email="The first name is not valid."
                            aria-describedby="first-name-error"
                            aria-invalid="true" />
                     <span asp-validation-for="FirstName" class="text-danger"></span>
@@ -45,7 +44,6 @@
                            class="form-control"
                            data-val="true"
                            data-val-required="The last name is required."
-                           data-val-email="The last name is not valid."
                            aria-describedby="last-name-error"
                            aria-invalid="true" />
                     <span asp-validation-for="LastName" class="text-danger"></span>
@@ -54,10 +52,10 @@
                     <label asp-for="PartnerPercentage"></label>
                     <input asp-for="PartnerPercentage"
                            value="@Model.PartnerPercentage"
+                           type="number"
                            class="form-control"
                            data-val="true"
-                           data-val-required="The partner percentage is required."
-                           data-val-email="The partner percentage is not valid."
+                           data-val-required="The partner percentage is missing or not valid."
                            aria-describedby="partner-percentage-error"
                            aria-invalid="true" />
                     <span asp-validation-for="PartnerPercentage" class="text-danger"></span>
@@ -67,3 +65,7 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
