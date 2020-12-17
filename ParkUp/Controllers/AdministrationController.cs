@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ParkUp.Core.Entities;
 using ParkUp.Core.Interfaces;
+using ParkUp.Models;
 using ParkUp.Web.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -268,9 +269,21 @@ namespace ParkUp.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> EditUser(string userId)
         {
-            ApplicationUser userFromDb = await _repository.GetUserById(userId);
-            ApplicationUserViewModel appUserVM = _mapper.Map<ApplicationUser, ApplicationUserViewModel>(userFromDb);
-            return View("EditUser", appUserVM);
+            try
+            {
+                ApplicationUser userFromDb = await _repository.GetUserById(userId);
+                if (userFromDb == null) 
+                {
+                    throw new Exception("Not found.");
+                }
+                ApplicationUserViewModel appUserVM = _mapper.Map<ApplicationUser, ApplicationUserViewModel>(userFromDb);
+                return View("EditUser", appUserVM);
+            }
+            catch (Exception ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
         }
 
         [Authorize(Roles = "SuperAdmin,Admin")]
@@ -291,15 +304,15 @@ namespace ParkUp.Web.Controllers
                     await _repository.EditUser(userPartialData);
                     return RedirectToAction("AllUsers");
                 }
-                catch (DbUpdateException dbex)
+                catch (DbUpdateException ex)
                 {
-                    ViewData["ErrorMessage"] = "DB issue - " + dbex.Message;
-                    return View("Error");
+                    ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                    return View("Error", newError);
                 }
                 catch (Exception ex)
                 {
-                    ViewData["ErrorMessage"] = ex.Message;
-                    return View("Error");
+                    ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                    return View("Error", newError);
                 }
             }
             return View("EditUSer", applicationUserViewModel);
