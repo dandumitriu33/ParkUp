@@ -276,8 +276,21 @@ namespace ParkUp.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> AllUsers()
         {
-            List<ApplicationUser> allUsers = await _repository.GetAllUsers();
-            return View("AllUsers", allUsers);
+            try
+            {
+                List<ApplicationUser> allUsers = await _repository.GetAllUsers();
+                return View("AllUsers", allUsers);
+            }
+            catch (DbUpdateException ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
+            catch (Exception ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
         }
 
         [Authorize(Roles = "SuperAdmin,Admin")]
@@ -342,15 +355,27 @@ namespace ParkUp.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> ApproveCashOuts()
         {
-            // get list of unapproved cash out requests
-            List<CashOut> cashOutRequestsFromDb = await _repository.GetUnapprovedCashOuts();
-            foreach (var cashOutRequest in cashOutRequestsFromDb)
+            try
             {
-                var user = await _repository.GetUserById(cashOutRequest.UserId);
-                cashOutRequest.UserAvailable = user.Credits;
+                List<CashOut> cashOutRequestsFromDb = await _repository.GetUnapprovedCashOuts();
+                foreach (var cashOutRequest in cashOutRequestsFromDb)
+                {
+                    var user = await _repository.GetUserById(cashOutRequest.UserId);
+                    cashOutRequest.UserAvailable = user.Credits;
+                }
+                List<CashOutViewModel> cashOutsVM = _mapper.Map<List<CashOut>, List<CashOutViewModel>>(cashOutRequestsFromDb);
+                return View("ApproveCashOuts", cashOutsVM);
             }
-            List<CashOutViewModel> cashOutsVM = _mapper.Map<List<CashOut>, List<CashOutViewModel>>(cashOutRequestsFromDb);
-            return View("ApproveCashOuts", cashOutsVM);
+            catch (DbUpdateException ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
+            catch (Exception ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
         }
 
         [Authorize(Roles = "SuperAdmin,Admin")]
@@ -360,20 +385,24 @@ namespace ParkUp.Web.Controllers
             try
             {
                 ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
+                if (applicationUser == null)
+                {
+                    throw new Exception("404 Not found.");
+                }
                 string adminEmail = applicationUser.Email;
                 string adminId = applicationUser.Id;
                 await _repository.ApproveCashOut(cashOutRequestId, adminId, adminEmail);
                 return RedirectToAction("ApproveCashOuts");
             }
-            catch (DbUpdateException dbex)
+            catch (DbUpdateException ex)
             {
-                ViewData["ErrorMessage"] = "DB issue - " + dbex.Message;
-                return View("Error");
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
             }
             catch (Exception ex)
             {
-                ViewData["ErrorMessage"] = ex.Message;
-                return View("Error");
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
             }
         }
 
