@@ -131,6 +131,127 @@ namespace Tests.Controller
             var viewResult = Assert.IsType<ViewResult>(result);
         }
 
+        [Fact]
+        public async Task LoginPost_ReturnRedirectToActionHomeIndex()
+        {
+            // Arrange
+            LoginViewModel newLogInVM = new LoginViewModel();
+
+            // mocking UserManager
+            var mockUserManager = MockHelpers.MockUserManager<ApplicationUser>();
+
+            // mocking SignInManager
+            var contextAccessor = new Mock<IHttpContextAccessor>();
+            var userPrincipalFactory = new Mock<IUserClaimsPrincipalFactory<ApplicationUser>>();
+            var mockSignInManager = new Mock<SignInManager<ApplicationUser>>(mockUserManager.Object,
+                contextAccessor.Object, userPrincipalFactory.Object, null, null, null, null);
+            mockSignInManager.Setup(sim => sim.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), false))
+                             .ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Success)
+                             .Verifiable();
+
+            var controller = new AccountController(mockUserManager.Object, mockSignInManager.Object, repository, mapper);
+
+            // Act
+            var result = await controller.Login(newLogInVM);
+
+            // Assert
+            var requestResult = Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("Index", requestResult.ActionName);
+            Assert.Equal("Home", requestResult.ControllerName);
+            mockSignInManager.Verify(x => x.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), false), Times.Once);
+        }
+
+        [Fact]
+        public async Task LoginPost_ReturnLogInViewOnSignInFail()
+        {
+            // Arrange
+            LoginViewModel newLogInVM = new LoginViewModel();
+
+            // mocking UserManager
+            var mockUserManager = MockHelpers.MockUserManager<ApplicationUser>();
+
+            // mocking SignInManager
+            var contextAccessor = new Mock<IHttpContextAccessor>();
+            var userPrincipalFactory = new Mock<IUserClaimsPrincipalFactory<ApplicationUser>>();
+            var mockSignInManager = new Mock<SignInManager<ApplicationUser>>(mockUserManager.Object,
+                contextAccessor.Object, userPrincipalFactory.Object, null, null, null, null);
+            mockSignInManager.Setup(sim => sim.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), false))
+                             .ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Failed)
+                             .Verifiable();
+
+            var controller = new AccountController(mockUserManager.Object, mockSignInManager.Object, repository, mapper);
+
+            // Act
+            var result = await controller.Login(newLogInVM);
+
+            // Assert
+            var requestResult = Assert.IsType<ViewResult>(result);
+            Assert.Equal("Login", requestResult.ViewName);
+            mockSignInManager.Verify(x => x.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), false), Times.Once);
+        }
+
+        [Fact]
+        public async Task LoginPost_ReturnLoginViewOnModelIsInvalid()
+        {
+            // Arrange
+            LoginViewModel newLogInVM = new LoginViewModel();
+
+            // mocking UserManager
+            var mockUserManager = MockHelpers.MockUserManager<ApplicationUser>();
+
+            // mocking SignInManager
+            var contextAccessor = new Mock<IHttpContextAccessor>();
+            var userPrincipalFactory = new Mock<IUserClaimsPrincipalFactory<ApplicationUser>>();
+            var mockSignInManager = new Mock<SignInManager<ApplicationUser>>(mockUserManager.Object,
+                contextAccessor.Object, userPrincipalFactory.Object, null, null, null, null);
+            mockSignInManager.Setup(sim => sim.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), false))
+                             .ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Success)
+                             .Verifiable();
+
+            var controller = new AccountController(mockUserManager.Object, mockSignInManager.Object, repository, mapper);
+            controller.ModelState.AddModelError("Email", "Required");
+
+            // Act
+            var result = await controller.Login(newLogInVM);
+
+            // Assert
+            var requestResult = Assert.IsType<ViewResult>(result);
+            Assert.Equal("Login", requestResult.ViewName);
+            mockSignInManager.Verify(x => x.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), false), Times.Never);
+        }
+
+        [Fact]
+        public async Task LoginPost_ReturnErrorViewOnSignInThrowError()
+        {
+            // Arrange
+            LoginViewModel newLogInVM = new LoginViewModel();
+
+            // mocking UserManager
+            var mockUserManager = MockHelpers.MockUserManager<ApplicationUser>();
+
+            // mocking SignInManager
+            var contextAccessor = new Mock<IHttpContextAccessor>();
+            var userPrincipalFactory = new Mock<IUserClaimsPrincipalFactory<ApplicationUser>>();
+            var mockSignInManager = new Mock<SignInManager<ApplicationUser>>(mockUserManager.Object,
+                contextAccessor.Object, userPrincipalFactory.Object, null, null, null, null);
+            mockSignInManager.Setup(sim => sim.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), false))
+                             .Throws(new Exception())
+                             .Verifiable();
+
+            var controller = new AccountController(mockUserManager.Object, mockSignInManager.Object, repository, mapper);
+
+            // Act
+            var result = await controller.Login(newLogInVM);
+
+            // Assert
+            var requestResult = Assert.IsType<ViewResult>(result);
+            Assert.Equal("Error", requestResult.ViewName);
+            mockSignInManager.Verify(x => x.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), false), Times.Once);
+        }
+
+
+
+
 
     }
 }
