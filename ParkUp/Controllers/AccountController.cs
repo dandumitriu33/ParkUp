@@ -175,21 +175,56 @@ namespace ParkUp.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> PurchaseHistory()
         {
-            ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
-            string userId = applicationUser.Id;
-            List<CreditPackPurchase> historyFromDb = await _repository.GetUserPurchaseHistoryById(userId);
-            List<CreditPackPurchaseViewModel> userPurchaseHistory = _mapper.Map<List<CreditPackPurchase>, List<CreditPackPurchaseViewModel>>(historyFromDb);
-            return View("PurchaseHistory", userPurchaseHistory);
+            try
+            {
+                ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
+                if (applicationUser == null)
+                {
+                    throw new Exception("404 Not found.");
+                }
+                string userId = applicationUser.Id;
+                List<CreditPackPurchase> historyFromDb = await _repository.GetUserPurchaseHistoryById(userId);
+                List<CreditPackPurchaseViewModel> userPurchaseHistory = _mapper.Map<List<CreditPackPurchase>, List<CreditPackPurchaseViewModel>>(historyFromDb);
+                return View("PurchaseHistory", userPurchaseHistory);
+            }
+            catch (DbUpdateException ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
+            catch (Exception ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
+            
         }
 
         [HttpGet]
         public async Task<IActionResult> RentalHistory()
         {
-            ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
-            string userId = applicationUser.Id;
-            List<ParkingSpaceRental> rentalsFromDb = await _repository.GetUserRentalsById(userId);
-            List<ParkingSpaceRentalViewModel> rentalsViewModel = _mapper.Map<List<ParkingSpaceRental>, List<ParkingSpaceRentalViewModel>>(rentalsFromDb);
-            return View("RentalHistory", rentalsViewModel);
+            try
+            {
+                ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
+                if (applicationUser == null)
+                {
+                    throw new Exception("404 Not found.");
+                }
+                string userId = applicationUser.Id;
+                List<ParkingSpaceRental> rentalsFromDb = await _repository.GetUserRentalsById(userId);
+                List<ParkingSpaceRentalViewModel> rentalsViewModel = _mapper.Map<List<ParkingSpaceRental>, List<ParkingSpaceRentalViewModel>>(rentalsFromDb);
+                return View("RentalHistory", rentalsViewModel);
+            }
+            catch (DbUpdateException ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
+            catch (Exception ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
         }
     }
 }
