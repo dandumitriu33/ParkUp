@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ParkUp.Core.Entities;
 using ParkUp.Core.Interfaces;
+using ParkUp.Models;
 using ParkUp.Web.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace ParkUp.Web.Controllers
@@ -24,9 +24,22 @@ namespace ParkUp.Web.Controllers
         }
         public async Task<IActionResult> AllAreas()
         {
-            List<Area> areasFromDb = await _repository.GetAllAreas();
-            List<AreaViewModel> allAreasVM = _mapper.Map<List<Area>, List<AreaViewModel>>(areasFromDb);
-            return View("AllAreas", allAreasVM);
+            try
+            {
+                List<Area> areasFromDb = await _repository.GetAllAreas();
+                List<AreaViewModel> allAreasVM = _mapper.Map<List<Area>, List<AreaViewModel>>(areasFromDb);
+                return View("AllAreas", allAreasVM);
+            }
+            catch (DbUpdateException ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
+            catch (Exception ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
         }
     }
 }
