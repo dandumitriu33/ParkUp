@@ -104,15 +104,15 @@ namespace ParkUp.Web.Controllers
                 };
                 return View("AllRoles", rolesAndMembers);
             }
-            catch (DbUpdateException dbex)
+            catch (DbUpdateException ex)
             {
-                ViewData["ErrorMessage"] = "DB issue - " + dbex.Message;
-                return View("Error");
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
             }
             catch (Exception ex)
             {
-                ViewData["ErrorMessage"] = ex.Message;
-                return View("Error");
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
             }
         }
 
@@ -125,9 +125,7 @@ namespace ParkUp.Web.Controllers
                 var role = await _roleManager.FindByIdAsync(roleId);
                 if (role == null)
                 {
-                    Response.StatusCode = 404;
-                    ViewData["ErrorMessage"] = "404 Resource not found.";
-                    return View("Error");
+                    throw new Exception("404 Not found.");
                 }
 
                 ViewData["roleId"] = roleId;
@@ -138,15 +136,15 @@ namespace ParkUp.Web.Controllers
 
                 return View("EditUsersInRole", allUsersViewModel);
             }
-            catch (DbUpdateException dbex)
+            catch (DbUpdateException ex)
             {
-                ViewData["ErrorMessage"] = "DB issue - " + dbex.Message;
-                return View("Error");
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
             }
             catch (Exception ex)
             {
-                ViewData["ErrorMessage"] = ex.Message;
-                return View("Error");
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
             }
         }
 
@@ -161,16 +159,12 @@ namespace ParkUp.Web.Controllers
                     var user = await _userManager.FindByIdAsync(userRoleViewModel.UserId);
                     if (user == null)
                     {
-                        Response.StatusCode = 404;
-                        ViewData["ErrorMessage"] = "404 Resource not found.";
-                        return View("Error");
+                        throw new Exception("404 Not found.");
                     }
                     var role = await _roleManager.FindByIdAsync(userRoleViewModel.RoleId);
                     if (role == null)
                     {
-                        Response.StatusCode = 404;
-                        ViewData["ErrorMessage"] = "404 Resource not found.";
-                        return View("Error");
+                        throw new Exception("404 Not found.");
                     }
                     if ((await _userManager.IsInRoleAsync(user, role.Name)) == false)
                     {
@@ -182,15 +176,15 @@ namespace ParkUp.Web.Controllers
                     }
                     return View("EditUsersInRole", new { roleId = userRoleViewModel.RoleId });
                 }
-                catch (DbUpdateException dbex)
+                catch (DbUpdateException ex)
                 {
-                    ViewData["ErrorMessage"] = "DB issue - " + dbex.Message;
-                    return View("Error");
+                    ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                    return View("Error", newError);
                 }
                 catch (Exception ex)
                 {
-                    ViewData["ErrorMessage"] = ex.Message;
-                    return View("Error");
+                    ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                    return View("Error", newError);
                 }
             }
             return RedirectToAction("AllRoles", "Administration");
