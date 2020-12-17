@@ -64,15 +64,15 @@ namespace ParkUp.Web.Controllers
                         ModelState.AddModelError("", error.Description);
                     }
                 }
-                catch (DbUpdateException dbex)
+                catch (DbUpdateException ex)
                 {
-                    ViewData["ErrorMessage"] = "DB issue - " + dbex.Message;
-                    return View("Error");
+                    ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                    return View("Error", newError);
                 }
                 catch (Exception ex)
                 {
-                    ViewData["ErrorMessage"] = ex.Message;
-                    return View("Error");
+                    ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                    return View("Error", newError);
                 }
             }
             return View("CreateRole", roleViewModel);
