@@ -12,8 +12,16 @@ namespace ParkUp.Web.Controllers
         [Route("Error/{statusCode}")]
         public IActionResult HttpStatusCodeHandler(int statusCode)
         {
-            ViewBag.ErrorCode = $"{statusCode}";
-            return View("NotFound");
+            try
+            {
+                ViewBag.ErrorCode = $"{statusCode}";
+                return View("NotFound");
+            }
+            catch (Exception ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
         }
     }
 }
