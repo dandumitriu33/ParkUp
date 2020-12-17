@@ -200,16 +200,12 @@ namespace ParkUp.Web.Controllers
                 var user = await _userManager.FindByEmailAsync(userEmail);
                 if (user == null)
                 {
-                    Response.StatusCode = 404;
-                    ViewData["ErrorMessage"] = "404 Resource not found.";
-                    return View("Error");
+                    throw new Exception("404 Not found.");
                 }
                 var role = await _roleManager.FindByIdAsync(roleId);
                 if (role == null)
                 {
-                    Response.StatusCode = 404;
-                    ViewData["ErrorMessage"] = "404 Resource not found.";
-                    return View("Error");
+                    throw new Exception("404 Not found.");
                 }
                 if ((await _userManager.IsInRoleAsync(user, role.Name)) == true)
                 {
@@ -221,15 +217,15 @@ namespace ParkUp.Web.Controllers
                 }
                 return View("EditUsersInRole", new { roleId = roleId });
             }
-            catch (DbUpdateException dbex)
+            catch (DbUpdateException ex)
             {
-                ViewData["ErrorMessage"] = "DB issue - " + dbex.Message;
-                return View("Error");
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
             }
             catch (Exception ex)
             {
-                ViewData["ErrorMessage"] = ex.Message;
-                return View("Error");
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
             }
         }
 
@@ -237,18 +233,43 @@ namespace ParkUp.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> ApproveParkingSpaces()
         {
-            // get list of unapproved parking spaces
-            List<ParkingSpace> parkingSpacesFromDb = await _repository.GetUnapprovedParkingSpaces();
-            List<ParkingSpaceViewModel> parkingSpacesVM = _mapper.Map<List<ParkingSpace>, List<ParkingSpaceViewModel>> (parkingSpacesFromDb);
-            return View("ApproveParkingSpaces", parkingSpacesVM);
+            try
+            {
+                List<ParkingSpace> parkingSpacesFromDb = await _repository.GetUnapprovedParkingSpaces();
+                List<ParkingSpaceViewModel> parkingSpacesVM = _mapper.Map<List<ParkingSpace>, List<ParkingSpaceViewModel>>(parkingSpacesFromDb);
+                return View("ApproveParkingSpaces", parkingSpacesVM);
+            }
+            catch (DbUpdateException ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
+            catch (Exception ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
         }
 
         [Authorize(Roles = "SuperAdmin,Admin")]
         [HttpGet]
         public async Task<IActionResult> ApproveParkingSpace(int parkingSpaceId)
         {
-            await _repository.ApproveParkingSpace(parkingSpaceId);
-            return RedirectToAction("ApproveParkingSpaces");
+            try
+            {
+                await _repository.ApproveParkingSpace(parkingSpaceId);
+                return RedirectToAction("ApproveParkingSpaces");
+            }
+            catch (DbUpdateException ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
+            catch (Exception ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
         }
 
         [Authorize(Roles = "SuperAdmin,Admin")]
