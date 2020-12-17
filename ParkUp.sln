@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30711.63
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParkUp.Web", "ParkUp\ParkUp.Web.csproj", "{FF8C55E0-72AA-4019-8E69-4F6EB0CA1B2D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParkUp.Web", "ParkUp\ParkUp.Web.csproj", "{FF8C55E0-72AA-4019-8E69-4F6EB0CA1B2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParkUp.API", "ParkUp.API\ParkUp.API.csproj", "{F4469A3C-D772-43CD-8B84-C7BEB4A06086}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParkUp.API", "ParkUp.API\ParkUp.API.csproj", "{F4469A3C-D772-43CD-8B84-C7BEB4A06086}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParkUp.Infrastructure", "ParkUp.Infrastructure\ParkUp.Infrastructure.csproj", "{A86CC8D2-7445-45B4-80EC-D3601492D792}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParkUp.Infrastructure", "ParkUp.Infrastructure\ParkUp.Infrastructure.csproj", "{A86CC8D2-7445-45B4-80EC-D3601492D792}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParkUp.Core", "ParkUp.Core\ParkUp.Core.csproj", "{0E554A17-1DCD-461B-83A8-C473AFECEFFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParkUp.Core", "ParkUp.Core\ParkUp.Core.csproj", "{0E554A17-1DCD-461B-83A8-C473AFECEFFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{17C97BB7-85D7-4515-B588-53E67B008843}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{0E554A17-1DCD-461B-83A8-C473AFECEFFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0E554A17-1DCD-461B-83A8-C473AFECEFFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0E554A17-1DCD-461B-83A8-C473AFECEFFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17C97BB7-85D7-4515-B588-53E67B008843}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{17C97BB7-85D7-4515-B588-53E67B008843}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17C97BB7-85D7-4515-B588-53E67B008843}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{17C97BB7-85D7-4515-B588-53E67B008843}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
