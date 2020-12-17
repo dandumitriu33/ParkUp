@@ -416,15 +416,15 @@ namespace ParkUp.Web.Controllers
                 List<ParkingSpaceRentalViewModel> allTransactionsVM = _mapper.Map<List<ParkingSpaceRental>, List<ParkingSpaceRentalViewModel>>(transactionsFromDb);
                 return View("ParkingSpaceTransactions", allTransactionsVM);
             }
-            catch (DbUpdateException dbex)
+            catch (DbUpdateException ex)
             {
-                ViewData["ErrorMessage"] = "DB issue - " + dbex.Message;
-                return View("Error");
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
             }
             catch (Exception ex)
             {
-                ViewData["ErrorMessage"] = ex.Message;
-                return View("Error");
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
             }
         }
 
@@ -433,12 +433,29 @@ namespace ParkUp.Web.Controllers
         [Route("administration/report/{userId}")]
         public async Task<IActionResult> UserReport(string userId)
         {
-            ApplicationUser userFromDb = await _repository.GetUserById(userId);
-            List<ParkingSpace> userParkingSpaces = await _repository.GetParkingSpacesByOwnerId(userId);
-            List<ParkingSpaceRental> userRentalsAsOwner = await _repository.GetOwnerRentalsById(userId);
-            List<CashOut> userCashOuts = await _repository.GetApprovedCashOutsForUserId(userId);
-            UserReportViewModel report = assembleUserReport(userFromDb, userParkingSpaces, userRentalsAsOwner, userCashOuts);
-            return View("UserReport", report);
+            try
+            {
+                ApplicationUser userFromDb = await _repository.GetUserById(userId);
+                if (userFromDb == null)
+                {
+                    throw new Exception("404 Not found.");
+                }
+                List<ParkingSpace> userParkingSpaces = await _repository.GetParkingSpacesByOwnerId(userId);
+                List<ParkingSpaceRental> userRentalsAsOwner = await _repository.GetOwnerRentalsById(userId);
+                List<CashOut> userCashOuts = await _repository.GetApprovedCashOutsForUserId(userId);
+                UserReportViewModel report = assembleUserReport(userFromDb, userParkingSpaces, userRentalsAsOwner, userCashOuts);
+                return View("UserReport", report);
+            }
+            catch (DbUpdateException ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
+            catch (Exception ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
         }
 
         private UserReportViewModel assembleUserReport(ApplicationUser userFromDb, 
