@@ -49,7 +49,6 @@ namespace ParkUp.API.Controllers
                 {
                     City newCity = _mapper.Map<CityDTO, City>(cityDTO);
                     await _repository.AddCity(newCity);
-
                     return Ok($"City \"{newCity.Name}\" was added successfully.");
                 }
                 catch (DbUpdateException dbex)
