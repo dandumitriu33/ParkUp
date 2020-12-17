@@ -274,10 +274,15 @@ namespace ParkUp.Web.Controllers
                 ApplicationUser userFromDb = await _repository.GetUserById(userId);
                 if (userFromDb == null) 
                 {
-                    throw new Exception("Not found.");
+                    throw new Exception("404 Not found.");
                 }
                 ApplicationUserViewModel appUserVM = _mapper.Map<ApplicationUser, ApplicationUserViewModel>(userFromDb);
                 return View("EditUser", appUserVM);
+            }
+            catch (DbUpdateException ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
             }
             catch (Exception ex)
             {
