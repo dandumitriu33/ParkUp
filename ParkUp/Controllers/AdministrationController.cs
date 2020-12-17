@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ParkUp.Core.Entities;
 using ParkUp.Core.Interfaces;
+using ParkUp.Models;
 using ParkUp.Web.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -63,15 +64,15 @@ namespace ParkUp.Web.Controllers
                         ModelState.AddModelError("", error.Description);
                     }
                 }
-                catch (DbUpdateException dbex)
+                catch (DbUpdateException ex)
                 {
-                    ViewData["ErrorMessage"] = "DB issue - " + dbex.Message;
-                    return View("Error");
+                    ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                    return View("Error", newError);
                 }
                 catch (Exception ex)
                 {
-                    ViewData["ErrorMessage"] = ex.Message;
-                    return View("Error");
+                    ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                    return View("Error", newError);
                 }
             }
             return View("CreateRole", roleViewModel);
@@ -103,15 +104,15 @@ namespace ParkUp.Web.Controllers
                 };
                 return View("AllRoles", rolesAndMembers);
             }
-            catch (DbUpdateException dbex)
+            catch (DbUpdateException ex)
             {
-                ViewData["ErrorMessage"] = "DB issue - " + dbex.Message;
-                return View("Error");
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
             }
             catch (Exception ex)
             {
-                ViewData["ErrorMessage"] = ex.Message;
-                return View("Error");
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
             }
         }
 
@@ -124,9 +125,7 @@ namespace ParkUp.Web.Controllers
                 var role = await _roleManager.FindByIdAsync(roleId);
                 if (role == null)
                 {
-                    Response.StatusCode = 404;
-                    ViewData["ErrorMessage"] = "404 Resource not found.";
-                    return View("Error");
+                    throw new Exception("404 Not found.");
                 }
 
                 ViewData["roleId"] = roleId;
@@ -137,15 +136,15 @@ namespace ParkUp.Web.Controllers
 
                 return View("EditUsersInRole", allUsersViewModel);
             }
-            catch (DbUpdateException dbex)
+            catch (DbUpdateException ex)
             {
-                ViewData["ErrorMessage"] = "DB issue - " + dbex.Message;
-                return View("Error");
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
             }
             catch (Exception ex)
             {
-                ViewData["ErrorMessage"] = ex.Message;
-                return View("Error");
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
             }
         }
 
@@ -160,16 +159,12 @@ namespace ParkUp.Web.Controllers
                     var user = await _userManager.FindByIdAsync(userRoleViewModel.UserId);
                     if (user == null)
                     {
-                        Response.StatusCode = 404;
-                        ViewData["ErrorMessage"] = "404 Resource not found.";
-                        return View("Error");
+                        throw new Exception("404 Not found.");
                     }
                     var role = await _roleManager.FindByIdAsync(userRoleViewModel.RoleId);
                     if (role == null)
                     {
-                        Response.StatusCode = 404;
-                        ViewData["ErrorMessage"] = "404 Resource not found.";
-                        return View("Error");
+                        throw new Exception("404 Not found.");
                     }
                     if ((await _userManager.IsInRoleAsync(user, role.Name)) == false)
                     {
@@ -181,15 +176,15 @@ namespace ParkUp.Web.Controllers
                     }
                     return View("EditUsersInRole", new { roleId = userRoleViewModel.RoleId });
                 }
-                catch (DbUpdateException dbex)
+                catch (DbUpdateException ex)
                 {
-                    ViewData["ErrorMessage"] = "DB issue - " + dbex.Message;
-                    return View("Error");
+                    ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                    return View("Error", newError);
                 }
                 catch (Exception ex)
                 {
-                    ViewData["ErrorMessage"] = ex.Message;
-                    return View("Error");
+                    ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                    return View("Error", newError);
                 }
             }
             return RedirectToAction("AllRoles", "Administration");
@@ -205,16 +200,12 @@ namespace ParkUp.Web.Controllers
                 var user = await _userManager.FindByEmailAsync(userEmail);
                 if (user == null)
                 {
-                    Response.StatusCode = 404;
-                    ViewData["ErrorMessage"] = "404 Resource not found.";
-                    return View("Error");
+                    throw new Exception("404 Not found.");
                 }
                 var role = await _roleManager.FindByIdAsync(roleId);
                 if (role == null)
                 {
-                    Response.StatusCode = 404;
-                    ViewData["ErrorMessage"] = "404 Resource not found.";
-                    return View("Error");
+                    throw new Exception("404 Not found.");
                 }
                 if ((await _userManager.IsInRoleAsync(user, role.Name)) == true)
                 {
@@ -226,15 +217,15 @@ namespace ParkUp.Web.Controllers
                 }
                 return View("EditUsersInRole", new { roleId = roleId });
             }
-            catch (DbUpdateException dbex)
+            catch (DbUpdateException ex)
             {
-                ViewData["ErrorMessage"] = "DB issue - " + dbex.Message;
-                return View("Error");
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
             }
             catch (Exception ex)
             {
-                ViewData["ErrorMessage"] = ex.Message;
-                return View("Error");
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
             }
         }
 
@@ -242,35 +233,90 @@ namespace ParkUp.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> ApproveParkingSpaces()
         {
-            // get list of unapproved parking spaces
-            List<ParkingSpace> parkingSpacesFromDb = await _repository.GetUnapprovedParkingSpaces();
-            List<ParkingSpaceViewModel> parkingSpacesVM = _mapper.Map<List<ParkingSpace>, List<ParkingSpaceViewModel>> (parkingSpacesFromDb);
-            return View("ApproveParkingSpaces", parkingSpacesVM);
+            try
+            {
+                List<ParkingSpace> parkingSpacesFromDb = await _repository.GetUnapprovedParkingSpaces();
+                List<ParkingSpaceViewModel> parkingSpacesVM = _mapper.Map<List<ParkingSpace>, List<ParkingSpaceViewModel>>(parkingSpacesFromDb);
+                return View("ApproveParkingSpaces", parkingSpacesVM);
+            }
+            catch (DbUpdateException ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
+            catch (Exception ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
         }
 
         [Authorize(Roles = "SuperAdmin,Admin")]
         [HttpGet]
         public async Task<IActionResult> ApproveParkingSpace(int parkingSpaceId)
         {
-            await _repository.ApproveParkingSpace(parkingSpaceId);
-            return RedirectToAction("ApproveParkingSpaces");
+            try
+            {
+                await _repository.ApproveParkingSpace(parkingSpaceId);
+                return RedirectToAction("ApproveParkingSpaces");
+            }
+            catch (DbUpdateException ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
+            catch (Exception ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
         }
 
         [Authorize(Roles = "SuperAdmin,Admin")]
         [HttpGet]
         public async Task<IActionResult> AllUsers()
         {
-            List<ApplicationUser> allUsers = await _repository.GetAllUsers();
-            return View("AllUsers", allUsers);
+            try
+            {
+                List<ApplicationUser> allUsers = await _repository.GetAllUsers();
+                return View("AllUsers", allUsers);
+            }
+            catch (DbUpdateException ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
+            catch (Exception ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
         }
 
         [Authorize(Roles = "SuperAdmin,Admin")]
         [HttpGet]
         public async Task<IActionResult> EditUser(string userId)
         {
-            ApplicationUser userFromDb = await _repository.GetUserById(userId);
-            ApplicationUserViewModel appUserVM = _mapper.Map<ApplicationUser, ApplicationUserViewModel>(userFromDb);
-            return View("EditUser", appUserVM);
+            try
+            {
+                ApplicationUser userFromDb = await _repository.GetUserById(userId);
+                if (userFromDb == null) 
+                {
+                    throw new Exception("404 Not found.");
+                }
+                ApplicationUserViewModel appUserVM = _mapper.Map<ApplicationUser, ApplicationUserViewModel>(userFromDb);
+                return View("EditUser", appUserVM);
+            }
+            catch (DbUpdateException ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
+            catch (Exception ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
         }
 
         [Authorize(Roles = "SuperAdmin,Admin")]
@@ -291,15 +337,15 @@ namespace ParkUp.Web.Controllers
                     await _repository.EditUser(userPartialData);
                     return RedirectToAction("AllUsers");
                 }
-                catch (DbUpdateException dbex)
+                catch (DbUpdateException ex)
                 {
-                    ViewData["ErrorMessage"] = "DB issue - " + dbex.Message;
-                    return View("Error");
+                    ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                    return View("Error", newError);
                 }
                 catch (Exception ex)
                 {
-                    ViewData["ErrorMessage"] = ex.Message;
-                    return View("Error");
+                    ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                    return View("Error", newError);
                 }
             }
             return View("EditUSer", applicationUserViewModel);
@@ -309,15 +355,27 @@ namespace ParkUp.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> ApproveCashOuts()
         {
-            // get list of unapproved cash out requests
-            List<CashOut> cashOutRequestsFromDb = await _repository.GetUnapprovedCashOuts();
-            foreach (var cashOutRequest in cashOutRequestsFromDb)
+            try
             {
-                var user = await _repository.GetUserById(cashOutRequest.UserId);
-                cashOutRequest.UserAvailable = user.Credits;
+                List<CashOut> cashOutRequestsFromDb = await _repository.GetUnapprovedCashOuts();
+                foreach (var cashOutRequest in cashOutRequestsFromDb)
+                {
+                    var user = await _repository.GetUserById(cashOutRequest.UserId);
+                    cashOutRequest.UserAvailable = user.Credits;
+                }
+                List<CashOutViewModel> cashOutsVM = _mapper.Map<List<CashOut>, List<CashOutViewModel>>(cashOutRequestsFromDb);
+                return View("ApproveCashOuts", cashOutsVM);
             }
-            List<CashOutViewModel> cashOutsVM = _mapper.Map<List<CashOut>, List<CashOutViewModel>>(cashOutRequestsFromDb);
-            return View("ApproveCashOuts", cashOutsVM);
+            catch (DbUpdateException ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
+            catch (Exception ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
         }
 
         [Authorize(Roles = "SuperAdmin,Admin")]
@@ -327,20 +385,24 @@ namespace ParkUp.Web.Controllers
             try
             {
                 ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
+                if (applicationUser == null)
+                {
+                    throw new Exception("404 Not found.");
+                }
                 string adminEmail = applicationUser.Email;
                 string adminId = applicationUser.Id;
                 await _repository.ApproveCashOut(cashOutRequestId, adminId, adminEmail);
                 return RedirectToAction("ApproveCashOuts");
             }
-            catch (DbUpdateException dbex)
+            catch (DbUpdateException ex)
             {
-                ViewData["ErrorMessage"] = "DB issue - " + dbex.Message;
-                return View("Error");
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
             }
             catch (Exception ex)
             {
-                ViewData["ErrorMessage"] = ex.Message;
-                return View("Error");
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
             }
         }
 
@@ -354,15 +416,15 @@ namespace ParkUp.Web.Controllers
                 List<ParkingSpaceRentalViewModel> allTransactionsVM = _mapper.Map<List<ParkingSpaceRental>, List<ParkingSpaceRentalViewModel>>(transactionsFromDb);
                 return View("ParkingSpaceTransactions", allTransactionsVM);
             }
-            catch (DbUpdateException dbex)
+            catch (DbUpdateException ex)
             {
-                ViewData["ErrorMessage"] = "DB issue - " + dbex.Message;
-                return View("Error");
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
             }
             catch (Exception ex)
             {
-                ViewData["ErrorMessage"] = ex.Message;
-                return View("Error");
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
             }
         }
 
@@ -371,12 +433,29 @@ namespace ParkUp.Web.Controllers
         [Route("administration/report/{userId}")]
         public async Task<IActionResult> UserReport(string userId)
         {
-            ApplicationUser userFromDb = await _repository.GetUserById(userId);
-            List<ParkingSpace> userParkingSpaces = await _repository.GetParkingSpacesByOwnerId(userId);
-            List<ParkingSpaceRental> userRentalsAsOwner = await _repository.GetOwnerRentalsById(userId);
-            List<CashOut> userCashOuts = await _repository.GetApprovedCashOutsForUserId(userId);
-            UserReportViewModel report = assembleUserReport(userFromDb, userParkingSpaces, userRentalsAsOwner, userCashOuts);
-            return View("UserReport", report);
+            try
+            {
+                ApplicationUser userFromDb = await _repository.GetUserById(userId);
+                if (userFromDb == null)
+                {
+                    throw new Exception("404 Not found.");
+                }
+                List<ParkingSpace> userParkingSpaces = await _repository.GetParkingSpacesByOwnerId(userId);
+                List<ParkingSpaceRental> userRentalsAsOwner = await _repository.GetOwnerRentalsById(userId);
+                List<CashOut> userCashOuts = await _repository.GetApprovedCashOutsForUserId(userId);
+                UserReportViewModel report = assembleUserReport(userFromDb, userParkingSpaces, userRentalsAsOwner, userCashOuts);
+                return View("UserReport", report);
+            }
+            catch (DbUpdateException ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
+            catch (Exception ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
         }
 
         private UserReportViewModel assembleUserReport(ApplicationUser userFromDb, 

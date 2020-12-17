@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ParkUp.Core.Entities;
 using ParkUp.Core.Interfaces;
+using ParkUp.Models;
 using ParkUp.Web.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -25,17 +26,47 @@ namespace ParkUp.Web.Controllers
 
         public async Task<IActionResult> AllParkingSpaces()
         {
-            List<ParkingSpace> parkingSpacesFromDb = await _repository.GetAllParkingSpaces();
-            List<ParkingSpaceViewModel> parkingSpacesVM = _mapper.Map<List<ParkingSpace>, List<ParkingSpaceViewModel>>(parkingSpacesFromDb);
-            return View("AllParkingSpaces", parkingSpacesVM);
+            try
+            {
+                List<ParkingSpace> parkingSpacesFromDb = await _repository.GetAllParkingSpaces();
+                List<ParkingSpaceViewModel> parkingSpacesVM = _mapper.Map<List<ParkingSpace>, List<ParkingSpaceViewModel>>(parkingSpacesFromDb);
+                return View("AllParkingSpaces", parkingSpacesVM);
+            }
+            catch (DbUpdateException ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
+            catch (Exception ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
         }
 
         [HttpGet]
         public async Task<IActionResult> EditParkingSpace(int parkingSpaceId)
         {
-            ParkingSpace parkingSpaceFromDb = await _repository.GetParkingSpaceById(parkingSpaceId);
-            ParkingSpaceViewModel tempParkingSpaceVM = _mapper.Map<ParkingSpace, ParkingSpaceViewModel>(parkingSpaceFromDb);
-            return View("EditParkingSpace", tempParkingSpaceVM);
+            try
+            {
+                ParkingSpace parkingSpaceFromDb = await _repository.GetParkingSpaceById(parkingSpaceId);
+                if (parkingSpaceFromDb == null)
+                {
+                    throw new Exception("404 Not found.");
+                }
+                ParkingSpaceViewModel tempParkingSpaceVM = _mapper.Map<ParkingSpace, ParkingSpaceViewModel>(parkingSpaceFromDb);
+                return View("EditParkingSpace", tempParkingSpaceVM);
+            }
+            catch (DbUpdateException ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
+            catch (Exception ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
         }
 
         [HttpGet]
@@ -44,19 +75,22 @@ namespace ParkUp.Web.Controllers
             try
             {
                 TakenParkingSpace instance = await _repository.GetTakenInstanceByParkingSpaceId(parkingSpaceId);
+                if (instance == null)
+                {
+                    throw new Exception("404 Not found.");
+                }
                 await _repository.LeaveParkingSpace(instance);
-
                 return RedirectToAction("Index", "Home");
             }
-            catch (DbUpdateException dbex)
+            catch (DbUpdateException ex)
             {
-                ViewData["ErrorMessage"] = "DB issue - " + dbex.Message;
-                return View("Error");
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
             }
             catch (Exception ex)
             {
-                ViewData["ErrorMessage"] = ex.Message;
-                return View("Error");
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
             }
         }
 
@@ -80,15 +114,15 @@ namespace ParkUp.Web.Controllers
                     await _repository.EditParkingSpace(tempParkingSpace);
                     return RedirectToAction("Index", "Home");
                 }
-                catch (DbUpdateException dbex)
+                catch (DbUpdateException ex)
                 {
-                    ViewData["ErrorMessage"] = "DB issue - " + dbex.Message;
-                    return View("Error");
+                    ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                    return View("Error", newError);
                 }
                 catch (Exception ex)
                 {
-                    ViewData["ErrorMessage"] = ex.Message;
-                    return View("Error");
+                    ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                    return View("Error", newError);
                 }
             }
             return View("EditParkingSpace", parkingSpaceViewModel);
@@ -102,15 +136,15 @@ namespace ParkUp.Web.Controllers
                 await _repository.RemoveParkingSpaceById(parkingSpaceId);
                 return RedirectToAction("Index", "Home");
             }
-            catch (DbUpdateException dbex)
+            catch (DbUpdateException ex)
             {
-                ViewData["ErrorMessage"] = "DB issue - " + dbex.Message;
-                return View("Error");
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
             }
             catch (Exception ex)
             {
-                ViewData["ErrorMessage"] = ex.Message;
-                return View("Error");
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
             }
         }
     }
