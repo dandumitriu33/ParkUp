@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ParkUp.Core.Entities;
 using ParkUp.Core.Interfaces;
+using ParkUp.Models;
 using ParkUp.Web.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -56,15 +57,15 @@ namespace ParkUp.Web.Controllers
                     await _repository.AddParkingSpace(newParkingSpace);
                     return RedirectToAction("MyParkingSpaces");
                 }
-                catch (DbUpdateException dbex)
+                catch (DbUpdateException ex)
                 {
-                    ViewData["ErrorMessage"] = "DB issue - " + dbex.Message;
-                    return View("Error");
+                    ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                    return View("Error", newError);
                 }
                 catch (Exception ex)
                 {
-                    ViewData["ErrorMessage"] = ex.Message;
-                    return View("Error");
+                    ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                    return View("Error", newError);
                 }
             }
             return View("AddParkingSpace", parkingSpaceViewModel);
@@ -88,15 +89,15 @@ namespace ParkUp.Web.Controllers
                     await _repository.AddCashOutRequest(newCashOut);
                     return RedirectToAction("Index", "Home");
                 }
-                catch (DbUpdateException dbex)
+                catch (DbUpdateException ex)
                 {
-                    ViewData["ErrorMessage"] = "DB issue - " + dbex.Message;
-                    return View("Error");
+                    ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                    return View("Error", newError);
                 }
                 catch (Exception ex)
                 {
-                    ViewData["ErrorMessage"] = ex.Message;
-                    return View("Error");
+                    ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                    return View("Error", newError);
                 }
             }
             return View("RequestCashOut");
@@ -105,11 +106,24 @@ namespace ParkUp.Web.Controllers
         [HttpGet]
         public async Task<IActionResult> TransactionHistory()
         {
-            ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
-            string userId = applicationUser.Id;
-            List<ParkingSpaceRental> rentalsFromDb = await _repository.GetOwnerRentalsById(userId);
-            List<ParkingSpaceRentalViewModel> rentalsViewModel = _mapper.Map<List<ParkingSpaceRental>, List<ParkingSpaceRentalViewModel>>(rentalsFromDb);
-            return View("TransactionHistory", rentalsViewModel);
+            try
+            {
+                ApplicationUser applicationUser = await _userManager.GetUserAsync(User);
+                string userId = applicationUser.Id;
+                List<ParkingSpaceRental> rentalsFromDb = await _repository.GetOwnerRentalsById(userId);
+                List<ParkingSpaceRentalViewModel> rentalsViewModel = _mapper.Map<List<ParkingSpaceRental>, List<ParkingSpaceRentalViewModel>>(rentalsFromDb);
+                return View("TransactionHistory", rentalsViewModel);
+            }
+            catch (DbUpdateException ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
+            catch (Exception ex)
+            {
+                ErrorViewModel newError = new ErrorViewModel() { ErrorMessage = ex.Message };
+                return View("Error", newError);
+            }
         }
     }
 }
