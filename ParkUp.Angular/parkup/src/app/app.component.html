@@ -56,7 +56,7 @@
             Admin
           </a>
           <div class="dropdown-menu" aria-labelledby="adminNavbarDropdown">
-            <a class="dropdown-item">All Roles</a>
+            <a class="dropdown-item" [routerLink]="['/all-roles']">All Roles</a>
             <a class="dropdown-item"
                asp-action="CreateRole" asp-controller="Administration">
               Create Role
