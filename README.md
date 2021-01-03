@@ -9,3 +9,4 @@ Bootstrap 4
 Backend Validation via Annotations  
 Frontend Validation via JQuery and manual JavaScript  
 Unit Tests on Controllers via XUnit and Moq  
+New UI project with Angular (in progress)  
