@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'parkup';
-  randomText = 'some random text';
+  randomText = 'testing git update';
 }
