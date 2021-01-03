@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { HomeModule } from './components/home/home.module';
 import { AccountModule } from './components/account/account.module';
 import { OwnerModule } from './components/owner/owner.module';
+import { AdminModule } from './components/admin/admin.module';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { OwnerModule } from './components/owner/owner.module';
     AppRoutingModule,
     HomeModule,
     AccountModule,
-    OwnerModule
+    OwnerModule,
+    AdminModule
   ],
   providers: [],
   bootstrap: [AppComponent]
