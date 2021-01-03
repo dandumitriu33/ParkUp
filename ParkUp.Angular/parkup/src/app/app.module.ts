@@ -16,13 +16,13 @@ import { SharedModule } from './components/shared/shared.module';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     HomeModule,
     AccountModule,
     OwnerModule,
     AdminModule,
     SuperAdminModule,
-    SharedModule
+    SharedModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
