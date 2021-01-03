@@ -6,12 +6,14 @@ import { ApproveSpacesComponent } from './approve-spaces.component';
 import { ApproveCashOutComponent } from './approve-cash-out.component';
 import { AllUsersComponent } from './all-users.component';
 import { AllSpacesComponent } from './all-spaces.component';
+import { AllAreasComponent } from './all-areas.component';
 
 const routes: Routes = [
   { path: 'approve-spaces', component: ApproveSpacesComponent },
   { path: 'approve-cash-out', component: ApproveCashOutComponent },
   { path: 'all-users', component: AllUsersComponent },
   { path: 'all-spaces', component: AllSpacesComponent },
+  { path: 'all-areas', component: AllAreasComponent },
 ];
 
 @NgModule({
@@ -19,7 +21,8 @@ const routes: Routes = [
     ApproveSpacesComponent,
     ApproveCashOutComponent,
     AllUsersComponent,
-    AllSpacesComponent
+    AllSpacesComponent,
+    AllAreasComponent
   ],
   imports: [
     CommonModule,
