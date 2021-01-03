@@ -3,14 +3,17 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AllRolesComponent } from './all-roles.component';
+import { CreateRoleComponent } from './create-role.component';
 
 const routes: Routes = [
   { path: 'all-roles', component: AllRolesComponent },
+  { path: 'create-role', component: CreateRoleComponent }
 ];
 
 @NgModule({
   declarations: [
-    AllRolesComponent
+    AllRolesComponent,
+    CreateRoleComponent
   ],
   imports: [
     CommonModule,
