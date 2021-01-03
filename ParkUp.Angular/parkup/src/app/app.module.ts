@@ -8,6 +8,7 @@ import { AccountModule } from './components/account/account.module';
 import { OwnerModule } from './components/owner/owner.module';
 import { AdminModule } from './components/admin/admin.module';
 import { SuperAdminModule } from './components/super-admin/super-admin.module';
+import { SharedModule } from './components/shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { SuperAdminModule } from './components/super-admin/super-admin.module';
     AccountModule,
     OwnerModule,
     AdminModule,
-    SuperAdminModule
+    SuperAdminModule,
+    SharedModule
   ],
   providers: [],
   bootstrap: [AppComponent]
