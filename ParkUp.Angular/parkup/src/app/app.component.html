@@ -28,11 +28,11 @@
             My Spaces
           </a>
           <div class="dropdown-menu" aria-labelledby="parkingSpacesNavbarDropdown">
-            <a class="dropdown-item">My Parking Spaces</a>
-            <a class="dropdown-item">Add Parking Space</a>
+            <a class="dropdown-item" [routerLink]="['/my-parking-spaces']">My Parking Spaces</a>
+            <a class="dropdown-item" [routerLink]="['/add-parking-space']">Add Parking Space</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item">Cash Out</a>
-            <a class="dropdown-item">Transaction History</a>
+            <a class="dropdown-item" [routerLink]="['/cash-out']">Cash Out</a>
+            <a class="dropdown-item" [routerLink]="['/transaction-history']">Transaction History</a>
           </div>
         </li>
 
@@ -41,13 +41,13 @@
             Management
           </a>
           <div class="dropdown-menu" aria-labelledby="managementNavbarDropdown">
-            <a class="dropdown-item">Approve Spaces</a>
-            <a class="dropdown-item">Approve Cash Out</a>
+            <a class="dropdown-item" [routerLink]="['/approve-spaces']">Approve Spaces</a>
+            <a class="dropdown-item" [routerLink]="['/approve-cash-out']">Approve Cash Out</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item">All Users</a>
-            <a class="dropdown-item">All Spaces</a>
-            <a class="dropdown-item">All Areas</a>
-            <a class="dropdown-item">All Cities</a>
+            <a class="dropdown-item" [routerLink]="['/all-users']">All Users</a>
+            <a class="dropdown-item" [routerLink]="['/all-spaces']">All Spaces</a>
+            <a class="dropdown-item" [routerLink]="['/all-areas']">All Areas</a>
+            <a class="dropdown-item" [routerLink]="['/all-cities']">All Cities</a>
           </div>
         </li>
 
@@ -56,11 +56,8 @@
             Admin
           </a>
           <div class="dropdown-menu" aria-labelledby="adminNavbarDropdown">
-            <a class="dropdown-item">All Roles</a>
-            <a class="dropdown-item"
-               asp-action="CreateRole" asp-controller="Administration">
-              Create Role
-            </a>
+            <a class="dropdown-item" [routerLink]="['/all-roles']">All Roles</a>
+            <a class="dropdown-item" [routerLink]="['/create-role']">Create Role</a>
           </div>
         </li>
 
