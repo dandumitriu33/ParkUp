@@ -7,6 +7,7 @@ import { HomeModule } from './components/home/home.module';
 import { AccountModule } from './components/account/account.module';
 import { OwnerModule } from './components/owner/owner.module';
 import { AdminModule } from './components/admin/admin.module';
+import { SuperAdminModule } from './components/super-admin/super-admin.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { AdminModule } from './components/admin/admin.module';
     HomeModule,
     AccountModule,
     OwnerModule,
-    AdminModule
+    AdminModule,
+    SuperAdminModule
   ],
   providers: [],
   bootstrap: [AppComponent]
