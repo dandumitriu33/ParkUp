@@ -11,8 +11,7 @@ const routes: Routes = [
   { path: 'my-parking-spaces', component: MyParkingSpacesComponent },
   { path: 'add-parking-space', component: AddParkingSpaceComponent },
   { path: 'cash-out', component: CashOutComponent },
-  { path: 'transaction-history', component: TransactionHistoryComponent },
-  
+  { path: 'transaction-history', component: TransactionHistoryComponent }  
 ];
 
 @NgModule({
