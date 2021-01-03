@@ -11,7 +11,28 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParkUp.Infrastructure", "Pa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParkUp.Core", "ParkUp.Core\ParkUp.Core.csproj", "{0E554A17-1DCD-461B-83A8-C473AFECEFFD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{17C97BB7-85D7-4515-B588-53E67B008843}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{17C97BB7-85D7-4515-B588-53E67B008843}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "ParkUp.Angular(1)", "ParkUp.Angular\", "{07ADB2C9-8839-4435-A9C1-F8E77E83CF8D}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_49809"
+		Debug.AspNetCompiler.PhysicalPath = "ParkUp.Angular\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_49809\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_49809"
+		Release.AspNetCompiler.PhysicalPath = "ParkUp.Angular\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_49809\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "49809"
+		SlnRelativePath = "ParkUp.Angular\"
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +60,10 @@ Global
 		{17C97BB7-85D7-4515-B588-53E67B008843}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{17C97BB7-85D7-4515-B588-53E67B008843}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17C97BB7-85D7-4515-B588-53E67B008843}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07ADB2C9-8839-4435-A9C1-F8E77E83CF8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07ADB2C9-8839-4435-A9C1-F8E77E83CF8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07ADB2C9-8839-4435-A9C1-F8E77E83CF8D}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{07ADB2C9-8839-4435-A9C1-F8E77E83CF8D}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
