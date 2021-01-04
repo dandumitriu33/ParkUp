@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
 import { ApproveSpacesComponent } from './approve-spaces.component';
@@ -8,6 +9,8 @@ import { AllUsersComponent } from './all-users.component';
 import { AllSpacesComponent } from './all-spaces.component';
 import { AllAreasComponent } from './all-areas.component';
 import { AllCitiesComponent } from './all-cities.component';
+import { SelectCityComponent } from './select-city.component';
+import { SelectAreaComponent } from './select-area.component';
 
 const routes: Routes = [
   { path: 'approve-spaces', component: ApproveSpacesComponent },
@@ -25,10 +28,13 @@ const routes: Routes = [
     AllUsersComponent,
     AllSpacesComponent,
     AllAreasComponent,
-    AllCitiesComponent
+    AllCitiesComponent,
+    SelectCityComponent,
+    SelectAreaComponent
   ],
   imports: [
     CommonModule,
+    FormsModule,
     RouterModule.forChild(routes)
   ]
 })

@@ -1,1 +1,46 @@
-<p>all-spaces works!</p>
+<div>
+  <div class="text-center">
+    <h4>All Parking Spaces for Area</h4>
+    <app-select-city (userSelectedCity)="refreshAreasForCity($event)"></app-select-city>
+    <hr />
+  </div>
+  <div class="text-center" *ngIf="allAreasForCity && allAreasForCity.length">
+    <app-select-area [sharedCityId]='sharedCityIdTemp' (userSelectedArea)="refreshParkingSpacesForArea($event)"></app-select-area>
+    <hr />
+  </div>
+  <table class="table table-striped" *ngIf="allParkingSpacesForArea && allParkingSpacesForArea.length">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Area</th>
+        <th scope="col">Name</th>
+        <th scope="col">Street</th>
+        <th scope="col">Description</th>
+        <th scope="col">Price</th>
+        <th scope="col">Owner ID</th>
+        <th scope="col">Approved</th>
+        <th scope="col">GPS</th>
+        <th scope="col">Date Added</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let parkingSpace of allParkingSpacesForArea">
+        <td>{{ parkingSpace.Id }}</td>
+        <td>{{ parkingSpace.AreaId }}</td>
+        <td>{{ parkingSpace.Name }}</td>
+        <td>{{ parkingSpace.StreetName }}</td>
+        <td>{{ parkingSpace.Description }}</td>
+        <td>{{ parkingSpace.HourlyPrice }} RON/h</td>
+        <td>{{ parkingSpace.OwnerId }}</td>
+        <td>{{ parkingSpace.IsApproved }}</td>
+        <td>{{ parkingSpace.GPS }}</td>
+        <td>{{ parkingSpace.DateAdded }}</td>
+        <td>
+          <button class="btn btn-warning btn-sm">Edit</button>
+          <button class="btn btn-danger btn-sm">Remove</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

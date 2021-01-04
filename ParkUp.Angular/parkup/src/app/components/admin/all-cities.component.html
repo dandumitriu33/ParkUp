@@ -1,1 +1,10 @@
-<p>all-cities works!</p>
+<div>
+  <div class="text-center">
+    <h4>All Cities</h4>
+    <hr />
+  </div>
+  <span *ngFor="let city of allCities">
+    {{ city.Name }} ({{ city.Id }})
+  </span>
+  <hr />
+</div>
