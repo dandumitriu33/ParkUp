@@ -4,7 +4,7 @@
     <app-select-city (userSelectedCity)="refreshAreasForCity($event)"></app-select-city>
     <hr />
   </div>
-  <div class="text-center">
+  <div class="text-center" *ngIf="allAreasForCity && allAreasForCity.length">
     <app-select-area (userSelectedArea)="refreshParkingSpacesForArea($event)"></app-select-area>
     <hr />
   </div>

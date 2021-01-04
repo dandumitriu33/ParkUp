@@ -1,7 +1,7 @@
 <p>Select a City</p>
 <div>
   <div>
-    <select name="CitiesSelector" id="CitiesSelector" [(ngModel)]="selectedCity" (change)="onSubmit()">
+    <select name="CitiesSelector" id="CitiesSelector" [(ngModel)]="selectedCity" (change)="onCityChange()">
       <option value="0">Select City...</option>
       <option *ngFor="let city of allCities" value="{{ city.Id }}">{{ city.Name }}</option>
     </select>

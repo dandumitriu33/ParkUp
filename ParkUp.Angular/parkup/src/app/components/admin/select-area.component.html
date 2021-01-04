@@ -3,7 +3,7 @@
   <div>
     <select name="AreasSelector" id="AreasSelector" [(ngModel)]="selectedArea" (change)="onAreaChange()">
       <option value="0">Select Area...</option>
-      <option *ngFor="let area of allAreas" value="{{ area.Id }}">{{ area.Name }}</option>
+      <option *ngFor="let area of allAreasForCity" value="{{ area.Id }}">{{ area.Name }}</option>
     </select>
   </div>
 </div>

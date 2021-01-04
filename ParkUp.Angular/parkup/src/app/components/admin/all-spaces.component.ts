@@ -27,6 +27,7 @@ export class AllSpacesComponent implements OnInit {
       },
       error: err => console.error(err)
     });
+    // populate Area dropdown
   }
 
   refreshParkingSpacesForArea(areaId: string) {
