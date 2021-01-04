@@ -16,7 +16,7 @@ export class CitiesService {
 
   getAllCities():Observable<City[]> {
     return this.http.get<City[]>(this.allCitiesUrl).pipe(
-      tap(data => console.log('All: ' + JSON.stringify(data))),
+      tap(data => console.log('No of cities: ' + data.length)),
       catchError(this.handleError)
     );
   }

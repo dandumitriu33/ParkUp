@@ -13,13 +13,8 @@ import { ParkingSpacesService } from '../../services/parking-spaces.service';
 })
 export class AllSpacesComponent implements OnInit {
   sharedCityIdTemp: string;
-  sharedAreaIdTemp: string;
   allAreasForCity: Area[];
   allParkingSpacesForArea: ParkingSpace[];
-
-  // verify
-  selectedCity: string;
-  selectedArea: string;
 
   constructor(private parkingSpacesService: ParkingSpacesService,
     private areasService: AreasService) { }
@@ -34,10 +29,6 @@ export class AllSpacesComponent implements OnInit {
       },
       error: err => console.error(err)
     });
-    // verify
-    this.selectedCity = cityId;
-    
-    console.log(`selectedCity [(ngModel)] by select-city.component: ${this.selectedCity}`);
     this.sharedCityIdTemp = cityId;
   }
 
@@ -48,11 +39,6 @@ export class AllSpacesComponent implements OnInit {
       },
       error: err => console.error(err)
     });
-    // verify
-    this.selectedArea = areaId;
-
-    console.log(`selectedArea [(ngModel)] by select-area.component: ${this.selectedArea}`)
-    // this.sharedCityIdTemp = areaId;
   }
 
 }

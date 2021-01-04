@@ -15,7 +15,7 @@ export class AreasService {
 
   getAllAreasForCity(cityId: string): Observable<Area[]> {
     return this.http.get<Area[]>(this.areasForCityUrl + cityId).pipe(
-      tap(data => console.log('All: ' + JSON.stringify(data))),
+      tap(data => console.log('No of Areas: ' + data.length)),
       catchError(this.handleError)
     );
   }

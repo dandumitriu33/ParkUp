@@ -16,7 +16,7 @@ export class ParkingSpacesService {
 
   getAllParkingSpacesForArea(areaId: string): Observable<ParkingSpace[]> {
     return this.http.get<ParkingSpace[]>(this.parkingSpacesForAreaUrl + areaId + '/search/').pipe(
-      tap(data => console.log('All: ' + JSON.stringify(data))),
+      tap(data => console.log('No of PS: ' + data.length)),
       catchError(this.handleError)
     );
   }
