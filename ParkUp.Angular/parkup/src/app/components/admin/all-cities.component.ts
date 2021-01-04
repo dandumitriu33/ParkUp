@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CitiesService } from '../../services/cities/cities.service';
 
 @Component({
   selector: 'app-all-cities',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AllCitiesComponent implements OnInit {
 
-  constructor() { }
+  constructor(private citiesService: CitiesService) { }
 
   ngOnInit(): void {
   }
