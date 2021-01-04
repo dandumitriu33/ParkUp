@@ -7,10 +7,12 @@ import { CitiesService } from '../../services/cities/cities.service';
   styleUrls: ['./all-cities.component.css']
 })
 export class AllCitiesComponent implements OnInit {
+  allCities: any[];
 
   constructor(private citiesService: CitiesService) { }
 
   ngOnInit(): void {
+    this.allCities = this.citiesService.getAllCities();
   }
 
 }
