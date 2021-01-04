@@ -5,7 +5,7 @@
     <hr />
   </div>
   <div class="text-center" *ngIf="allAreasForCity && allAreasForCity.length">
-    <app-select-area (userSelectedArea)="refreshParkingSpacesForArea($event)"></app-select-area>
+    <app-select-area [sharedCityId]='sharedCityIdTemp' (userSelectedArea)="refreshParkingSpacesForArea($event)"></app-select-area>
     <hr />
   </div>
   <table class="table table-striped" *ngIf="allParkingSpacesForArea && allParkingSpacesForArea.length">
