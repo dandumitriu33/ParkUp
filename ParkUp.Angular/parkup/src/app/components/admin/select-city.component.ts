@@ -1,7 +1,7 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 
 import { City } from '../../models/City';
-import { CitiesService } from '../../services/cities/cities.service';
+import { CitiesService } from '../../services/cities.service';
 
 @Component({
   selector: 'app-select-city',
