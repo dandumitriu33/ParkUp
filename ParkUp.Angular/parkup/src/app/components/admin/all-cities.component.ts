@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { City } from '../../models/City';
 import { CitiesService } from '../../services/cities/cities.service';
 
 @Component({
@@ -7,12 +8,17 @@ import { CitiesService } from '../../services/cities/cities.service';
   styleUrls: ['./all-cities.component.css']
 })
 export class AllCitiesComponent implements OnInit {
-  allCities: any[];
+  allCities: City[];
 
   constructor(private citiesService: CitiesService) { }
 
   ngOnInit(): void {
-    this.allCities = this.citiesService.getAllCities();
+    this.citiesService.getAllCities().subscribe({
+      next: cities => {
+        this.allCities = cities;
+      },
+      error: err => console.error(err)
+    });
   }
 
 }
