@@ -1,1 +1,15 @@
-<p>all-spaces works!</p>
+<div>
+  <div class="text-center">
+    <h4>All Parking Spaces for Area</h4>
+    <app-select-city (userSelectedCity)="refreshAreasForCity($event)"></app-select-city>
+    <hr />
+  </div>
+  <div class="text-center">
+    <app-select-city (userSelectedCity)="refreshAreasForCity($event)"></app-select-city>
+    <hr />
+  </div>
+  <span *ngFor="let parkingSpace of allParkingSpacesForArea">
+    {{ parkingSpace.Name }} - {{ parkingSpace.Id }} - {{ parkingSpace.HourlyPrice }}
+  </span>
+  <hr />
+</div>
