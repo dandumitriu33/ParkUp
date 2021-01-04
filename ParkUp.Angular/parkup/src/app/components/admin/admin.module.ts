@@ -10,6 +10,7 @@ import { AllSpacesComponent } from './all-spaces.component';
 import { AllAreasComponent } from './all-areas.component';
 import { AllCitiesComponent } from './all-cities.component';
 import { SelectCityComponent } from './select-city.component';
+import { SelectAreaComponent } from './select-area.component';
 
 const routes: Routes = [
   { path: 'approve-spaces', component: ApproveSpacesComponent },
@@ -28,7 +29,8 @@ const routes: Routes = [
     AllSpacesComponent,
     AllAreasComponent,
     AllCitiesComponent,
-    SelectCityComponent
+    SelectCityComponent,
+    SelectAreaComponent
   ],
   imports: [
     CommonModule,

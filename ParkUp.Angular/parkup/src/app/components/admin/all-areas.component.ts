@@ -11,7 +11,7 @@ import { AreasService } from '../../services/areas.service';
 export class AllAreasComponent implements OnInit {
   allAreasForCity: Area[];
 
-  _cityIdSelect: string = '3';
+  _cityIdSelect: string;
   get cityIdSelect(): string {
     return this._cityIdSelect;
   }

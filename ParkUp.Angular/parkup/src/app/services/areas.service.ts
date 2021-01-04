@@ -10,7 +10,6 @@ import { Area } from '../models/Area';
 })
 export class AreasService {
   private areasForCityUrl = `https://localhost:44315/api/areas/`;
-  //private cityId = '3';
 
   constructor(private http: HttpClient) { }
 

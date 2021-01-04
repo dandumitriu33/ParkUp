@@ -2,7 +2,6 @@
   <div class="text-center">
     <h4>All Areas for City</h4>
     <app-select-city (userSelectedCity)="refreshAreasForCity($event)"></app-select-city>
-    
     <hr />
   </div>
   <span *ngFor="let area of allAreasForCity">
