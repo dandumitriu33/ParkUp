@@ -8,8 +8,22 @@
     <app-select-area (userSelectedArea)="refreshParkingSpacesForArea($event)"></app-select-area>
     <hr />
   </div>
-  <span *ngFor="let parkingSpace of allParkingSpacesForArea">
-    {{ parkingSpace.Name }} - {{ parkingSpace.Id }} - {{ parkingSpace.HourlyPrice }}
-  </span>
-  <hr />
+  <table class="table table-striped" *ngIf="allParkingSpacesForArea && allParkingSpacesForArea.length">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Hourly price</th>
+        <th scope="col">Date Added</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let parkingSpace of allParkingSpacesForArea">
+        <td>{{ parkingSpace.Id }}</td>
+        <td>{{ parkingSpace.Name }}</td>
+        <td>{{ parkingSpace.HourlyPrice }} RON/h</td>
+        <td>{{ parkingSpace.DateAdded }}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
