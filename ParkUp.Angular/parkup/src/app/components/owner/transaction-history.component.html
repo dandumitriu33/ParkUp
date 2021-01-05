@@ -1,1 +1,17 @@
-<p>transaction-history works!</p>
+<div class="text-center">
+  <h4>Parking Space Transaction History</h4>
+  <table class="table table-striped" *ngIf="allTransactions && allTransactions.length">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let transaction of allTransactions">
+        <td>{{ transaction.Id }}</td>
+
+      </tr>
+    </tbody>
+  </table>
+</div>
