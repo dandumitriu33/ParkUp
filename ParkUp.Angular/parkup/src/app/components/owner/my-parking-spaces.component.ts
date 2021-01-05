@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ParkingSpace } from '../../models/ParkingSpace';
 
 @Component({
   selector: 'app-my-parking-spaces',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./my-parking-spaces.component.css']
 })
 export class MyParkingSpacesComponent implements OnInit {
+  allParkingSpaces: ParkingSpace[];
 
   constructor() { }
 
