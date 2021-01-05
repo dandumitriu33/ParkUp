@@ -8,6 +8,6 @@ namespace ParkUp.API.Models
     public class ApplicationRoleDTO
     {
         public string Id { get; set; }
-        public string RoleName { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using ParkUp.Core.Entities;
 using ParkUp.Core.Interfaces;
 using System;
@@ -295,6 +296,11 @@ namespace ParkUp.Infrastructure.Data
         public async Task<List<ApplicationUser>> GetAllUsers()
         {
             return await _dbContext.Users.ToListAsync();
+        }
+
+        public async Task<List<IdentityRole>> GetAllRoles()
+        {
+            return await _dbContext.Roles.ToListAsync();
         }
 
         public async Task<ApplicationUser> GetUserById(string userId)

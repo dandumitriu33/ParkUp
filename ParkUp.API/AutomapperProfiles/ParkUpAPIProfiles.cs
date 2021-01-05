@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using ParkUp.API.Models;
 using ParkUp.Core.Entities;
 using System;
@@ -28,7 +29,7 @@ namespace ParkUp.API.AutomapperProfiles
                 .ReverseMap();
             CreateMap<CashOut, CashOutDTO>()
                 .ReverseMap();
-            CreateMap<ApplicationRole, ApplicationRoleDTO>()
+            CreateMap<IdentityRole, ApplicationRoleDTO>()
                 .ReverseMap();
         }
     }

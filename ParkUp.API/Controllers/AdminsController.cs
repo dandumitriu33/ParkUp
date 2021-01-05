@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ParkUp.API.Models;
 using ParkUp.Core.Entities;
@@ -31,8 +32,8 @@ namespace ParkUp.API.Controllers
         [Route("all-roles")]
         public async Task<string> GetAllRoles()
         {
-            //List<ApplicationRole> rolesFromDb = await _repository.GetAllRoles();
-            List<ApplicationRoleDTO> allRoles = _mapper.Map<List<ApplicationRole>, List<ApplicationRoleDTO>>(rolesFromDb);
+            List<IdentityRole> rolesFromDb = await _repository.GetAllRoles();
+            List<ApplicationRoleDTO> allRoles = _mapper.Map<List<IdentityRole>, List<ApplicationRoleDTO>>(rolesFromDb);
             var payload = JsonSerializer.Serialize(allRoles);
             return payload;
         }

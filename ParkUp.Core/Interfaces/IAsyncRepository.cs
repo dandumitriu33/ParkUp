@@ -1,4 +1,5 @@
-﻿using ParkUp.Core.Entities;
+﻿using Microsoft.AspNetCore.Identity;
+using ParkUp.Core.Entities;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -30,8 +31,9 @@ namespace ParkUp.Core.Interfaces
         Task<List<ParkingSpace>> GetTakenParkingSpacesByUserId(List<TakenParkingSpace> takenSpaces);
         Task<ParkingSpace> AddParkingSpace(ParkingSpace parkingSpace);
         Task<List<ParkingSpace>> GetUnapprovedParkingSpaces();
-        Task ApproveParkingSpace(int parkingSpaceId);
+        Task ApproveParkingSpace(int parkingSpaceId);        
         Task<List<ApplicationUser>> GetAllUsers();
+        Task<List<IdentityRole>> GetAllRoles();
         Task<ApplicationUser> GetUserById(string userId);
         Task<ApplicationUser> EditUser(ApplicationUser userPartialData);
         Task BuyCredits(string userId, decimal amount);
