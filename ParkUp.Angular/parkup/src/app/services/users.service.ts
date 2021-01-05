@@ -13,7 +13,7 @@ import { ApplicationUser } from '../models/ApplicationUser';
 export class UsersService {
   private purchaseHistoryUrl = 'https://localhost:44315/api/users/purchase-history/';
   private rentalHistoryUrl = 'https://localhost:44315/api/users/rental-history/';
-  private allUsersUrl = 'https://localhost:44315/api/users/users/all-users';
+  private allUsersUrl = 'https://localhost:44315/api/users/all-users';
   // TEMPORARY hardcoded user ID
   private userId = '19a0694b-57eb-4b0a-aca4-86d71e389d0f';
 
