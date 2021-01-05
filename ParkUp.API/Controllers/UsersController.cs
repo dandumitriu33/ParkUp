@@ -26,6 +26,17 @@ namespace ParkUp.API.Controllers
             _mapper = mapper;
         }
 
+        // GET: api/<UsersController>/all-users
+        [HttpGet]
+        [Route("all-users")]
+        public async Task<string> GetAllUsers()
+        {
+            List<ApplicationUser> usersFromDb = await _repository.GetAllUsers();
+            List<ApplicationUserDTO> allUsers = _mapper.Map<List<ApplicationUser>, List<ApplicationUserDTO>>(usersFromDb);
+            var payload = JsonSerializer.Serialize(allUsers);
+            return payload;
+        }
+
         // GET: api/<UsersController>/purchase-history/userId
         [HttpGet]
         [Route("purchase-history/{userId?}")]

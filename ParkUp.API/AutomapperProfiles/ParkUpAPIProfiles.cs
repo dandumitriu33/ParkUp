@@ -24,6 +24,8 @@ namespace ParkUp.API.AutomapperProfiles
                 .ReverseMap();
             CreateMap<ParkingSpaceRental, ParkingSpaceRentalDTO>()
                 .ReverseMap();
+            CreateMap<ApplicationUser, ApplicationUserDTO>()
+                .ReverseMap();
         }
     }
 }
