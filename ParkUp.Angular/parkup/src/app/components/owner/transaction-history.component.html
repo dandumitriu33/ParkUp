@@ -1,16 +1,30 @@
 <div class="text-center">
-  <h4>Parking Space Transaction History</h4>
+  <h4>Parking Spaces Transaction History</h4>
   <table class="table table-striped" *ngIf="allTransactions && allTransactions.length">
     <thead>
       <tr>
         <th scope="col">ID</th>
-
+        <th scope="col">Space ID</th>
+        <th scope="col">Space Name</th>
+        <th scope="col">Price/h</th>
+        <th scope="col">Date Started</th>
+        <th scope="col">Date Ended</th>
+        <th scope="col">Duration(m)</th>
+        <th scope="col">Amount Paid</th>
+        <th scope="col">Income</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let transaction of allTransactions">
         <td>{{ transaction.Id }}</td>
-
+        <td>{{ transaction.ParkingSpaceId }}</td>
+        <td>{{ transaction.ParkingSpaceName }}</td>
+        <td>{{ transaction.HourlyPrice }}</td>
+        <td>{{ transaction.DateStarted }}</td>
+        <td>{{ transaction.DateEnded }}</td>
+        <td>{{ transaction.DurationMinutes }}</td>
+        <td>{{ transaction.AmountPaidByUser }}</td>
+        <td>{{ transaction.AmountReceivedByOwner }}</td>
       </tr>
     </tbody>
   </table>

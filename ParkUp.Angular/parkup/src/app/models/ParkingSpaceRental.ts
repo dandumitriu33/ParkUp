@@ -11,5 +11,5 @@ export class ParkingSpaceRental {
   DateEnded: string;
   DurationMinutes: number;
   AmountPaidByUser: number;
-  AmountREceivedByOwner: number;
+  AmountReceivedByOwner: number;
 }
