@@ -1,1 +1,17 @@
-<p>all-users works!</p>
+<div class="text-center">
+  <h4>All Users</h4>
+  <table class="table table-striped" *ngIf="allUsers && allUsers.length">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of allUsers">
+        <td>{{ transaction.Id }}</td>
+
+      </tr>
+    </tbody>
+  </table>
+</div>
