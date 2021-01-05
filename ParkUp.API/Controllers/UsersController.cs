@@ -36,5 +36,16 @@ namespace ParkUp.API.Controllers
             var payload = JsonSerializer.Serialize(userPurchaseHistory);
             return payload;
         }
+
+        // GET: api/<UsersController>/rental-history/userId
+        [HttpGet]
+        [Route("rental-history/{userId?}")]
+        public async Task<string> GetUserRentalHistory(string userId)
+        {
+            List<ParkingSpaceRental> rentalsFromDb = await _repository.GetUserRentalsById(userId);
+            List<ParkingSpaceRentalDTO> userRentalHistory = _mapper.Map<List<ParkingSpaceRental>, List<ParkingSpaceRentalDTO>>(rentalsFromDb);
+            var payload = JsonSerializer.Serialize(userRentalHistory);
+            return payload;
+        }
     }
 }
