@@ -26,6 +26,8 @@ namespace ParkUp.API.AutomapperProfiles
                 .ReverseMap();
             CreateMap<ApplicationUser, ApplicationUserDTO>()
                 .ReverseMap();
+            CreateMap<CashOut, CashOutDTO>()
+                .ReverseMap();
         }
     }
 }
