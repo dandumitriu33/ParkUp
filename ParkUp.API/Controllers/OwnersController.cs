@@ -28,7 +28,16 @@ namespace ParkUp.API.Controllers
             _mapper = mapper;
         }
 
-
+        // GET: api/<OwnersController>/all-cash-outs
+        [HttpGet]
+        [Route("all-unapproved-cash-outs")]
+        public async Task<string> GetAllUnapprovedCashOuts()
+        {
+            List<CashOut> cashOutsFromDb = await _repository.GetUnapprovedCashOuts();
+            List<CashOutDTO> allUnapprovedCashOuts = _mapper.Map<List<CashOut>, List<CashOutDTO>>(cashOutsFromDb);
+            var payload = JsonSerializer.Serialize(allUnapprovedCashOuts);
+            return payload;
+        }
 
         // GET: api/<OwnersController>/all-transactions/userId
         [HttpGet]
