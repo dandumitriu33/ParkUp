@@ -4,12 +4,30 @@
     <thead>
       <tr>
         <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Street</th>
+        <th scope="col">Price</th>
+        <th scope="col">GGL/DDG</th>
+        <th scope="col">Approved</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Remove</th>
 
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let space of allParkingSpaces">
-        <td>{{ rental.Id }}</td>
+        <td>{{ space.Id }}</td>
+        <td>{{ space.Name }}</td>
+        <td>{{ space.StreetName }}</td>
+        <td>{{ space.HourlyPrice }}</td>
+        <td>{{ space.GPS }}</td>
+        <td>{{ space.IsApproved }}</td>
+        <td>
+          <button class="btn btn-warning btn-sm">Edit</button>
+        </td>
+        <td>
+          <button class="btn btn-danger btn-sm">Remove</button>
+        </td>
 
       </tr>
     </tbody>

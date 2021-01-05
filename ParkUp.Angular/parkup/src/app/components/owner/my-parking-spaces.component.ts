@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+
 import { ParkingSpace } from '../../models/ParkingSpace';
+import { ParkingSpacesService } from '../../services/parking-spaces.service';
 
 @Component({
   selector: 'app-my-parking-spaces',
@@ -9,9 +11,15 @@ import { ParkingSpace } from '../../models/ParkingSpace';
 export class MyParkingSpacesComponent implements OnInit {
   allParkingSpaces: ParkingSpace[];
 
-  constructor() { }
+  constructor(private parkingSpacesService: ParkingSpacesService) { }
 
   ngOnInit(): void {
+    this.parkingSpacesService.getAllOwnerParkingSpaces().subscribe({
+      next: spaces => {
+        this.allParkingSpaces = spaces;
+      },
+      error: err => console.error(err)
+    });
   }
 
 }
