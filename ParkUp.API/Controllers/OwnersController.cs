@@ -28,6 +28,8 @@ namespace ParkUp.API.Controllers
             _mapper = mapper;
         }
 
+
+
         // GET: api/<OwnersController>/all-transactions/userId
         [HttpGet]
         [Route("all-transactions/{userId}")]
