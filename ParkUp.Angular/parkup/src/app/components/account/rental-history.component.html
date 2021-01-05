@@ -1,1 +1,17 @@
-<p>rental-history works!</p>
+<div class="text-center">
+  <h4>Parking Space Rental History</h4>
+  <table class="table table-striped" *ngIf="allRentals && allRentals.length">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let rental of allRentals">
+        <td>{{ rental.Id }}</td>
+        
+      </tr>
+    </tbody>
+  </table>
+</div>

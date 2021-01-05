@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./rental-history.component.css']
 })
 export class RentalHistoryComponent implements OnInit {
+  allRentals: any[];
 
   constructor() { }
 
