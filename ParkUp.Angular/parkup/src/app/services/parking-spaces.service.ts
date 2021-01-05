@@ -11,8 +11,19 @@ import { ParkingSpace } from '../models/ParkingSpace';
 })
 export class ParkingSpacesService {
   private parkingSpacesForAreaUrl = 'https://localhost:44315/api/parkingspaces/';
+  private allOwnerParkingSpacesUrl = 'https://localhost:44315/api/owners/all-spaces/';
+
+  // TEMPORARY user id
+  userId = '19a0694b-57eb-4b0a-aca4-86d71e389d0f';
 
   constructor(private http: HttpClient) { }
+
+  getAllOwnerParkingSpaces(): Observable<ParkingSpace[]> {
+    return this.http.get<ParkingSpace[]>(this.allOwnerParkingSpacesUrl + this.userId).pipe(
+      tap(data => console.log('No of OWN PS: ' + data.length)),
+      catchError(this.handleError)
+    );
+  }
 
   getAllParkingSpacesForArea(areaId: string): Observable<ParkingSpace[]> {
     return this.http.get<ParkingSpace[]>(this.parkingSpacesForAreaUrl + areaId + '/search/').pipe(
