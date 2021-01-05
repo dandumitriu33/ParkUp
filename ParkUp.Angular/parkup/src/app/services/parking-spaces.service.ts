@@ -5,6 +5,7 @@ import { catchError, tap } from 'rxjs/operators';
 
 import { Area } from '../models/Area';
 import { ParkingSpace } from '../models/ParkingSpace';
+import { ParkingSpaceRental } from '../models/ParkingSpaceRental';
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +13,19 @@ import { ParkingSpace } from '../models/ParkingSpace';
 export class ParkingSpacesService {
   private parkingSpacesForAreaUrl = 'https://localhost:44315/api/parkingspaces/';
   private allOwnerParkingSpacesUrl = 'https://localhost:44315/api/owners/all-spaces/';
+  private allOwnerTransactionsUrl = 'https://localhost:44315/api/owners/all-transactions/';
 
   // TEMPORARY user id
   userId = '19a0694b-57eb-4b0a-aca4-86d71e389d0f';
 
   constructor(private http: HttpClient) { }
+
+  getAllOwnerTransactions(): Observable<ParkingSpaceRental[]> {
+    return this.http.get<ParkingSpaceRental[]>(this.allOwnerTransactionsUrl + this.userId).pipe(
+      tap(data => console.log('No of OWN trs: ' + data.length)),
+      catchError(this.handleError)
+    );
+  }
 
   getAllOwnerParkingSpaces(): Observable<ParkingSpace[]> {
     return this.http.get<ParkingSpace[]>(this.allOwnerParkingSpacesUrl + this.userId).pipe(
