@@ -28,6 +28,17 @@ namespace ParkUp.API.Controllers
             _mapper = mapper;
         }
 
+        // GET: api/<OwnersController>/all-transactions/userId
+        [HttpGet]
+        [Route("all-transactions/{userId}")]
+        public async Task<string> GetAllOwnerTransactions(string userId)
+        {
+            List<ParkingSpaceRental> rentalsFromDb = await _repository.GetOwnerRentalsById(userId);
+            List<ParkingSpaceRentalDTO> rentalsViewModel = _mapper.Map<List<ParkingSpaceRental>, List<ParkingSpaceRentalDTO>>(rentalsFromDb);
+            var payload = JsonSerializer.Serialize(rentalsViewModel);
+            return payload;
+        }
+
         // GET: api/<OwnersController>/all-spaces/userId
         [HttpGet]
         [Route("all-spaces/{userId}")]
