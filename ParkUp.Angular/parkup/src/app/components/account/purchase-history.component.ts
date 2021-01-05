@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { CreditPackPurchase } from '../../models/CreditPackPurchase';
-import { PurchaseHistoryService } from '../../services/purchase-history.service';
+import { UsersService } from '../../services/users.service';
 
 @Component({
   selector: 'app-purchase-history',
@@ -11,10 +11,10 @@ import { PurchaseHistoryService } from '../../services/purchase-history.service'
 export class PurchaseHistoryComponent implements OnInit {
   allPurchases: CreditPackPurchase[];
 
-  constructor(private purchaseHistoryService: PurchaseHistoryService) { }
+  constructor(private usersService: UsersService) { }
 
   ngOnInit(): void {
-    this.purchaseHistoryService.getPurchaseHistory().subscribe({
+    this.usersService.getPurchaseHistory().subscribe({
       next: purchases => {
         this.allPurchases = purchases;
       },
