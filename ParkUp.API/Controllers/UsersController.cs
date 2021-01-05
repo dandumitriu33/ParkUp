@@ -1,0 +1,40 @@
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using ParkUp.API.Models;
+using ParkUp.Core.Entities;
+using ParkUp.Core.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json;
+using System.Threading.Tasks;
+
+namespace ParkUp.API.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class UsersController : ControllerBase
+    {
+        private readonly IAsyncRepository _repository;
+        private readonly IMapper _mapper;
+
+        public UsersController(IAsyncRepository repository,
+                               IMapper mapper)
+        {
+            _repository = repository;
+            _mapper = mapper;
+        }
+
+        // GET: api/<UsersController>/purchase-history/userId
+        [HttpGet]
+        [Route("purchase-history/{userId?}")]
+        public async Task<string> GetUserPurchaseHistory(string userId)
+        {
+            List<CreditPackPurchase> historyFromDb = await _repository.GetUserPurchaseHistoryById(userId);
+            List<CreditPackPurchaseDTO> userPurchaseHistory = _mapper.Map<List<CreditPackPurchase>, List<CreditPackPurchaseDTO>>(historyFromDb);
+            var payload = JsonSerializer.Serialize(userPurchaseHistory);
+            return payload;
+        }
+    }
+}
