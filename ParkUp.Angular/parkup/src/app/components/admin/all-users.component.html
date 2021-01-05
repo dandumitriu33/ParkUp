@@ -4,12 +4,28 @@
     <thead>
       <tr>
         <th scope="col">ID</th>
+        <th scope="col">Email</th>
+        <th scope="col">Credits</th>
+        <th scope="col">Percentage</th>
+        <th scope="col">Date Added</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Remove</th>
 
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let user of allUsers">
         <td>{{ user.Id }}</td>
+        <td>{{ user.Email }}</td>
+        <td>{{ user.Credits }}</td>
+        <td>{{ user.PartnerPercentage }}</td>
+        <td>{{ user.DateAdded }}</td>
+        <td>
+          <button class="btn btn-warning btn-sm">Edit</button>
+        </td>
+        <td>
+          <button class="btn btn-danger btn-sm">Remove</button>
+        </td>
 
       </tr>
     </tbody>
