@@ -1,1 +1,24 @@
-<p>all-roles works!</p>
+<div class="text-center">
+  <h4>All Roles</h4>
+  <table class="table table-striped" *ngIf="allRoles && allRoles.length">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Remove</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let role of allRoles">
+        <td>{{ role.Id }}</td>
+        <td>{{ role.Name }}</td>
+        <td>
+          <button class="btn btn-warning btn-sm">Edit</button>
+        </td><td>
+          <button class="btn btn-danger btn-sm">Remove</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
