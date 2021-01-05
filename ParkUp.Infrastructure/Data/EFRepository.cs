@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using ParkUp.Core.Entities;
 using ParkUp.Core.Interfaces;
 using System;
@@ -52,6 +53,14 @@ namespace ParkUp.Infrastructure.Data
         public async Task<List<Area>> GetAllAreasForCity(int cityId)
         {
             return await _dbContext.Areas.Where(a => a.CityId == cityId).OrderBy(a => a.Name).ToListAsync();
+        }
+
+        public async Task<List<ParkingSpace>> GetAllOwnerParkingSpaces(string userId)
+        {
+            return await _dbContext.ParkingSpaces
+                    .Where(ps => ps.OwnerId == userId && ps.IsRemoved == false)
+                    .OrderByDescending(ps => ps.Id)
+                    .ToListAsync();
         }
 
         public async Task<List<ParkingSpace>> GetParkingSpacesForOwnerId(string userId, int areaId, string searchPhrase="")
@@ -287,6 +296,11 @@ namespace ParkUp.Infrastructure.Data
         public async Task<List<ApplicationUser>> GetAllUsers()
         {
             return await _dbContext.Users.ToListAsync();
+        }
+
+        public async Task<List<IdentityRole>> GetAllRoles()
+        {
+            return await _dbContext.Roles.ToListAsync();
         }
 
         public async Task<ApplicationUser> GetUserById(string userId)

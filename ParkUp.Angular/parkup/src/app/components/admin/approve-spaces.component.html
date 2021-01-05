@@ -1,1 +1,29 @@
-<p>approve-spaces works!</p>
+<div class="text-center">
+  <h4>Approve Parking Spaces</h4>
+  <table class="table table-striped" *ngIf="allUnapprovedParkingSpaces && allUnapprovedParkingSpaces.length">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Street</th>
+        <th scope="col">Description</th>
+        <th scope="col">Price</th>
+        <th scope="col">GPS</th>
+        <th scope="col">Approve</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let unapprovedSpace of allUnapprovedParkingSpaces">
+        <td>{{ unapprovedSpace.Id }}</td>
+        <td>{{ unapprovedSpace.Name }}</td>
+        <td>{{ unapprovedSpace.StreetName }}</td>
+        <td>{{ unapprovedSpace.Description }}</td>
+        <td>{{ unapprovedSpace.HourlyPrice }}</td>
+        <td>{{ unapprovedSpace.GPS }}</td>
+        <td>
+          <button class="btn btn-danger btn-sm">Approve</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

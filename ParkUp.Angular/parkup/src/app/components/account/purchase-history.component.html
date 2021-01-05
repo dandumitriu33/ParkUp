@@ -1,1 +1,25 @@
-<p>purchase-history works!</p>
+<div class="text-center">
+  <h4>Credit Pack Purchase History</h4>
+  <table class="table table-striped" *ngIf="allPurchases && allPurchases.length">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">User ID</th>
+        <th scope="col">Email</th>
+        <th scope="col">Credits</th>
+        <th scope="col">Paid</th>
+        <th scope="col">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let purchase of allPurchases">
+        <td>{{ purchase.Id }}</td>
+        <td>{{ purchase.UserId }}</td>
+        <td>{{ purchase.UserEmail }}</td>
+        <td>{{ purchase.Amount }}</td>
+        <td>{{ purchase.AmountPaid }}</td>
+        <td>{{ purchase.DateOfPurchase }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

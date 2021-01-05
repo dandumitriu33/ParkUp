@@ -28,6 +28,39 @@ namespace ParkUp.API.Controllers
             _mapper = mapper;
         }
 
+        // GET: api/<OwnersController>/all-cash-outs
+        [HttpGet]
+        [Route("all-unapproved-cash-outs")]
+        public async Task<string> GetAllUnapprovedCashOuts()
+        {
+            List<CashOut> cashOutsFromDb = await _repository.GetUnapprovedCashOuts();
+            List<CashOutDTO> allUnapprovedCashOuts = _mapper.Map<List<CashOut>, List<CashOutDTO>>(cashOutsFromDb);
+            var payload = JsonSerializer.Serialize(allUnapprovedCashOuts);
+            return payload;
+        }
+
+        // GET: api/<OwnersController>/all-transactions/userId
+        [HttpGet]
+        [Route("all-transactions/{userId}")]
+        public async Task<string> GetAllOwnerTransactions(string userId)
+        {
+            List<ParkingSpaceRental> rentalsFromDb = await _repository.GetOwnerRentalsById(userId);
+            List<ParkingSpaceRentalDTO> rentalsViewModel = _mapper.Map<List<ParkingSpaceRental>, List<ParkingSpaceRentalDTO>>(rentalsFromDb);
+            var payload = JsonSerializer.Serialize(rentalsViewModel);
+            return payload;
+        }
+
+        // GET: api/<OwnersController>/all-spaces/userId
+        [HttpGet]
+        [Route("all-spaces/{userId}")]
+        public async Task<string> GetAllOwnerParkingSpaces(string userId)
+        {
+            List<ParkingSpace> parkingSpacesFromDb = await _repository.GetAllOwnerParkingSpaces(userId);
+            List<ParkingSpaceDTO> allParkingSpacesDTO = _mapper.Map<List<ParkingSpace>, List<ParkingSpaceDTO>>(parkingSpacesFromDb);
+            var payload = JsonSerializer.Serialize(allParkingSpacesDTO);
+            return payload;
+        }
+
         // GET: api/<OwnersController>/abcd16/area/5/search/someText
         [HttpGet]
         [Route("{userId?}/area/{areaId?}/search/{searchPhrase?}")]

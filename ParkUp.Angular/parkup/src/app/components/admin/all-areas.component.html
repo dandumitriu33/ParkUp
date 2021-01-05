@@ -2,10 +2,31 @@
   <div class="text-center">
     <h4>All Areas for City</h4>
     <app-select-city (userSelectedCity)="refreshAreasForCity($event)"></app-select-city>
-    <hr />
-  </div>
-  <span *ngFor="let area of allAreasForCity">
-    {{ area.Name }} ({{ area.Id }})
-  </span>
-  <hr />
+    <br />
+  </div>  
+  <table class="table table-striped" *ngIf="allAreasForCity && allAreasForCity.length">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">City ID</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Remove</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let area of allAreasForCity">
+        <td>{{ area.Id }}</td>
+        <td>{{ area.Name }}</td>
+        <td>{{ area.CityId }}</td>
+        <td>
+          <button class="btn btn-warning btn-sm">Edit</button>
+        </td>
+        <td>
+          <button class="btn btn-danger btn-sm">Remove</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  
 </div>

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using ParkUp.API.Models;
 using ParkUp.Core.Entities;
 using System;
@@ -19,6 +20,16 @@ namespace ParkUp.API.AutomapperProfiles
             CreateMap<ParkingSpace, ParkingSpaceDTO>()
                 .ReverseMap();
             CreateMap<TakenParkingSpace, TakenParkingSpaceDTO>()
+                .ReverseMap();
+            CreateMap<CreditPackPurchase, CreditPackPurchaseDTO>()
+                .ReverseMap();
+            CreateMap<ParkingSpaceRental, ParkingSpaceRentalDTO>()
+                .ReverseMap();
+            CreateMap<ApplicationUser, ApplicationUserDTO>()
+                .ReverseMap();
+            CreateMap<CashOut, CashOutDTO>()
+                .ReverseMap();
+            CreateMap<IdentityRole, ApplicationRoleDTO>()
                 .ReverseMap();
         }
     }

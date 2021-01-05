@@ -1,10 +1,25 @@
-<div>
-  <div class="text-center">
-    <h4>All Cities</h4>
-    <hr />
-  </div>
-  <span *ngFor="let city of allCities">
-    {{ city.Name }} ({{ city.Id }})
-  </span>
-  <hr />
+<div class="text-center">
+  <h4>All Cities</h4>
+  <table class="table table-striped" *ngIf="allCities && allCities.length">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Remove</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let city of allCities">
+        <td>{{ city.Id }}</td>
+        <td>{{ city.Name }}</td>
+        <td>
+          <button class="btn btn-warning btn-sm">Edit</button>
+        </td>
+        <td>
+          <button class="btn btn-danger btn-sm">Remove</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

@@ -1,1 +1,33 @@
-<p>approve-cash-out works!</p>
+<div class="text-center">
+  <h4>Approve Cash Outs</h4>
+  <table class="table table-striped" *ngIf="allUnapprovedCashOuts && allUnapprovedCashOuts.length">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">User ID</th>
+        <th scope="col">User Email</th>
+        <th scope="col">Credits (at sub)</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Date Submitted</th>
+        <th scope="col">User Report</th>
+        <th scope="col">Approve</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let unapprovedCashOut of allUnapprovedCashOuts">
+        <td>{{ unapprovedCashOut.Id }}</td>
+        <td>{{ unapprovedCashOut.UserId }}</td>
+        <td>{{ unapprovedCashOut.UserEmail }}</td>
+        <td>{{ unapprovedCashOut.UserAvailable }}</td>
+        <td>{{ unapprovedCashOut.Amount }}</td>
+        <td>{{ unapprovedCashOut.DateSubmitted }}</td>
+        <td>
+          <button class="btn btn-primary btn-sm">User Report</button>
+        </td>
+        <td>
+          <button class="btn btn-danger btn-sm">Approve</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
