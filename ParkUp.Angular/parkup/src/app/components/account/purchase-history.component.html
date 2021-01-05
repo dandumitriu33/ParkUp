@@ -1,6 +1,6 @@
 <div class="text-center">
   <h4>Credit Pack Purchase History</h4>
-  <table class="table table-striped">
+  <table class="table table-striped" *ngIf="allPurchases && allPurchases.length">
     <thead>
       <tr>
         <th scope="col">ID</th>
@@ -12,15 +12,14 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-        <td>@mdo</td>
-        <td>@mdo</td>
+      <tr *ngFor="let purchase of allPurchases">
+        <td>{{ purchase.Id }}</td>
+        <td>{{ purchase.UserId }}</td>
+        <td>{{ purchase.UserEmail }}</td>
+        <td>{{ purchase.Amount }}</td>
+        <td>{{ purchase.AmountPaid }}</td>
+        <td>{{ purchase.DateOfPurchase }}</td>
       </tr>
-      
     </tbody>
   </table>
 
