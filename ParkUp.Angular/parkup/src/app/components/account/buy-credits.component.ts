@@ -12,4 +12,23 @@ export class BuyCreditsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  onBuy50Click(): void {
+    console.log('buy 50 clicked.');
+    // TODO - post request to add 50 cred to user
+  }
+
+  onBuy100Click(): void {
+    console.log('buy 100 clicked.');
+    // TODO - post request to add 100 cred to user
+  }
+
+  onBuy500Click(): void {
+    console.log('buy 500 clicked.');
+    // TODO - post request to add 500 cred to user
+  }
+
+  onBuy1000Click(): void {
+    console.log('buy 1000 clicked.');
+    // TODO - post request to add 1000 cred to user
+  }
 }
