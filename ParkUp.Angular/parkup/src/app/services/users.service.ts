@@ -7,6 +7,7 @@ import { CreditPackPurchase } from '../models/CreditPackPurchase';
 import { ParkingSpaceRental } from '../models/ParkingSpaceRental';
 import { ApplicationUser } from '../models/ApplicationUser';
 import { CashOut } from '../models/CashOut';
+import { ApplicationRole } from '../models/ApplicationRole';
 
 @Injectable({
   providedIn: 'root'
@@ -15,14 +16,22 @@ export class UsersService {
   private purchaseHistoryUrl = 'https://localhost:44315/api/users/purchase-history/';
   private rentalHistoryUrl = 'https://localhost:44315/api/users/rental-history/';
   private allUsersUrl = 'https://localhost:44315/api/users/all-users';
-  private allUnapprovedCashOuts = 'https://localhost:44315/api/owners/all-unapproved-cash-outs';
+  private allUnapprovedCashOutsUrl = 'https://localhost:44315/api/owners/all-unapproved-cash-outs';
+  private allRolesUrl = 'https://localhost:44315/api/admins/all-roles';
   // TEMPORARY hardcoded user ID
   private userId = '19a0694b-57eb-4b0a-aca4-86d71e389d0f';
 
   constructor(private http: HttpClient) { }
 
+  getAllRoles(): Observable<ApplicationRole[]> {
+    return this.http.get<ApplicationRole[]>(this.allRolesUrl).pipe(
+      tap(data => console.log('No of Roles: ' + data.length)),
+      catchError(this.handleError)
+    );
+  }
+
   getAllUnapprovedCashOuts(): Observable<CashOut[]> {
-    return this.http.get<CashOut[]>(this.allUnapprovedCashOuts).pipe(
+    return this.http.get<CashOut[]>(this.allUnapprovedCashOutsUrl).pipe(
       tap(data => console.log('No of UACashOuts: ' + data.length)),
       catchError(this.handleError)
     );
