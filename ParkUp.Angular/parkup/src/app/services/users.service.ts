@@ -8,7 +8,7 @@ import { ParkingSpaceRental } from '../models/ParkingSpaceRental';
 import { ApplicationUser } from '../models/ApplicationUser';
 import { CashOut } from '../models/CashOut';
 import { ApplicationRole } from '../models/ApplicationRole';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -26,16 +26,34 @@ export class UsersService {
               private formBuilder: FormBuilder) { }
 
   registrationPasswordsFormModel = this.formBuilder.group({
-    Password: [''],
-    ConfirmPassword: ['']
+    // the minlength is not set up on the backend at this time (development of MVP)
+    // the rule is here just for Angular validation testing purposes
+    Password: ['', [Validators.required, Validators.minLength(3)]],
+    ConfirmPassword: ['', Validators.required]
+  }, {
+    validator: this.comparePasswords
   });
 
   registrationFormModel = this.formBuilder.group({
-    FirstName: [''],
-    LastName: [''],
-    Email: [''],
+    FirstName: ['', Validators.required],
+    LastName: ['', Validators.required],
+    Email: ['', [Validators.required, Validators.email]],
     Passwords: this.registrationPasswordsFormModel    
   });
+
+  comparePasswords(formBuilder: FormGroup) {
+    let confirmPasswordControl = formBuilder.get('ConfirmPassword');
+    //passwordMismatch - is an error that we create (custom)
+    // confirmPasswordControl.errors=null
+    // or if there are errors such as required confirmPasswordControl.errors={required:true}
+    // or if there are errors such as passwordMismatch confirmPasswordControl.errors={passwordMismatch:true}
+    if (confirmPasswordControl.errors == null || 'passwordMismatch' in confirmPasswordControl.errors) {
+      if (formBuilder.get('Password').value != confirmPasswordControl.value)
+        confirmPasswordControl.setErrors({ passwordMismatch: true });
+      else
+        confirmPasswordControl.setErrors(null);
+    }
+  }
 
   getAllRoles(): Observable<ApplicationRole[]> {
     return this.http.get<ApplicationRole[]>(this.allRolesUrl).pipe(
