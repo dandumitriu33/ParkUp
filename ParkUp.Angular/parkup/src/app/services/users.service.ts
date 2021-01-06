@@ -19,12 +19,15 @@ export class UsersService {
   private allUsersUrl = 'https://localhost:44315/api/users/all-users';
   private allUnapprovedCashOutsUrl = 'https://localhost:44315/api/owners/all-unapproved-cash-outs';
   private allRolesUrl = 'https://localhost:44315/api/admins/all-roles';
+  private registrationUrl = 'https://localhost:44315/api/users/register';
   // TEMPORARY hardcoded user ID
   private userId = '19a0694b-57eb-4b0a-aca4-86d71e389d0f';
 
   constructor(private http: HttpClient,
               private formBuilder: FormBuilder) { }
 
+  
+  // REGISTRATION VIA API
   registrationPasswordsFormModel = this.formBuilder.group({
     // the minlength is not set up on the backend at this time (development of MVP)
     // the rule is here just for Angular validation testing purposes
@@ -54,6 +57,18 @@ export class UsersService {
         confirmPasswordControl.setErrors(null);
     }
   }
+
+  register() {
+    var body = {
+      FirstName: this.registrationFormModel.value.FirstName,
+      LastName: this.registrationFormModel.value.LastName,
+      Email: this.registrationFormModel.value.Email,
+      Password: this.registrationFormModel.value.Passwords.Password,
+    };
+    return this.http.post(this.registrationUrl, body);
+  }
+
+  // REGISTRATION VIA API END
 
   getAllRoles(): Observable<ApplicationRole[]> {
     return this.http.get<ApplicationRole[]>(this.allRolesUrl).pipe(
