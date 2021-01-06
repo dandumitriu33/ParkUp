@@ -4,24 +4,24 @@
     <div class="col-md-12">
       <form [formGroup]="usersService.registrationFormModel" autocomplete="off">
         <div asp-validation-summary="All" class="text-danger"></div>
-        <div class="form-group">
+        <div class="form-group required">
           <label>First Name</label>
           <input class="form-control" formControlName="FirstName" />
         </div>
-        <div class="form-group">
+        <div class="form-group required">
           <label>Last Name</label>
           <input class="form-control" formControlName="LastName" />
         </div>
-        <div class="form-group">
+        <div class="form-group required">
           <label>Email</label>
           <input class="form-control" formControlName="Email" />
         </div>
         <div formGroupName="Passwords">
-          <div class="form-group">
+          <div class="form-group required">
             <label>Password</label>
             <input class="form-control" formControlName="Password" />
           </div>
-          <div class="form-group">
+          <div class="form-group required">
             <label>Confirm Password</label>
             <input class="form-control" formControlName="ConfirmPassword" />
           </div>
