@@ -8,6 +8,7 @@ import { ParkingSpaceRental } from '../models/ParkingSpaceRental';
 import { ApplicationUser } from '../models/ApplicationUser';
 import { CashOut } from '../models/CashOut';
 import { ApplicationRole } from '../models/ApplicationRole';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -18,10 +19,56 @@ export class UsersService {
   private allUsersUrl = 'https://localhost:44315/api/users/all-users';
   private allUnapprovedCashOutsUrl = 'https://localhost:44315/api/owners/all-unapproved-cash-outs';
   private allRolesUrl = 'https://localhost:44315/api/admins/all-roles';
+  private registrationUrl = 'https://localhost:44315/api/users/register';
   // TEMPORARY hardcoded user ID
   private userId = '19a0694b-57eb-4b0a-aca4-86d71e389d0f';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private formBuilder: FormBuilder) { }
+
+  
+  // REGISTRATION VIA API
+  registrationPasswordsFormModel = this.formBuilder.group({
+    // the minlength is not set up on the backend at this time (development of MVP)
+    // the rule is here just for Angular validation testing purposes
+    Password: ['', [Validators.required, Validators.minLength(3)]],
+    ConfirmPassword: ['', Validators.required]
+  }, {
+    validator: this.comparePasswords
+  });
+
+  registrationFormModel = this.formBuilder.group({
+    FirstName: ['', Validators.required],
+    LastName: ['', Validators.required],
+    Email: ['', [Validators.required, Validators.email]],
+    Passwords: this.registrationPasswordsFormModel    
+  });
+
+  comparePasswords(formBuilder: FormGroup) {
+    let confirmPasswordControl = formBuilder.get('ConfirmPassword');
+    //passwordMismatch - is an error that we create (custom)
+    // confirmPasswordControl.errors=null
+    // or if there are errors such as required confirmPasswordControl.errors={required:true}
+    // or if there are errors such as passwordMismatch confirmPasswordControl.errors={passwordMismatch:true}
+    if (confirmPasswordControl.errors == null || 'passwordMismatch' in confirmPasswordControl.errors) {
+      if (formBuilder.get('Password').value != confirmPasswordControl.value)
+        confirmPasswordControl.setErrors({ passwordMismatch: true });
+      else
+        confirmPasswordControl.setErrors(null);
+    }
+  }
+
+  register() {
+    var body = {
+      FirstName: this.registrationFormModel.value.FirstName,
+      LastName: this.registrationFormModel.value.LastName,
+      Email: this.registrationFormModel.value.Email,
+      Password: this.registrationFormModel.value.Passwords.Password,
+    };
+    return this.http.post(this.registrationUrl, body);
+  }
+
+  // REGISTRATION VIA API END
 
   getAllRoles(): Observable<ApplicationRole[]> {
     return this.http.get<ApplicationRole[]>(this.allRolesUrl).pipe(

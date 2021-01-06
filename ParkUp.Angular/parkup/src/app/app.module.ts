@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,14 +11,19 @@ import { OwnerModule } from './components/owner/owner.module';
 import { AdminModule } from './components/admin/admin.module';
 import { SuperAdminModule } from './components/super-admin/super-admin.module';
 import { SharedModule } from './components/shared/shared.module';
+import { UserComponent } from './user/user.component';
+import { RegistrationComponent } from './user/registration/registration.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    UserComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    ReactiveFormsModule,
     FormsModule,
     HomeModule,
     AccountModule,
