@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ParkUp.API.Models;
 using ParkUp.Core.Entities;
@@ -18,13 +19,47 @@ namespace ParkUp.API.Controllers
     {
         private readonly IAsyncRepository _repository;
         private readonly IMapper _mapper;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
         public UsersController(IAsyncRepository repository,
-                               IMapper mapper)
+                               IMapper mapper,
+                               UserManager<ApplicationUser> userManager,
+                               SignInManager<ApplicationUser> signInManager)
         {
             _repository = repository;
             _mapper = mapper;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
+
+
+        // POST: api/<UsersController>/register
+        [HttpPost]
+        [Route("register")]
+        public async Task<Object> PostApplicationUser(ApplicationUserDTO applicationUserDTO)
+        {
+            ApplicationUser newUser = new ApplicationUser()
+            {
+                FirstName = applicationUserDTO.FirstName,
+                LastName = applicationUserDTO.LastName,
+                Email = applicationUserDTO.Email,
+                UserName = applicationUserDTO.Email,
+                DateAdded = DateTime.Now
+            };
+            try
+            {
+                var result = await _userManager.CreateAsync(newUser, applicationUserDTO.Password);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+
 
         // GET: api/<UsersController>/all-users
         [HttpGet]
