@@ -8,6 +8,7 @@ import { ParkingSpaceRental } from '../models/ParkingSpaceRental';
 import { ApplicationUser } from '../models/ApplicationUser';
 import { CashOut } from '../models/CashOut';
 import { ApplicationRole } from '../models/ApplicationRole';
+import { FormBuilder } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,20 @@ export class UsersService {
   // TEMPORARY hardcoded user ID
   private userId = '19a0694b-57eb-4b0a-aca4-86d71e389d0f';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+              private formBuilder: FormBuilder) { }
+
+  registrationPasswordsFormModel = this.formBuilder.group({
+    Password: [''],
+    ConfirmPassword: ['']
+  });
+
+  registrationFormModel = this.formBuilder.group({
+    FirstName: [''],
+    LastName: [''],
+    Email: [''],
+    Passwords: this.registrationPasswordsFormModel    
+  });
 
   getAllRoles(): Observable<ApplicationRole[]> {
     return this.http.get<ApplicationRole[]>(this.allRolesUrl).pipe(
