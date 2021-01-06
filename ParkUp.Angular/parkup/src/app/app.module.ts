@@ -11,10 +11,14 @@ import { OwnerModule } from './components/owner/owner.module';
 import { AdminModule } from './components/admin/admin.module';
 import { SuperAdminModule } from './components/super-admin/super-admin.module';
 import { SharedModule } from './components/shared/shared.module';
+import { UserComponent } from './user/user.component';
+import { RegistrationComponent } from './user/registration/registration.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    UserComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,
