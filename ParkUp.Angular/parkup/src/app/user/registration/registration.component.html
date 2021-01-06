@@ -5,55 +5,26 @@
       <form [formGroup]="usersService.registrationFormModel" autocomplete="off">
         <div asp-validation-summary="All" class="text-danger"></div>
         <div class="form-group">
-          <label asp-for="FirstName"></label>
-          <input asp-for="FirstName"
-                 class="form-control"
-                 data-val="true"
-                 data-val-required="The first name is required."
-                 aria-describedby="first-name-error"
-                 aria-invalid="true" />
-          <span asp-validation-for="FirstName" class="text-danger"></span>
+          <label>First Name</label>
+          <input class="form-control" formControlName="FirstName" />
         </div>
         <div class="form-group">
-          <label asp-for="LastName"></label>
-          <input asp-for="LastName"
-                 class="form-control"
-                 data-val="true"
-                 data-val-required="The last name is required."
-                 aria-describedby="last-name-error"
-                 aria-invalid="true" />
-          <span asp-validation-for="LastName" class="text-danger"></span>
+          <label>Last Name</label>
+          <input class="form-control" formControlName="LastName" />
         </div>
         <div class="form-group">
-          <label asp-for="Email"></label>
-          <input asp-for="Email"
-                 class="form-control"
-                 data-val="true"
-                 data-val-required="The email address is required."
-                 data-val-email="The email address is not valid."
-                 aria-describedby="email-error"
-                 aria-invalid="true" />
-          <span asp-validation-for="Email" class="text-danger"></span>
+          <label>Email</label>
+          <input class="form-control" formControlName="Email" />
         </div>
-        <div class="form-group">
-          <label asp-for="Password"></label>
-          <input asp-for="Password"
-                 class="form-control"
-                 data-val="true"
-                 data-val-required="The password is required."
-                 aria-describedby="password-error"
-                 aria-invalid="true" />
-          <span asp-validation-for="Password" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-          <label asp-for="ConfirmPassword"></label>
-          <input asp-for="ConfirmPassword"
-                 class="form-control"
-                 data-val="true"
-                 data-val-required="The password confirmation is required."
-                 aria-describedby="password-confirmation-error"
-                 aria-invalid="true" />
-          <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+        <div formGroupName="Passwords">
+          <div class="form-group">
+            <label>Password</label>
+            <input class="form-control" formControlName="Password" />
+          </div>
+          <div class="form-group">
+            <label>Confirm Password</label>
+            <input class="form-control" formControlName="ConfirmPassword" />
+          </div>
         </div>
         <button type="submit" class="btn btn-primary">Register</button>
       </form>
