@@ -12,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using ParkUp.API.Models;
 using ParkUp.Core.Entities;
 using ParkUp.Core.Interfaces;
 using ParkUp.Infrastructure.Data;
@@ -37,6 +38,9 @@ namespace ParkUp.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Inject AppSettings
+            services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSettings"));
+
             services.AddCors(options =>
             {
                 options.AddPolicy(name: AllowAnyOrigin,
