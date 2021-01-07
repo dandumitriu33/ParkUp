@@ -30,8 +30,11 @@ export class UsersService {
 
 
   getUserProfile() {
-    var tokenHeader = new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token') });
-    return this.http.get(this.userProfileUrl, { headers: tokenHeader });
+    // see auth.interceptor.ts for enterprise - multiple router w/ auth - this is the manual way for small apps
+    // var tokenHeader = new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token') });
+    // return this.http.get(this.userProfileUrl, { headers: tokenHeader });
+
+    return this.http.get(this.userProfileUrl);
   }
 
   // LOGIN VIA API
