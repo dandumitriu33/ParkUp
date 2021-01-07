@@ -71,12 +71,15 @@
         <span id="userCredits" class="font-weight-bold"> @credits </span>
       </a>
     </div>
+
     <div class="nav-item">
       <a class="nav-link text-dark" [routerLink]="['/user/login']">Sign In</a>
     </div>
+
     <div class="nav-item">
       <a class="nav-link text-dark" [routerLink]="['/user/registration']">Sign Up</a>
     </div>
+
     <div class="nav-item">
       <form method="post">
         <button type="submit" class="btn btn-link nav-link text-dark">Log out</button>
@@ -84,8 +87,8 @@
     </div>
 
   </div>
-
 </nav>
+
 <div class="container">
   <router-outlet></router-outlet>
 </div>

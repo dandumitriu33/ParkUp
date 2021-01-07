@@ -9,16 +9,16 @@
           <label>First Name</label>
           <input class="form-control" formControlName="FirstName" />
           <label class="text-danger"
-                 *ngIf="usersService.registrationFormModel.get('FirstName').touched && usersService.registrationFormModel.get('FirstName').errors?.required"
-                 >The First Name is required.
+                 *ngIf="usersService.registrationFormModel.get('FirstName').touched && usersService.registrationFormModel.get('FirstName').errors?.required">
+            The First Name is required.
           </label>
         </div>
         <div class="form-group required">
           <label>Last Name</label>
           <input class="form-control" formControlName="LastName" />
           <label class="text-danger"
-                 *ngIf="usersService.registrationFormModel.get('LastName').touched && usersService.registrationFormModel.get('LastName').errors?.required"
-                 >The Last Name is required.
+                 *ngIf="usersService.registrationFormModel.get('LastName').touched && usersService.registrationFormModel.get('LastName').errors?.required">
+            The Last Name is required.
           </label>
         </div>
         <div class="form-group required">
