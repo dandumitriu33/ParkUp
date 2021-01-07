@@ -13,12 +13,14 @@ import { SuperAdminModule } from './components/super-admin/super-admin.module';
 import { SharedModule } from './components/shared/shared.module';
 import { UserComponent } from './user/user.component';
 import { RegistrationComponent } from './user/registration/registration.component';
+import { LoginComponent } from './user/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UserComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

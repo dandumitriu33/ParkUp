@@ -7,7 +7,7 @@
     </button>
     <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
       <ul class="navbar-nav flex-grow-1">
-        
+
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="accountNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Account
@@ -64,7 +64,7 @@
       </ul>
     </div>
 
-    
+
     <div class="nav-item">
       <a id="loggedInUserEmail" class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">
         Name
@@ -72,11 +72,17 @@
       </a>
     </div>
     <div class="nav-item">
-      <form method="post" >
+      <a class="nav-link text-dark" [routerLink]="['/user/login']">Sign In</a>
+    </div>
+    <div class="nav-item">
+      <a class="nav-link text-dark" [routerLink]="['/user/registration']">Sign Up</a>
+    </div>
+    <div class="nav-item">
+      <form method="post">
         <button type="submit" class="btn btn-link nav-link text-dark">Log out</button>
       </form>
     </div>
-    
+
   </div>
 
 </nav>
