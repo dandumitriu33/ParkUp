@@ -22,6 +22,9 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginErrorMessage = '';
+    if (localStorage.getItem('token') != null) {
+      this.router.navigateByUrl('/home');
+    }
   }
 
   onSubmit(form: NgForm) {
