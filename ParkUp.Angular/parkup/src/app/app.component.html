@@ -8,7 +8,7 @@
     <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
       <ul class="navbar-nav flex-grow-1">
 
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown" *ngIf="currentUserExists()">
           <a class="nav-link dropdown-toggle" href="#" id="accountNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Account
           </a>
