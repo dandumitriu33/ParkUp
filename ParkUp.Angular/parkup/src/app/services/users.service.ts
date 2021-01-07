@@ -20,12 +20,21 @@ export class UsersService {
   private allUnapprovedCashOutsUrl = 'https://localhost:44315/api/owners/all-unapproved-cash-outs';
   private allRolesUrl = 'https://localhost:44315/api/admins/all-roles';
   private registrationUrl = 'https://localhost:44315/api/users/register';
+  private loginUrl = 'https://localhost:44315/api/users/login';
   // TEMPORARY hardcoded user ID
   private userId = '19a0694b-57eb-4b0a-aca4-86d71e389d0f';
 
   constructor(private http: HttpClient,
               private formBuilder: FormBuilder) { }
 
+  // LOGIN VIA API
+  login(formData) {
+    return this.http.post(this.registrationUrl, formData);
+  }
+
+
+
+  // LOGIN VIA API END
   
   // REGISTRATION VIA API
   registrationPasswordsFormModel = this.formBuilder.group({
@@ -67,7 +76,6 @@ export class UsersService {
     };
     return this.http.post(this.registrationUrl, body);
   }
-
   // REGISTRATION VIA API END
 
   getAllRoles(): Observable<ApplicationRole[]> {

@@ -1,6 +1,7 @@
 <div class="container">
   <h4>ParkUp Login</h4>
-  <form #form="ngForm">
+  <p>{{ loginErrorMessage }}</p>
+  <form #form="ngForm" (submit)="onSubmit(form)">
 
     <div class="form-group">
       <label for="Email">Email</label>
