@@ -7,13 +7,14 @@ import { BuyCreditsComponent } from './buy-credits.component';
 import { PurchaseHistoryComponent } from './purchase-history.component';
 import { RentalHistoryComponent } from './rental-history.component';
 import { PrivacyComponent } from './privacy.component';
+import { AuthGuard } from '../../auth/auth.guard';
 
 
 const routes: Routes = [
-  { path: 'account', component: AccountComponent },
-  { path: 'buy-credits', component: BuyCreditsComponent },
-  { path: 'purchase-history', component: PurchaseHistoryComponent },
-  { path: 'rental-history', component: RentalHistoryComponent },
+  { path: 'account', component: AccountComponent, canActivate: [AuthGuard] },
+  { path: 'buy-credits', component: BuyCreditsComponent, canActivate: [AuthGuard] },
+  { path: 'purchase-history', component: PurchaseHistoryComponent, canActivate: [AuthGuard] },
+  { path: 'rental-history', component: RentalHistoryComponent, canActivate: [AuthGuard] },
   { path: 'privacy', component: PrivacyComponent }
 ];
 

@@ -1,6 +1,9 @@
-<div class="text-center">
-  <h4>More account options for users.</h4>
-  <p>
-    Coming soon.
-  </p>
+<div class="container" *ngIf="userDetails">
+  <h4>Account details.</h4>
+  <ul class="list-group">
+    <li class="list-group-item">First Name: {{ userDetails.firstName }}</li>
+    <li class="list-group-item">Last Name: {{ userDetails.lastName }}</li>
+    <li class="list-group-item">Email: {{ userDetails.email }}</li>
+    <li class="list-group-item">Credits: {{ userDetails.credits }}</li>
+  </ul>
 </div>

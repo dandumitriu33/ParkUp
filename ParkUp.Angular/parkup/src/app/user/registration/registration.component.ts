@@ -11,7 +11,7 @@ import { UsersService } from '../../services/users.service';
 export class RegistrationComponent implements OnInit {
   userCreationMessage: string;
 
-  constructor(private usersService: UsersService) { }
+  constructor(public usersService: UsersService) { }
 
   ngOnInit(): void {
     this.usersService.registrationFormModel.reset();

@@ -2,12 +2,17 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using ParkUp.API.Models;
 using ParkUp.Core.Entities;
 using ParkUp.Core.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
@@ -21,16 +26,19 @@ namespace ParkUp.API.Controllers
         private readonly IMapper _mapper;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ApplicationSettings _applicationSettings;
 
         public UsersController(IAsyncRepository repository,
                                IMapper mapper,
                                UserManager<ApplicationUser> userManager,
-                               SignInManager<ApplicationUser> signInManager)
+                               SignInManager<ApplicationUser> signInManager,
+                               IOptions<ApplicationSettings> applicationSettings)
         {
             _repository = repository;
             _mapper = mapper;
             _userManager = userManager;
             _signInManager = signInManager;
+            _applicationSettings = applicationSettings.Value; // the field is not the Interface, direct object so we can extract value
         }
 
 
@@ -56,7 +64,35 @@ namespace ParkUp.API.Controllers
             {
                 throw ex;
             }
+        }
 
+        // POST: api/<UsersController>/login
+        [HttpPost]
+        [Route("login")]
+        public async Task<IActionResult> Login(LoginDTO loginDTO)
+        {
+            var user = await _userManager.FindByNameAsync(loginDTO.Email);
+            if (user != null && await _userManager.CheckPasswordAsync(user, loginDTO.Password))
+            {
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                        new Claim("UserID", user.Id.ToString())
+                    }),
+                    Expires = DateTime.UtcNow.AddDays(1),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_applicationSettings.JWT_Secret)), 
+                                                                SecurityAlgorithms.HmacSha256Signature)
+                };
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var securityToken = tokenHandler.CreateToken(tokenDescriptor);
+                var token = tokenHandler.WriteToken(securityToken);
+                return Ok(new { token = token });
+            }
+            else
+            {
+                return BadRequest(new { message = "Incorrect username or password." });
+            }
         }
 
 

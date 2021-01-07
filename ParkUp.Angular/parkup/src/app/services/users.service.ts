@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
@@ -20,12 +20,28 @@ export class UsersService {
   private allUnapprovedCashOutsUrl = 'https://localhost:44315/api/owners/all-unapproved-cash-outs';
   private allRolesUrl = 'https://localhost:44315/api/admins/all-roles';
   private registrationUrl = 'https://localhost:44315/api/users/register';
+  private loginUrl = 'https://localhost:44315/api/users/login';
+  private userProfileUrl = 'https://localhost:44315/api/userProfile';
   // TEMPORARY hardcoded user ID
   private userId = '19a0694b-57eb-4b0a-aca4-86d71e389d0f';
 
   constructor(private http: HttpClient,
               private formBuilder: FormBuilder) { }
 
+
+  getUserProfile() {
+    // see auth.interceptor.ts for enterprise - multiple router w/ auth - this is the manual way for small apps
+    // var tokenHeader = new HttpHeaders({ 'Authorization': 'Bearer ' + localStorage.getItem('token') });
+    // return this.http.get(this.userProfileUrl, { headers: tokenHeader });
+
+    return this.http.get(this.userProfileUrl);
+  }
+
+  // LOGIN VIA API
+  login(formData) {
+    return this.http.post(this.loginUrl, formData);
+  }
+  // LOGIN VIA API END
   
   // REGISTRATION VIA API
   registrationPasswordsFormModel = this.formBuilder.group({
@@ -67,7 +83,6 @@ export class UsersService {
     };
     return this.http.post(this.registrationUrl, body);
   }
-
   // REGISTRATION VIA API END
 
   getAllRoles(): Observable<ApplicationRole[]> {
