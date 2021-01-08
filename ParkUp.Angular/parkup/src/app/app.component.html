@@ -8,7 +8,7 @@
     <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
       <ul class="navbar-nav flex-grow-1">
 
-        <li class="nav-item dropdown" *ngIf="currentUserExists()">
+        <li class="nav-item dropdown" *ngIf="currentUserIsSignedIn()">
           <a class="nav-link dropdown-toggle" href="#" id="accountNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Account
           </a>
@@ -80,10 +80,8 @@
       <a class="nav-link text-dark" [routerLink]="['/user/registration']">Sign Up</a>
     </div>
 
-    <div class="nav-item">
-      <form method="post">
-        <button type="submit" class="btn btn-link nav-link text-dark" (click)="onLogout()">Log out</button>
-      </form>
+    <div class="nav-item" *ngIf="currentUserIsSignedIn()">
+        <a class="nav-link text-dark" href="#" (click)="onLogout()">Log out</a>
     </div>
 
   </div>

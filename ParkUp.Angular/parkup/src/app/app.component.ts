@@ -17,7 +17,7 @@ export class AppComponent {
     this.router.navigate(['/user/login']) 
   }
 
-  currentUserExists(): boolean {
+  currentUserIsSignedIn(): boolean {
     if (localStorage.getItem('token') != null) {
       return true;
     }
