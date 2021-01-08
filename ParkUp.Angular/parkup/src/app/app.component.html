@@ -8,7 +8,7 @@
     <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
       <ul class="navbar-nav flex-grow-1">
 
-        <li class="nav-item dropdown" *ngIf="currentUserExists()">
+        <li class="nav-item dropdown" *ngIf="currentUserIsSignedIn()">
           <a class="nav-link dropdown-toggle" href="#" id="accountNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Account
           </a>
@@ -23,7 +23,7 @@
         </li>
 
 
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown" *ngIf="currentUserOwnerOrSuperAdmin()">
           <a class="nav-link dropdown-toggle" href="#" id="parkingSpacesNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             My Spaces
           </a>
@@ -36,7 +36,7 @@
           </div>
         </li>
 
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown" *ngIf="currentUserAdminOrSuperAdmin()">
           <a class="nav-link dropdown-toggle" href="#" id="managementNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Management
           </a>
@@ -51,7 +51,7 @@
           </div>
         </li>
 
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown" *ngIf="currentUserSuperAdmin()">
           <a class="nav-link dropdown-toggle" href="#" id="adminNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Admin
           </a>
@@ -65,25 +65,23 @@
     </div>
 
 
-    <div class="nav-item">
-      <a id="loggedInUserEmail" class="nav-link text-dark" asp-area="" asp-controller="" asp-action="">
-        Name
-        <span id="userCredits" class="font-weight-bold"> @credits </span>
-      </a>
-    </div>
-
-    <div class="nav-item">
+    <div class="nav-item" *ngIf="!currentUserIsSignedIn()">
       <a class="nav-link text-dark" [routerLink]="['/user/login']">Sign In</a>
     </div>
 
-    <div class="nav-item">
+    <div class="nav-item" *ngIf="!currentUserIsSignedIn()">
       <a class="nav-link text-dark" [routerLink]="['/user/registration']">Sign Up</a>
     </div>
 
-    <div class="nav-item">
-      <form method="post">
-        <button type="submit" class="btn btn-link nav-link text-dark" (click)="onLogout()">Log out</button>
-      </form>
+    <div class="nav-item" *ngIf="currentUserIsSignedIn() && userDetails!=null">
+      <a class="nav-link text-dark">
+        {{ userDetails.firstName }}
+        <span id="userCredits" class="font-weight-bold"> {{ userDetails.credits }} </span>
+      </a>
+    </div>
+
+    <div class="nav-item" *ngIf="currentUserIsSignedIn()">
+      <a class="nav-link text-dark" href="#" (click)="onLogout()">Log out</a>
     </div>
 
   </div>

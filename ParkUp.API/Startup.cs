@@ -67,6 +67,7 @@ namespace ParkUp.API
                 options.Password.RequireLowercase = false;
                 options.Password.RequireNonAlphanumeric = false;
             })
+                    .AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<ParkUpContext>();
 
             services.AddScoped<IAsyncRepository, EFRepository>();

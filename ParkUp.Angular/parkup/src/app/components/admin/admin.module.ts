@@ -11,14 +11,15 @@ import { AllAreasComponent } from './all-areas.component';
 import { AllCitiesComponent } from './all-cities.component';
 import { SelectCityComponent } from './select-city.component';
 import { SelectAreaComponent } from './select-area.component';
+import { AuthGuard } from '../../auth/auth.guard';
 
 const routes: Routes = [
-  { path: 'approve-spaces', component: ApproveSpacesComponent },
-  { path: 'approve-cash-out', component: ApproveCashOutComponent },
-  { path: 'all-users', component: AllUsersComponent },
-  { path: 'all-spaces', component: AllSpacesComponent },
-  { path: 'all-areas', component: AllAreasComponent },
-  { path: 'all-cities', component: AllCitiesComponent }
+  { path: 'approve-spaces', component: ApproveSpacesComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'SuperAdmin'] } },
+  { path: 'approve-cash-out', component: ApproveCashOutComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'SuperAdmin'] } },
+  { path: 'all-users', component: AllUsersComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'SuperAdmin'] } },
+  { path: 'all-spaces', component: AllSpacesComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'SuperAdmin'] } },
+  { path: 'all-areas', component: AllAreasComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'SuperAdmin'] } },
+  { path: 'all-cities', component: AllCitiesComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'SuperAdmin'] } }
 ];
 
 @NgModule({

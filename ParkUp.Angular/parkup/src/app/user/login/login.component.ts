@@ -31,6 +31,8 @@ export class LoginComponent implements OnInit {
     this.usersService.login(form.value).subscribe(
       (res: any) => {
         localStorage.setItem('token', res.token);
+        // refresh logged in user for navbar display of name and credits
+        this.usersService.isUserLoggedIn.next(true);
         this.router.navigateByUrl('/home');
       },
       err => {

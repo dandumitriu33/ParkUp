@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -30,6 +31,7 @@ namespace ParkUp.API.Controllers
 
         // GET: api/<ParkingSpacesController>/unapproved
         [HttpGet]
+        [Authorize(Roles ="Admin,SuperAdmin")]
         [Route("unapproved")]
         public async Task<string> GetUnapprovedParkingSpaces()
         {

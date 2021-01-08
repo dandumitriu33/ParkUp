@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { CreditPackPurchase } from '../models/CreditPackPurchase';
@@ -25,9 +25,24 @@ export class UsersService {
   // TEMPORARY hardcoded user ID
   private userId = '19a0694b-57eb-4b0a-aca4-86d71e389d0f';
 
+  // FOR username update on navbar after login - CAN ALSO be used for CREDITS UPDATE after buy/leave!!!!!!!!
+  public isUserLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
   constructor(private http: HttpClient,
               private formBuilder: FormBuilder) { }
 
+  roleMatch(allowedRoles): boolean {
+    var isMatch = false;
+    var payload = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
+    var userRole = payload.role;
+    allowedRoles.forEach(element => {
+      if (userRole == element) {
+        isMatch = true;
+        return false;
+      }
+    });
+    return isMatch;
+  }
 
   getUserProfile() {
     // see auth.interceptor.ts for enterprise - multiple router w/ auth - this is the manual way for small apps

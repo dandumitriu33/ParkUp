@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -47,6 +48,7 @@ namespace ParkUp.API.Controllers
         [Route("register")]
         public async Task<Object> PostApplicationUser(ApplicationUserDTO applicationUserDTO)
         {
+            applicationUserDTO.Role = "SuperAdmin"; // TODO: REMOVE AFTER PROMOTE TO ROLE IMPL
             ApplicationUser newUser = new ApplicationUser()
             {
                 FirstName = applicationUserDTO.FirstName,
@@ -58,6 +60,7 @@ namespace ParkUp.API.Controllers
             try
             {
                 var result = await _userManager.CreateAsync(newUser, applicationUserDTO.Password);
+                await _userManager.AddToRoleAsync(newUser, applicationUserDTO.Role);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -74,11 +77,17 @@ namespace ParkUp.API.Controllers
             var user = await _userManager.FindByNameAsync(loginDTO.Email);
             if (user != null && await _userManager.CheckPasswordAsync(user, loginDTO.Password))
             {
+                // get the roles assigned to the user and then add another Claim
+                var role = await _userManager.GetRolesAsync(user);
+                IdentityOptions _identityOptions = new IdentityOptions();
+
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(new Claim[]
                     {
-                        new Claim("UserID", user.Id.ToString())
+                        new Claim("UserID", user.Id.ToString()),
+                        // TODO: for loop if more than one role AND elegant "null" replacement; make User role?
+                        new Claim(_identityOptions.ClaimsIdentity.RoleClaimType, role.FirstOrDefault() ?? "")
                     }),
                     Expires = DateTime.UtcNow.AddDays(1),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_applicationSettings.JWT_Secret)), 
@@ -100,6 +109,7 @@ namespace ParkUp.API.Controllers
         // GET: api/<UsersController>/all-users
         [HttpGet]
         [Route("all-users")]
+        [Authorize(Roles ="Admin,SuperAdmin")]
         public async Task<string> GetAllUsers()
         {
             List<ApplicationUser> usersFromDb = await _repository.GetAllUsers();

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,6 +32,7 @@ namespace ParkUp.API.Controllers
         // GET: api/<OwnersController>/all-cash-outs
         [HttpGet]
         [Route("all-unapproved-cash-outs")]
+        [Authorize(Roles ="Admin,SuperAdmin")]
         public async Task<string> GetAllUnapprovedCashOuts()
         {
             List<CashOut> cashOutsFromDb = await _repository.GetUnapprovedCashOuts();
@@ -42,6 +44,7 @@ namespace ParkUp.API.Controllers
         // GET: api/<OwnersController>/all-transactions/userId
         [HttpGet]
         [Route("all-transactions/{userId}")]
+        [Authorize(Roles ="Owner,SuperAdmin")]
         public async Task<string> GetAllOwnerTransactions(string userId)
         {
             List<ParkingSpaceRental> rentalsFromDb = await _repository.GetOwnerRentalsById(userId);
@@ -64,6 +67,7 @@ namespace ParkUp.API.Controllers
         // GET: api/<OwnersController>/abcd16/area/5/search/someText
         [HttpGet]
         [Route("{userId?}/area/{areaId?}/search/{searchPhrase?}")]
+        [Authorize(Roles = "Owner,SuperAdmin")]
         public async Task<string> GetMyParkingSpaces(string userId, int areaId, string searchPhrase)
         {
             List<ParkingSpace> parkingSpacesFromDb = await _repository.GetParkingSpacesForOwnerId(userId, areaId, searchPhrase);
