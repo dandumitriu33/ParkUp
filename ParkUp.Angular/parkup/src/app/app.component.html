@@ -23,7 +23,7 @@
         </li>
 
 
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown" *ngIf="currentUserOwnerOrSuperAdmin()">
           <a class="nav-link dropdown-toggle" href="#" id="parkingSpacesNavbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             My Spaces
           </a>

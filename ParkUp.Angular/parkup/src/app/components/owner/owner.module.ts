@@ -9,10 +9,10 @@ import { TransactionHistoryComponent } from './transaction-history.component';
 import { AuthGuard } from '../../auth/auth.guard';
 
 const routes: Routes = [
-  { path: 'my-parking-spaces', component: MyParkingSpacesComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'SuperAdmin'] } },
-  { path: 'add-parking-space', component: AddParkingSpaceComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'SuperAdmin'] } },
-  { path: 'cash-out', component: CashOutComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'SuperAdmin'] } },
-  { path: 'transaction-history', component: TransactionHistoryComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'SuperAdmin'] } }  
+  { path: 'my-parking-spaces', component: MyParkingSpacesComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Owner', 'SuperAdmin'] } },
+  { path: 'add-parking-space', component: AddParkingSpaceComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Owner', 'SuperAdmin'] } },
+  { path: 'cash-out', component: CashOutComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Owner', 'SuperAdmin'] } },
+  { path: 'transaction-history', component: TransactionHistoryComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Owner', 'SuperAdmin'] } }  
 ];
 
 @NgModule({
