@@ -23,4 +23,19 @@ export class AppComponent {
     }
     return false;
   }
+
+  currentUserSuperAdmin(): boolean {
+    try {
+      if (localStorage.getItem('token') != null) {
+        var payload = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
+        var userRole = payload.role;
+        if (userRole === "SuperAdmin") {
+          return true;
+        }
+        return false;
+      }
+    } catch (e) {
+      console.log(e);
+    }    
+  }
 }
