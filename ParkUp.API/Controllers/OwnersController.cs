@@ -44,6 +44,7 @@ namespace ParkUp.API.Controllers
         // GET: api/<OwnersController>/all-transactions/userId
         [HttpGet]
         [Route("all-transactions/{userId}")]
+        [Authorize(Roles ="Owner,SuperAdmin")]
         public async Task<string> GetAllOwnerTransactions(string userId)
         {
             List<ParkingSpaceRental> rentalsFromDb = await _repository.GetOwnerRentalsById(userId);
