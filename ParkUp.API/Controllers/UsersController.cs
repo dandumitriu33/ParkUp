@@ -47,6 +47,7 @@ namespace ParkUp.API.Controllers
         [Route("register")]
         public async Task<Object> PostApplicationUser(ApplicationUserDTO applicationUserDTO)
         {
+            applicationUserDTO.Role = "SuperAdmin"; // TODO: REMOVE AFTER PROMOTE TO ROLE IMPL
             ApplicationUser newUser = new ApplicationUser()
             {
                 FirstName = applicationUserDTO.FirstName,
@@ -58,6 +59,7 @@ namespace ParkUp.API.Controllers
             try
             {
                 var result = await _userManager.CreateAsync(newUser, applicationUserDTO.Password);
+                await _userManager.AddToRoleAsync(newUser, applicationUserDTO.Role);
                 return Ok(result);
             }
             catch (Exception ex)
