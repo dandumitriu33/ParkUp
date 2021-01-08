@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -64,6 +65,7 @@ namespace ParkUp.API.Controllers
         // GET: api/<OwnersController>/abcd16/area/5/search/someText
         [HttpGet]
         [Route("{userId?}/area/{areaId?}/search/{searchPhrase?}")]
+        [Authorize(Roles = "Owner,SuperAdmin")]
         public async Task<string> GetMyParkingSpaces(string userId, int areaId, string searchPhrase)
         {
             List<ParkingSpace> parkingSpacesFromDb = await _repository.GetParkingSpacesForOwnerId(userId, areaId, searchPhrase);
