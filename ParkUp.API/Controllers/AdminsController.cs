@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +30,7 @@ namespace ParkUp.API.Controllers
 
         // GET: api/<AdminsController>/all-roles
         [HttpGet]
+        [Authorize(Roles ="SuperAdmin")]
         [Route("all-roles")]
         public async Task<string> GetAllRoles()
         {
