@@ -1,4 +1,6 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 import { City } from '../../models/City';
 import { CitiesService } from '../../services/cities.service';
@@ -9,9 +11,14 @@ import { CitiesService } from '../../services/cities.service';
   styleUrls: ['./all-cities.component.css']
 })
 export class AllCitiesComponent implements OnInit {
+  
+  addCityFormModel = {
+    Name: ''
+  };
   allCities: City[];
 
-  constructor(private citiesService: CitiesService) { }
+  constructor(private citiesService: CitiesService,
+              private http: HttpClient) { }
 
   ngOnInit(): void {
     this.citiesService.getAllCities().subscribe({
@@ -22,4 +29,23 @@ export class AllCitiesComponent implements OnInit {
     });
   }
 
+  onSubmit(form: NgForm) {
+    console.log('onsubmit new city: ' + form.value.Name);
+    const newCity: City = {
+      Id: 0,
+      Name: form.value.Name,
+      Areas: []
+    };
+    console.log(newCity);
+    this.citiesService.addCity(newCity).subscribe(
+      (res: any) => {
+        console.log('new city added successfully');
+        this.ngOnInit();
+      },
+      err => {
+        console.log(err);
+        //console.log('tdterr');
+      }
+    );
+  }
 }

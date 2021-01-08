@@ -4,8 +4,8 @@
   <form #form="ngForm" (submit)="onSubmit(form)">
 
     <div class="form-group">
-      <label for="CityName">City Name</label>
-      <input class="form-control" #CityName="ngModel" id="CityName" name="CityName" [(ngModel)]="addCityFormModel.CityName" required />
+      <label for="Name">City Name</label>
+      <input class="form-control" #Name="ngModel" id="Name" name="Name" [(ngModel)]="addCityFormModel.Name" required />
     </div>
 
     <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Add City</button>

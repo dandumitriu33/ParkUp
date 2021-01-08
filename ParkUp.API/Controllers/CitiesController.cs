@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -41,6 +42,7 @@ namespace ParkUp.API.Controllers
 
         // POST api/<CitiesController>
         [HttpPost]
+        //[Authorize(Roles ="SuperAdmin")]
         public async Task<IActionResult> Post([FromBody] CityDTO cityDTO)
         {
             if (ModelState.IsValid)
@@ -49,7 +51,8 @@ namespace ParkUp.API.Controllers
                 {
                     City newCity = _mapper.Map<CityDTO, City>(cityDTO);
                     await _repository.AddCity(newCity);
-                    return Ok($"City \"{newCity.Name}\" was added successfully.");
+                    return Ok();
+                    //return Ok($"City \"{newCity.Name}\" was added successfully.");
                 }
                 catch (DbUpdateException dbex)
                 {
