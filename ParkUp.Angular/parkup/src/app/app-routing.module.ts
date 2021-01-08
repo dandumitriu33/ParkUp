@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { AuthGuard } from './auth/auth.guard';
 
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './user/login/login.component';
@@ -18,6 +17,7 @@ const routes: Routes = [
     ]
   },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
+  
   // TODO replace with error page
   { path: '**', redirectTo: 'home', pathMatch: 'full' }
 ];
