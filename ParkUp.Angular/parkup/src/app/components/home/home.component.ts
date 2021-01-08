@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit {
     this.takenSpaces = [
       { 'id': 1, 'name': 'test' },
       { 'id': 2, 'name': 'test2' },
-      { 'id': 3, 'name': 'test3' },
+      { 'id': 3, 'name': 'test3' }
       ];
   }
 

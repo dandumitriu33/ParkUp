@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UsersService } from './services/users.service';
 
@@ -7,10 +7,37 @@ import { UsersService } from './services/users.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'ParkUp';
+  userDetails;
+  isUserLoggedIn: boolean;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+              private usersService: UsersService) {
+    this.usersService.isUserLoggedIn.subscribe(value => {
+      this.isUserLoggedIn = value;
+      console.log('isUserLoggedIn value changed...');
+      this.refreshUserDetails();
+      console.log('user details refreshed');
+    });
+  }
+
+  ngOnInit() {
+    this.refreshUserDetails();
+  }
+
+  refreshUserDetails() {
+    if (localStorage.getItem('token') != null) {
+      this.usersService.getUserProfile().subscribe(
+        res => {
+          this.userDetails = res;
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    }    
+  }
 
   onLogout() {
     localStorage.removeItem('token');
