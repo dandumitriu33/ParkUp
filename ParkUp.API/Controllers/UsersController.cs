@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -108,6 +109,7 @@ namespace ParkUp.API.Controllers
         // GET: api/<UsersController>/all-users
         [HttpGet]
         [Route("all-users")]
+        [Authorize(Roles ="Admin,SuperAdmin")]
         public async Task<string> GetAllUsers()
         {
             List<ApplicationUser> usersFromDb = await _repository.GetAllUsers();

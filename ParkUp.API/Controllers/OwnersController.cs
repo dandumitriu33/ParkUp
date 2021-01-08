@@ -32,6 +32,7 @@ namespace ParkUp.API.Controllers
         // GET: api/<OwnersController>/all-cash-outs
         [HttpGet]
         [Route("all-unapproved-cash-outs")]
+        [Authorize(Roles ="Admin,SuperAdmin")]
         public async Task<string> GetAllUnapprovedCashOuts()
         {
             List<CashOut> cashOutsFromDb = await _repository.GetUnapprovedCashOuts();
