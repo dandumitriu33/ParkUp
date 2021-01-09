@@ -4,12 +4,14 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { Area } from '../models/Area';
+import { NewArea } from '../models/NewArea';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AreasService {
   private areasForCityUrl = `https://localhost:44315/api/areas/`;
+  private newAreaUrl = `https://localhost:44315/api/areas/add-new-area`;
 
   constructor(private http: HttpClient) { }
 
@@ -31,5 +33,8 @@ export class AreasService {
     return throwError(errorMessage);
   }
 
+  postNewArea(payload: NewArea) {
+    return this.http.post(this.newAreaUrl, payload);
+  }
 
 }

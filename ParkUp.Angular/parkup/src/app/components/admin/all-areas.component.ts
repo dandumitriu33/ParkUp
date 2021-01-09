@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 import { Area } from '../../models/Area';
 import { City } from '../../models/City';
+import { NewArea } from '../../models/NewArea';
 import { AreasService } from '../../services/areas.service';
 import { CitiesService } from '../../services/cities.service';
 
@@ -39,11 +41,24 @@ export class AllAreasComponent implements OnInit {
     });
   }
 
-  onSubmit() {
-    console.log(`new area submitted ${this.addAreaFormModel.Name} - CityId: ${this.addAreaFormModel.CityId}`);
+  onSubmit(form: NgForm) {
+    console.log(`submitting ${this.addAreaFormModel.Name} - CityId: ${this.addAreaFormModel.CityId}`);
+
+    const newArea: NewArea = {
+      "Name": this.addAreaFormModel.Name,
+      "CityId": +this.addAreaFormModel.CityId
+    };
+    console.log(newArea);
+    this.areasService.postNewArea(newArea).subscribe(
+      (res: any) => {
+        console.log('area added successfully');
+        this.refreshAreasForCity(this.addAreaFormModel.CityId);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+
   }
 
-  logCityId(userSelectedCity) {
-    console.log(`userSelectedCity from form ${userSelectedCity}`);
-  }
 }
