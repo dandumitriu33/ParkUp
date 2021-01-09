@@ -32,6 +32,7 @@ namespace ParkUp.API.Controllers
         // POST: api/<OwnersController>/request-cash-out>
         [HttpPost]
         [Route("request-cash-out")]
+        [Authorize(Roles ="Owner,SuperAdmin")]
         public async Task<IActionResult> RequestCashOut(CashOutRequestDTO cashOutRequestDTO)
         {
             // build the CashOut object for DB
