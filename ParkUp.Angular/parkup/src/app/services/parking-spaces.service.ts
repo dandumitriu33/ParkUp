@@ -15,11 +15,16 @@ export class ParkingSpacesService {
   private allOwnerParkingSpacesUrl = 'https://localhost:44315/api/owners/all-spaces/';
   private allOwnerTransactionsUrl = 'https://localhost:44315/api/owners/all-transactions/';
   private allUnapprovedParkingSpacesUrl = 'https://localhost:44315/api/parkingspaces/unapproved';
+  private newParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/add-new-parking-space';
 
   // TEMPORARY user id
   userId = '19a0694b-57eb-4b0a-aca4-86d71e389d0f';
 
   constructor(private http: HttpClient) { }
+
+  addNewParkingSpace(newParkingSpace: ParkingSpace) {
+    return this.http.post(this.newParkingSpaceUrl, newParkingSpace);
+  }
 
   getAllUnapprovedParkingSpaces(): Observable<ParkingSpace[]> {
     return this.http.get<ParkingSpace[]>(this.allUnapprovedParkingSpacesUrl).pipe(
