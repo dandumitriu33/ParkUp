@@ -59,7 +59,23 @@ export class BuyCreditsComponent implements OnInit {
 
   onBuy500Click(): void {
     console.log('buy 500 clicked.');
-    // TODO - post request to add 500 cred to user
+    if (localStorage.getItem('token') != null) {
+      var payload = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
+      var UserId = payload.UserID;
+    }
+    var transferPayload: CreditPack = {
+      "UserId": UserId,
+      "Amount": 500
+    };
+    this.usersService.buyCredits(transferPayload).subscribe(
+      (res: any) => {
+        console.log('bought 500 credits');
+        this.usersService.isUserLoggedIn.next(true);
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
   onBuy1000Click(): void {
