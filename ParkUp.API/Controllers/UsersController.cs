@@ -143,8 +143,10 @@ namespace ParkUp.API.Controllers
         // POST: api/<UsersController>/buy-credits
         [HttpPost]
         [Route("buy-credits")]
+        [Authorize]
         public async Task<IActionResult> BuyCredits(CreditPackDTO creditPackDTO)
         {
+            await _repository.BuyCredits(creditPackDTO.UserId, creditPackDTO.Amount);
             return Ok();
         }
     }
