@@ -17,17 +17,14 @@ export class BuyCreditsComponent implements OnInit {
 
   onBuy50Click(): void {
     console.log('buy 50 clicked.');
-    // TODO - post request to add 50 cred to user
     if (localStorage.getItem('token') != null) {
       var payload = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
       var UserId = payload.UserID;
     }
-
     var transferPayload: CreditPack = {
       "UserId": UserId,
       "Amount": 50
-    }
-    console.log(transferPayload);
+    };
     this.usersService.buyCredits(transferPayload).subscribe(
       (res: any) => {
         console.log('bought 50 credits');
@@ -41,7 +38,23 @@ export class BuyCreditsComponent implements OnInit {
 
   onBuy100Click(): void {
     console.log('buy 100 clicked.');
-    // TODO - post request to add 100 cred to user
+    if (localStorage.getItem('token') != null) {
+      var payload = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
+      var UserId = payload.UserID;
+    }
+    var transferPayload: CreditPack = {
+      "UserId": UserId,
+      "Amount": 100
+    };
+    this.usersService.buyCredits(transferPayload).subscribe(
+      (res: any) => {
+        console.log('bought 100 credits');
+        this.usersService.isUserLoggedIn.next(true);
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
   onBuy500Click(): void {
