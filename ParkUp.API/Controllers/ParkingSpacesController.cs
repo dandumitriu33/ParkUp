@@ -33,6 +33,7 @@ namespace ParkUp.API.Controllers
         // POST: api/<ParkingSpacesController>/add-new-parking-space
         [HttpPost]
         [Route("add-new-parking-space")]
+        [Authorize(Roles ="Owner,SuperAdmin")]
         public async Task<IActionResult> AddNewParkingSpace(ParkingSpaceDTO parkingSpaceDTO)
         {
             if (ModelState.IsValid)
