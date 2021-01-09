@@ -29,6 +29,29 @@ namespace ParkUp.API.Controllers
             _mapper = mapper;
         }
 
+        // POST: api/<OwnersController>/request-cash-out>
+        [HttpPost]
+        public async Task<IActionResult> RequestCashOut(CashOutRequestDTO cashOutRequestDTO)
+        {
+            // build the CashOut object for DB
+            var user = await _repository.GetUserById(cashOutRequestDTO.UserId);
+            if (user != null && user.Credits > cashOutRequestDTO.Amount)
+            {
+                CashOut newCashOutRequest = new CashOut
+                {
+                    UserId = cashOutRequestDTO.UserId,
+                    UserEmail = user.Email,
+                    UserAvailable = user.Credits,
+                    Amount = cashOutRequestDTO.Amount,
+                    IsApproved = false,
+                    DateSubmitted = DateTime.Now
+                };
+                await _repository.AddCashOutRequest(newCashOutRequest);
+                return Ok();
+            };
+            return BadRequest();
+        }
+
         // GET: api/<OwnersController>/all-cash-outs
         [HttpGet]
         [Route("all-unapproved-cash-outs")]
