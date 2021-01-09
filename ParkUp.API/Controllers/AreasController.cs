@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -43,6 +44,7 @@ namespace ParkUp.API.Controllers
         // POST: api/<AreasController>/add-new-area - Angular route
         [HttpPost]
         [Route("add-new-area")]
+        [Authorize(Roles ="Admin,SuperAdmin")]
         public async Task<IActionResult> AddArea(AreaDTO areaDTO)
         {
             if (ModelState.IsValid)
