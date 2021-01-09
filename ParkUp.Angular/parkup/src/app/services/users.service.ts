@@ -9,6 +9,7 @@ import { ApplicationUser } from '../models/ApplicationUser';
 import { CashOut } from '../models/CashOut';
 import { ApplicationRole } from '../models/ApplicationRole';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CreditPack } from '../models/CreditPack';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,7 @@ export class UsersService {
   private registrationUrl = 'https://localhost:44315/api/users/register';
   private loginUrl = 'https://localhost:44315/api/users/login';
   private userProfileUrl = 'https://localhost:44315/api/userProfile';
+  private buyCreditsUrl = 'https://localhost:44315/api/users/buy-credits';
   // TEMPORARY hardcoded user ID
   private userId = '19a0694b-57eb-4b0a-aca4-86d71e389d0f';
 
@@ -42,6 +44,10 @@ export class UsersService {
       }
     });
     return isMatch;
+  }
+
+  buyCredits(payload: CreditPack) {
+    return this.http.post(this.buyCreditsUrl, payload)
   }
 
   getUserProfile() {
