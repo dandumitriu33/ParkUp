@@ -139,5 +139,13 @@ namespace ParkUp.API.Controllers
             var payload = JsonSerializer.Serialize(userRentalHistory);
             return payload;
         }
+
+        // POST: api/<UsersController>/buy-credits
+        [HttpPost]
+        [Route("buy-credits")]
+        public async Task<IActionResult> BuyCredits(CreditPackDTO creditPackDTO)
+        {
+            return Ok();
+        }
     }
 }
