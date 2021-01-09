@@ -7,6 +7,7 @@ import { AddParkingSpaceComponent } from './add-parking-space.component';
 import { CashOutComponent } from './cash-out.component';
 import { TransactionHistoryComponent } from './transaction-history.component';
 import { AuthGuard } from '../../auth/auth.guard';
+import { FormsModule } from '@angular/forms';
 
 const routes: Routes = [
   { path: 'my-parking-spaces', component: MyParkingSpacesComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Owner', 'SuperAdmin'] } },
@@ -24,6 +25,7 @@ const routes: Routes = [
   ],
   imports: [
     CommonModule,
+    FormsModule,
     RouterModule.forChild(routes)
   ]
 })
