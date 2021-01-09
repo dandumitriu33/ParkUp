@@ -4,7 +4,6 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { Area } from '../models/Area';
-import { NewArea } from '../models/NewArea';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +32,7 @@ export class AreasService {
     return throwError(errorMessage);
   }
 
-  postNewArea(payload: NewArea) {
+  postNewArea(payload: Area) {
     return this.http.post(this.newAreaUrl, payload);
   }
 

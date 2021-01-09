@@ -3,7 +3,6 @@ import { NgForm } from '@angular/forms';
 
 import { Area } from '../../models/Area';
 import { City } from '../../models/City';
-import { NewArea } from '../../models/NewArea';
 import { AreasService } from '../../services/areas.service';
 import { CitiesService } from '../../services/cities.service';
 
@@ -44,7 +43,8 @@ export class AllAreasComponent implements OnInit {
   onSubmit(form: NgForm) {
     console.log(`submitting ${this.addAreaFormModel.Name} - CityId: ${this.addAreaFormModel.CityId}`);
 
-    const newArea: NewArea = {
+    const newArea: Area = {
+      "Id": 0,
       "Name": this.addAreaFormModel.Name,
       "CityId": +this.addAreaFormModel.CityId
     };
