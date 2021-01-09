@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -38,6 +39,39 @@ namespace ParkUp.API.Controllers
             List<AreaDTO> allAreasDTO = _mapper.Map<List<Area>, List<AreaDTO>>(areasFromDb);
             var payload = JsonSerializer.Serialize(allAreasDTO);
             return payload;
+        }
+
+        // POST: api/<AreasController>/add-new-area - Angular route
+        [HttpPost]
+        [Route("add-new-area")]
+        [Authorize(Roles ="Admin,SuperAdmin")]
+        public async Task<IActionResult> AddArea(AreaDTO areaDTO)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    Area newArea = _mapper.Map<AreaDTO, Area>(areaDTO);
+                    await _repository.AddArea(newArea); // returns the Area Id from the new entry in the DB
+                    CityArea newCityArea = new CityArea
+                    {
+                        CityId = newArea.CityId,
+                        AreaId = newArea.Id
+                    };
+                    await _repository.AddCityArea(newCityArea);
+                    return Ok();
+                }
+                catch (DbUpdateException dbex)
+                {
+                    // TODO: log error w/ message
+                    return BadRequest("Bad request.");
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest("Bad request.");
+                }
+            }
+            return BadRequest("Bad request.");
         }
 
         // POST: api/<AreasController>

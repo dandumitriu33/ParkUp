@@ -42,7 +42,7 @@ namespace ParkUp.API.Controllers
 
         // POST api/<CitiesController>
         [HttpPost]
-        //[Authorize(Roles ="SuperAdmin")]
+        [Authorize(Roles ="Admin,SuperAdmin")]
         public async Task<IActionResult> Post([FromBody] CityDTO cityDTO)
         {
             if (ModelState.IsValid)
@@ -52,7 +52,7 @@ namespace ParkUp.API.Controllers
                     City newCity = _mapper.Map<CityDTO, City>(cityDTO);
                     await _repository.AddCity(newCity);
                     return Ok();
-                    //return Ok($"City \"{newCity.Name}\" was added successfully.");
+                    //return Ok($"City \"{newCity.Name}\" was added successfully."); // Angular error because of the message
                 }
                 catch (DbUpdateException dbex)
                 {

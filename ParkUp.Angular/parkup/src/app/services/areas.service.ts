@@ -10,6 +10,7 @@ import { Area } from '../models/Area';
 })
 export class AreasService {
   private areasForCityUrl = `https://localhost:44315/api/areas/`;
+  private newAreaUrl = `https://localhost:44315/api/areas/add-new-area`;
 
   constructor(private http: HttpClient) { }
 
@@ -31,5 +32,8 @@ export class AreasService {
     return throwError(errorMessage);
   }
 
+  postNewArea(payload: Area) {
+    return this.http.post(this.newAreaUrl, payload);
+  }
 
 }

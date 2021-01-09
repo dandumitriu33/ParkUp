@@ -1,1 +1,15 @@
-<p>cash-out works!</p>
+<div class="container">
+
+  <h4>Cash Out</h4>
+
+  <form #form="ngForm" (submit)="onSubmit(form)">
+
+    <div class="form-group">
+      <label for="Amount">Amount</label>
+      <input type="number" class="form-control" #Amount="ngModel" id="Amount" name="Amount" [(ngModel)]="addCashOutRequest.Amount" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Submit Request</button>
+
+  </form>
+</div>
