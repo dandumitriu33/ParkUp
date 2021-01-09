@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ParkUp.API.Models;
 using ParkUp.Core.Entities;
 using ParkUp.Core.Interfaces;
@@ -27,6 +28,30 @@ namespace ParkUp.API.Controllers
         {
             _repository = repository;
             _mapper = mapper;
+        }
+
+        // POST: api/<ParkingSpacesController>/add-new-parking-space
+        [HttpPost]
+        [Route("add-new-parking-space")]
+        public async Task<IActionResult> AddNewParkingSpace(ParkingSpaceDTO parkingSpaceDTO)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    ParkingSpace newParkingSpace = _mapper.Map<ParkingSpaceDTO, ParkingSpace>(parkingSpaceDTO);
+                    newParkingSpace.Latitude = Convert.ToDouble(newParkingSpace.GPS.Split(',')[0].Replace(" ", ""));
+                    newParkingSpace.Longitude = Convert.ToDouble(newParkingSpace.GPS.Split(',')[1].Replace(" ", ""));
+                    newParkingSpace.DateAdded = DateTime.Now;
+                    await _repository.AddParkingSpace(newParkingSpace);
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest("Bad request.");
+                }
+            }
+            return BadRequest("Bad request.");
         }
 
         // GET: api/<ParkingSpacesController>/unapproved
