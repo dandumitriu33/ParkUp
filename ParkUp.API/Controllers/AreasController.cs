@@ -54,8 +54,7 @@ namespace ParkUp.API.Controllers
             catch (Exception)
             {
                 return BadRequest();
-            }
-            
+            }            
         }
 
         // POST: api/<AreasController>/add-new-area - Angular route

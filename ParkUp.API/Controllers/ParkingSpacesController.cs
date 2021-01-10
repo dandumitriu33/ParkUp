@@ -89,6 +89,22 @@ namespace ParkUp.API.Controllers
             return payload;
         }
 
+        // POST: api/<ParkingSpacesController>/remove-parking-space/5
+        [HttpPost]
+        [Route("remove-parking-space/{parkingSpaceId}")]
+        public async Task<IActionResult> RemoveParkingSpace(int parkingSpaceId)
+        {
+            try
+            {
+                await _repository.RemoveParkingSpaceById(parkingSpaceId);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
         // POST: api/<ParkingSpacesController>/take
         [HttpPost]
         [Route("take")]
