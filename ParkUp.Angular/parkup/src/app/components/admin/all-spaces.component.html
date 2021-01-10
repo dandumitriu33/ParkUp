@@ -38,7 +38,7 @@
         <td>{{ parkingSpace.GPS }}</td>
         <td>{{ parkingSpace.DateAdded }}</td>
         <td>
-          <button class="btn btn-warning btn-sm">Edit</button>
+          <button class="btn btn-warning btn-sm" [routerLink]="['/edit-parking-space', parkingSpace.Id]">Edit</button>
         </td>
         <td>
           <button class="btn btn-danger btn-sm" (click)="onRemove(parkingSpace.Id, parkingSpace.AreaId)">Remove</button>
