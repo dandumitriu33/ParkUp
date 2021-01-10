@@ -175,7 +175,7 @@ namespace ParkUp.API.Controllers
             }
         }
 
-        // POST: api/<ParkingSpacesController>/edit-parking-space/5
+        // POST: api/<ParkingSpacesController>/edit-parking-space/5 --for Angular
         [HttpPost]
         [Route("edit-parking-space")]
         public async Task<IActionResult> EditParkingSpace([FromBody] ParkingSpaceDTO parkingSpaceDTO)

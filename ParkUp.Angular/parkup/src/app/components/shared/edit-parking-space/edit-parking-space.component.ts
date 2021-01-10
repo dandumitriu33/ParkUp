@@ -97,16 +97,16 @@ export class EditParkingSpaceComponent implements OnInit {
       "Longitude": 0
     };
 
-    //this.parkingSpacesService.editParkingSpace(editedParkingSpace).subscribe(
-    //  (res: any) => {
-    //    console.log('PS edited successfully');
-    //    this.resultMessage = `Parking Space ${editedParkingSpace.Name} edited successfully.`;
-    //  },
-    //  err => {
-    //    console.log(err);
-    //    this.resultMessage = `Parking Space ${editedParkingSpace.Name} was not edited.`;
-    //  }
-    //);
+    this.parkingSpacesService.editParkingSpace(editedParkingSpace).subscribe(
+      (res: any) => {
+        console.log('PS edited successfully');
+        this.resultMessage = `Parking Space ${editedParkingSpace.Name} edited successfully.`;
+      },
+      err => {
+        console.log(err);
+        this.resultMessage = `Parking Space ${editedParkingSpace.Name} was not edited.`;
+      }
+    );
   }
 
 }

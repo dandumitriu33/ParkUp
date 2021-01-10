@@ -18,6 +18,7 @@ export class ParkingSpacesService {
   private newParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/add-new-parking-space';
   private removeParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/remove-parking-space/';
   private getSingleParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/get-single-parking-space/';
+  private editParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/edit-parking-space';
 
   // TEMPORARY user id
   userId = '19a0694b-57eb-4b0a-aca4-86d71e389d0f';
@@ -29,7 +30,7 @@ export class ParkingSpacesService {
   }
 
   editParkingSpace(editedParkingSpace: ParkingSpace) {
-    //return this.http.post(this.editParkingSpaceUrl, editedParkingSpace);
+    return this.http.post(this.editParkingSpaceUrl, editedParkingSpace);
   }
 
   removeParkingSpace(parkingSpaceId: string) {
