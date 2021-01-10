@@ -22,4 +22,18 @@ export class MyParkingSpacesComponent implements OnInit {
     });
   }
 
+  onRemove(parkingSpaceId: string) {
+    console.log(`clicked remove for space ${parkingSpaceId} from my spaces`);
+
+    this.parkingSpacesService.removeParkingSpace(parkingSpaceId).subscribe(
+      (res: any) => {
+        console.log('PS removed successfully');
+        this.ngOnInit();
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
 }
