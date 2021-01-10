@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 import { ApplicationRole } from '../../models/ApplicationRole';
 import { UsersService } from '../../services/users.service';
@@ -10,6 +11,9 @@ import { UsersService } from '../../services/users.service';
 })
 export class AllRolesComponent implements OnInit {
   allRoles: ApplicationRole[];
+  addRoleFormModel = {
+    Name: ''
+  };
 
   constructor(private usersService: UsersService) { }
 
@@ -20,6 +24,24 @@ export class AllRolesComponent implements OnInit {
       },
       error: err => console.error(err)
     });
+  }
+
+  onSubmit(form: NgForm) {
+    console.log('onsubmit new role: ' + form.value.Name);
+    const newRole: ApplicationRole = {
+      Id: "",
+      Name: form.value.Name
+    };
+    console.log(newRole);
+    this.usersService.addRole(newRole).subscribe(
+      (res: any) => {
+        console.log('new role added successfully');
+        this.ngOnInit();
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
 }

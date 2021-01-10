@@ -17,8 +17,7 @@ export class AllCitiesComponent implements OnInit {
   };
   allCities: City[];
 
-  constructor(private citiesService: CitiesService,
-              private http: HttpClient) { }
+  constructor(private citiesService: CitiesService) { }
 
   ngOnInit(): void {
     this.citiesService.getAllCities().subscribe({
@@ -44,7 +43,6 @@ export class AllCitiesComponent implements OnInit {
       },
       err => {
         console.log(err);
-        //console.log('tdterr');
       }
     );
   }
