@@ -14,6 +14,7 @@ import { ParkingSpacesService } from '../../../services/parking-spaces.service';
 export class EditParkingSpaceComponent implements OnInit {
   parkingSpaceId: string;
   subjectParkingSpace: ParkingSpace;
+  resultMessage: string;
   
   editParkingSpaceFormModel = {
     Name: '',
@@ -28,6 +29,7 @@ export class EditParkingSpaceComponent implements OnInit {
               private parkingSpacesService: ParkingSpacesService) { }
 
   ngOnInit(): void {
+    this.resultMessage = "";
     this.parkingSpaceId = this.route.snapshot.paramMap.get('id');
     
     this.populateEditFormInfo(this.parkingSpaceId);
@@ -62,52 +64,47 @@ export class EditParkingSpaceComponent implements OnInit {
         }
       },
       error: err => console.error(err)
-    });;
-    // map to ANG PS
-
-    
+    });
   }
 
   onSubmit(form: NgForm) {
     console.log(`submitting edit for PS ${this.parkingSpaceId}`);
 
-    //// get owner ID
-    //if (localStorage.getItem('token') != null) {
-    //  var payload = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
-    //  var UserId = payload.UserID;
-    //}
-    //// compare to PS owner for security on backend
+    // TODO: compare to PS owner for security on backend
 
 
-    //let placeholderDate: string = "2019-01-06T17:16:40"; // will be changed by backend
+    let placeholderDate: string = "2019-01-06T17:16:40"; // will be changed by backend
+    if (localStorage.getItem('token') != null) {
+      var payload = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
+      var UserId = payload.UserID;
+      var UserRole = payload.role;
+    }
+    const editedParkingSpace: ParkingSpace = {
+      "Id": 0,
+      "AreaId": 0,
+      "IsApproved": false,
+      "OwnerId": UserId,
+      "Name": this.editParkingSpaceFormModel.Name,
+      "StreetName": this.editParkingSpaceFormModel.StreetName,
+      "Description": this.editParkingSpaceFormModel.Description,
+      "HourlyPrice": +this.editParkingSpaceFormModel.HourlyPrice,
+      "IsActive": false,
+      "IsTaken": false,
+      "DateAdded": placeholderDate,
+      "DateStarted": placeholderDate,
+      "GPS": this.editParkingSpaceFormModel.GPS,
+      "Latitude": 0,
+      "Longitude": 0
+    };
 
-    //const newParkingSpace: ParkingSpace = {
-    //  "Id": 0,
-    //  "AreaId": +this.addParkingSpaceFormModel.AreaId,
-    //  "IsApproved": false,
-    //  "OwnerId": UserId,
-    //  "Name": this.addParkingSpaceFormModel.Name,
-    //  "StreetName": this.addParkingSpaceFormModel.StreetName,
-    //  "Description": this.addParkingSpaceFormModel.Description,
-    //  "HourlyPrice": +this.addParkingSpaceFormModel.HourlyPrice,
-    //  "IsActive": false,
-    //  "IsTaken": false,
-    //  "DateAdded": placeholderDate,
-    //  "DateStarted": placeholderDate,
-    //  "GPS": this.addParkingSpaceFormModel.GPS,
-    //  "Latitude": 0,
-    //  "Longitude": 0
-    //};
-
-    //this.parkingSpacesService.addNewParkingSpace(newParkingSpace).subscribe(
-
+    //this.parkingSpacesService.editParkingSpace(editedParkingSpace).subscribe(
     //  (res: any) => {
-    //    console.log('PS added successfully');
-    //    this.resultMessage = `Parking Space ${newParkingSpace.Name} added.`;
+    //    console.log('PS edited successfully');
+    //    this.resultMessage = `Parking Space ${editedParkingSpace.Name} edited successfully.`;
     //  },
     //  err => {
     //    console.log(err);
-    //    this.resultMessage = `Parking Space ${newParkingSpace.Name} was not added.`;
+    //    this.resultMessage = `Parking Space ${editedParkingSpace.Name} was not edited.`;
     //  }
     //);
   }

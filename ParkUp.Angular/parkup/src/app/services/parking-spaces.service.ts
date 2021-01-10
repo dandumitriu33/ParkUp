@@ -28,6 +28,10 @@ export class ParkingSpacesService {
     return this.http.post(this.newParkingSpaceUrl, newParkingSpace);
   }
 
+  editParkingSpace(editedParkingSpace: ParkingSpace) {
+    //return this.http.post(this.editParkingSpaceUrl, editedParkingSpace);
+  }
+
   removeParkingSpace(parkingSpaceId: string) {
     console.log(`PS service removing PS ${parkingSpaceId}`);
     return this.http.post(this.removeParkingSpaceUrl + `${parkingSpaceId}`, {});
