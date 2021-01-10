@@ -41,7 +41,7 @@ namespace ParkUp.Infrastructure.Data
 
         public async Task<List<Area>> GetAllAreas()
         {
-            return await _dbContext.Areas.ToListAsync();
+            return await _dbContext.Areas.Where(a => a.IsRemoved == false).ToListAsync();
         }
 
         public async Task<Area> AddArea(Area area)
@@ -60,7 +60,7 @@ namespace ParkUp.Infrastructure.Data
 
         public async Task<List<Area>> GetAllAreasForCity(int cityId)
         {
-            return await _dbContext.Areas.Where(a => a.CityId == cityId).OrderBy(a => a.Name).ToListAsync();
+            return await _dbContext.Areas.Where(a => a.CityId == cityId && a.IsRemoved == false).OrderBy(a => a.Name).ToListAsync();
         }
 
         public async Task<List<ParkingSpace>> GetAllOwnerParkingSpaces(string userId)
