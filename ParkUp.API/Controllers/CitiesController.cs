@@ -69,16 +69,16 @@ namespace ParkUp.API.Controllers
 
         // NOTE: it is safer to simply add an IsRemoved field for a city to increase agains accidental deletion
         // but this is an educational project so it includes a Delete and Remove from DB way 
-        // DELETE api/<CitiesController> 
+        // DELETE api/<CitiesController>/5 
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromBody] CityDTO cityDTO)
+        [Route("{cityId}")]
+        public async Task<IActionResult> Delete(int cityId)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    City newCity = _mapper.Map<CityDTO, City>(cityDTO);
-                    await _repository.DeleteCity(newCity);
+                    await _repository.DeleteCity(cityId);
                     return Ok();
                 }
                 catch (DbUpdateException dbex)

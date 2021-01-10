@@ -31,9 +31,9 @@ namespace ParkUp.Infrastructure.Data
             return city;
         }
 
-        public async Task DeleteCity(City city)
+        public async Task DeleteCity(int cityId)
         {
-            City cityFromDb = await _dbContext.Cities.Where(c => c.Id == city.Id).FirstOrDefaultAsync();
+            City cityFromDb = await _dbContext.Cities.Where(c => c.Id == cityId).FirstOrDefaultAsync();
 
             _dbContext.Cities.Remove(cityFromDb);
             await _dbContext.SaveChangesAsync();

@@ -46,4 +46,19 @@ export class AllCitiesComponent implements OnInit {
       }
     );
   }
+
+  onRemove(cityId: number) {
+    console.log(`remove city ${cityId} clicked`);
+    
+    this.citiesService.deleteCity(cityId).subscribe(
+      (res: any) => {
+        console.log('city deleted successfully');
+        this.ngOnInit();
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
 }
