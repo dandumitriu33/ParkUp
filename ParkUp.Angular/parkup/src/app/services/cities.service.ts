@@ -12,11 +12,16 @@ import { City } from '../models/City';
 export class CitiesService {
   private allCitiesUrl = 'https://localhost:44315/api/cities';
   private newCityUrl = 'https://localhost:44315/api/cities';
+  private deleteCityUrl = 'https://localhost:44315/api/cities';
 
   constructor(private http: HttpClient) { }
 
   addCity(newCity: City) {
     return this.http.post(this.newCityUrl, newCity);
+  }
+
+  deleteCity(cityId: number) {
+    return this.http.delete(this.deleteCityUrl + `/${cityId}`);
   }
 
   getAllCities():Observable<City[]> {

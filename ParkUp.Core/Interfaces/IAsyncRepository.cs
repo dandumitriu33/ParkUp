@@ -11,9 +11,11 @@ namespace ParkUp.Core.Interfaces
     {
         Task<List<City>> GetAllCities();
         Task<City> AddCity(City city);
+        Task DeleteCity(int cityId);
         Task<List<Area>> GetAllAreas();
         Task<Area> AddArea(Area area);
         Task<CityArea> AddCityArea(CityArea cityArea);
+        Task<Area> RemoveAreaById(int areaId);
         Task<List<Area>> GetAllAreasForCity(int cityId);
         Task<List<ParkingSpace>> GetAllOwnerParkingSpaces(string userId);
         Task<List<ParkingSpace>> GetParkingSpacesForOwnerId(string userId, int areaId, string searchPhrase = "");
@@ -24,6 +26,7 @@ namespace ParkUp.Core.Interfaces
         Task<ParkingSpace> GetParkingSpaceById(int parkingSpaceId);
         Task<ParkingSpace> EditParkingSpace(ParkingSpace parkingSpace);
         Task<ParkingSpace> RemoveParkingSpaceById(int parkingSpaceId);
+        Task EditParkingSpaceAngular(ParkingSpace parkingSpace);
         Task TakeParkingSpace(TakenParkingSpace takenParkingSpace);
         Task LeaveParkingSpace(TakenParkingSpace takenParkingSpace);
         Task<List<TakenParkingSpace>> GetTakenInstancesByUserId(string userId);

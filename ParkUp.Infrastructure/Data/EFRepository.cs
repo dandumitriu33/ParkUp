@@ -31,9 +31,17 @@ namespace ParkUp.Infrastructure.Data
             return city;
         }
 
+        public async Task DeleteCity(int cityId)
+        {
+            City cityFromDb = await _dbContext.Cities.Where(c => c.Id == cityId).FirstOrDefaultAsync();
+
+            _dbContext.Cities.Remove(cityFromDb);
+            await _dbContext.SaveChangesAsync();
+        }
+
         public async Task<List<Area>> GetAllAreas()
         {
-            return await _dbContext.Areas.ToListAsync();
+            return await _dbContext.Areas.Where(a => a.IsRemoved == false).ToListAsync();
         }
 
         public async Task<Area> AddArea(Area area)
@@ -50,9 +58,20 @@ namespace ParkUp.Infrastructure.Data
             return cityArea;
         }
 
+        public async Task<Area> RemoveAreaById(int areaId)
+        {
+            Area areaFromDb = await _dbContext.Areas.Where(a => a.Id == areaId && a.IsRemoved == false).FirstOrDefaultAsync();
+            areaFromDb.IsRemoved = true;
+
+            _dbContext.Areas.Attach(areaFromDb);
+            _dbContext.Entry(areaFromDb).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+            return areaFromDb;
+        }
+
         public async Task<List<Area>> GetAllAreasForCity(int cityId)
         {
-            return await _dbContext.Areas.Where(a => a.CityId == cityId).OrderBy(a => a.Name).ToListAsync();
+            return await _dbContext.Areas.Where(a => a.CityId == cityId && a.IsRemoved == false).OrderBy(a => a.Name).ToListAsync();
         }
 
         public async Task<List<ParkingSpace>> GetAllOwnerParkingSpaces(string userId)
@@ -165,6 +184,36 @@ namespace ParkUp.Infrastructure.Data
             _dbContext.Entry(parkingSpaceFromDb).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
             return parkingSpaceFromDb;
+        }
+
+        public async Task EditParkingSpaceAngular(ParkingSpace parkingSpace)
+        {
+            await using var transaction = await _dbContext.Database.BeginTransactionAsync();
+            try
+            {
+                // get real space from DB
+                var parkingSpaceFromDb = await _dbContext.ParkingSpaces.Where(ps => ps.Id == parkingSpace.Id && ps.IsRemoved == false)
+                                                                 .FirstOrDefaultAsync();
+                // modify allowed fields
+                parkingSpaceFromDb.Name = parkingSpace.Name;
+                parkingSpaceFromDb.HourlyPrice = parkingSpace.HourlyPrice;
+                parkingSpaceFromDb.StreetName = parkingSpace.StreetName;
+                parkingSpaceFromDb.Description = parkingSpace.Description;
+                parkingSpaceFromDb.GPS = parkingSpace.GPS;
+                parkingSpaceFromDb.Latitude = parkingSpace.Latitude;
+                parkingSpaceFromDb.Longitude = parkingSpace.Longitude;
+
+                // parkingSpace.IsTaken = true;
+                _dbContext.ParkingSpaces.Attach(parkingSpaceFromDb);
+                _dbContext.Entry(parkingSpaceFromDb).State = EntityState.Modified;
+                await _dbContext.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+            }
         }
 
         public async Task TakeParkingSpace(TakenParkingSpace takenParkingSpace)

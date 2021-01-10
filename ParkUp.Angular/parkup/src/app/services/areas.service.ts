@@ -11,8 +11,14 @@ import { Area } from '../models/Area';
 export class AreasService {
   private areasForCityUrl = `https://localhost:44315/api/areas/`;
   private newAreaUrl = `https://localhost:44315/api/areas/add-new-area`;
+  private removeAreaUrl = `https://localhost:44315/api/areas/remove-area/`;
 
   constructor(private http: HttpClient) { }
+
+  removeArea(areaId: number) {
+    console.log(`areas service removing area ${areaId}`);
+    return this.http.post(this.removeAreaUrl + `${areaId}`, {});
+  }
 
   getAllAreasForCity(cityId: string): Observable<Area[]> {
     return this.http.get<Area[]>(this.areasForCityUrl + cityId).pipe(

@@ -16,6 +16,9 @@ export class ParkingSpacesService {
   private allOwnerTransactionsUrl = 'https://localhost:44315/api/owners/all-transactions/';
   private allUnapprovedParkingSpacesUrl = 'https://localhost:44315/api/parkingspaces/unapproved';
   private newParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/add-new-parking-space';
+  private removeParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/remove-parking-space/';
+  private getSingleParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/get-single-parking-space/';
+  private editParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/edit-parking-space';
 
   // TEMPORARY user id
   userId = '19a0694b-57eb-4b0a-aca4-86d71e389d0f';
@@ -24,6 +27,22 @@ export class ParkingSpacesService {
 
   addNewParkingSpace(newParkingSpace: ParkingSpace) {
     return this.http.post(this.newParkingSpaceUrl, newParkingSpace);
+  }
+
+  editParkingSpace(editedParkingSpace: ParkingSpace) {
+    return this.http.post(this.editParkingSpaceUrl, editedParkingSpace);
+  }
+
+  removeParkingSpace(parkingSpaceId: string) {
+    console.log(`PS service removing PS ${parkingSpaceId}`);
+    return this.http.post(this.removeParkingSpaceUrl + `${parkingSpaceId}`, {});
+  }
+
+  getParkingSpaceById(parkingSpaceId: string) {
+    return this.http.get<ParkingSpace>(this.getSingleParkingSpaceUrl + `${parkingSpaceId}`).pipe(
+      tap(data => console.log('Single PS: ' + data.Name)),
+      catchError(this.handleError)
+    );
   }
 
   getAllUnapprovedParkingSpaces(): Observable<ParkingSpace[]> {

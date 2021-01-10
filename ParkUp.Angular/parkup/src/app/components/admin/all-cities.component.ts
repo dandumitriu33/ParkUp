@@ -17,8 +17,7 @@ export class AllCitiesComponent implements OnInit {
   };
   allCities: City[];
 
-  constructor(private citiesService: CitiesService,
-              private http: HttpClient) { }
+  constructor(private citiesService: CitiesService) { }
 
   ngOnInit(): void {
     this.citiesService.getAllCities().subscribe({
@@ -44,8 +43,22 @@ export class AllCitiesComponent implements OnInit {
       },
       err => {
         console.log(err);
-        //console.log('tdterr');
       }
     );
   }
+
+  onRemove(cityId: number) {
+    console.log(`remove city ${cityId} clicked`);
+    
+    this.citiesService.deleteCity(cityId).subscribe(
+      (res: any) => {
+        console.log('city deleted successfully');
+        this.ngOnInit();
+      },
+      err => {
+        console.log(err);
+      }
+    );
+  }
+
 }

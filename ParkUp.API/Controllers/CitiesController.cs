@@ -66,5 +66,32 @@ namespace ParkUp.API.Controllers
             }
             return BadRequest("Bad request.");
         }
+
+        // NOTE: it is safer to simply add an IsRemoved field for a city to increase agains accidental deletion
+        // but this is an educational project so it includes a Delete and Remove from DB way 
+        // DELETE api/<CitiesController>/5 
+        [HttpDelete]
+        [Route("{cityId}")]
+        public async Task<IActionResult> Delete(int cityId)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _repository.DeleteCity(cityId);
+                    return Ok();
+                }
+                catch (DbUpdateException dbex)
+                {
+                    // TODO: log error w/ message
+                    return BadRequest("Bad request.");
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest("Bad request.");
+                }
+            }
+            return BadRequest("Bad request.");
+        }
     }
 }

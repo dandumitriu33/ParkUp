@@ -17,7 +17,7 @@ export class AllSpacesComponent implements OnInit {
   allParkingSpacesForArea: ParkingSpace[];
 
   constructor(private parkingSpacesService: ParkingSpacesService,
-    private areasService: AreasService) { }
+              private areasService: AreasService) { }
 
   ngOnInit(): void {
   }
@@ -39,6 +39,20 @@ export class AllSpacesComponent implements OnInit {
       },
       error: err => console.error(err)
     });
+  }
+
+  onRemove(parkingSpaceId: string, areaId: string) {
+    console.log(`clicked remove for space ${parkingSpaceId} from area ${areaId}`);
+
+    this.parkingSpacesService.removeParkingSpace(parkingSpaceId).subscribe(
+      (res: any) => {
+        console.log('PS removed successfully');
+        this.refreshParkingSpacesForArea(areaId);
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
 }

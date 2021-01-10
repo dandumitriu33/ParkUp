@@ -1,4 +1,18 @@
-<div class="text-center">
+<div class="container">
+  <h4>Add New Role</h4>
+  <p>New roles give your users additional access and abilities. Please create and assign roles carefully.</p>
+
+  <form #form="ngForm" (submit)="onSubmit(form)">
+
+    <div class="form-group">
+      <label for="Name">Role Name</label>
+      <input class="form-control" #Name="ngModel" id="Name" name="Name" [(ngModel)]="addRoleFormModel.Name" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Add Role</button>
+
+  </form>
+  <hr />
   <h4>All Roles</h4>
   <table class="table table-striped" *ngIf="allRoles && allRoles.length">
     <thead>
@@ -15,7 +29,8 @@
         <td>{{ role.Name }}</td>
         <td>
           <button class="btn btn-warning btn-sm">Edit</button>
-        </td><td>
+        </td>
+        <td>
           <button class="btn btn-danger btn-sm">Remove</button>
         </td>
       </tr>

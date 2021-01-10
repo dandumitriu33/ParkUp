@@ -89,6 +89,22 @@ namespace ParkUp.API.Controllers
             return payload;
         }
 
+        // POST: api/<ParkingSpacesController>/remove-parking-space/5
+        [HttpPost]
+        [Route("remove-parking-space/{parkingSpaceId}")]
+        public async Task<IActionResult> RemoveParkingSpace(int parkingSpaceId)
+        {
+            try
+            {
+                await _repository.RemoveParkingSpaceById(parkingSpaceId);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
         // POST: api/<ParkingSpacesController>/take
         [HttpPost]
         [Route("take")]
@@ -140,5 +156,49 @@ namespace ParkUp.API.Controllers
             var payload = JsonSerializer.Serialize(allTakenParkingSpacesDTO);
             return payload;
         }
+
+        // GET: api/<ParkingSpacesController>/get-single-parking-space/5
+        [HttpGet]
+        [Route("get-single-parking-space/{parkingSpaceId}")]
+        public async Task<IActionResult> GetSingleParkingSpace(int parkingSpaceId)
+        {
+            try
+            {
+                ParkingSpace parkingSpaceFromDb = await _repository.GetParkingSpaceById(parkingSpaceId);
+                ParkingSpaceDTO parkingSpaceDTO = _mapper.Map<ParkingSpace, ParkingSpaceDTO>(parkingSpaceFromDb);
+                var payload = JsonSerializer.Serialize(parkingSpaceDTO);
+                return Ok(payload);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        // POST: api/<ParkingSpacesController>/edit-parking-space/5 --for Angular
+        [HttpPost]
+        [Route("edit-parking-space")]
+        public async Task<IActionResult> EditParkingSpace([FromBody] ParkingSpaceDTO parkingSpaceDTO)
+        {
+            // TODO check if currently signed in user is the owner of the PS to be edited
+            if (ModelState.IsValid == true)
+            {
+                try
+                {
+                    ParkingSpace editedParkingSpace = _mapper.Map<ParkingSpaceDTO, ParkingSpace>(parkingSpaceDTO);
+                    editedParkingSpace.Latitude = Convert.ToDouble(editedParkingSpace.GPS.Split(',')[0].Replace(" ", ""));
+                    editedParkingSpace.Longitude = Convert.ToDouble(editedParkingSpace.GPS.Split(',')[1].Replace(" ", ""));
+                    await _repository.EditParkingSpaceAngular(editedParkingSpace);
+                    return Ok();
+                }
+                catch (Exception)
+                {
+                    return BadRequest();
+                }
+                
+            }
+            return BadRequest();
+        }
+
     }
 }

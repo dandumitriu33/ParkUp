@@ -20,12 +20,37 @@ namespace ParkUp.API.Controllers
     {
         private readonly IAsyncRepository _repository;
         private readonly IMapper _mapper;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
         public AdminsController(IAsyncRepository repository,
-                                IMapper mapper)
+                                IMapper mapper,
+                                RoleManager<IdentityRole> roleManager)
         {
             _repository = repository;
             _mapper = mapper;
+            _roleManager = roleManager;
+        }
+
+        // POST: api/<AdminsController>/add-new-role
+        [HttpPost]
+        [Route("add-new-role")]
+        [Authorize(Roles ="SuperAdmin")]
+        public async Task<IActionResult> AddNewRole(ApplicationRoleDTO applicationRoleDTO)
+        {
+            if (ModelState.IsValid)
+            {
+                IdentityRole newRole = new IdentityRole
+                {
+                    Name = applicationRoleDTO.Name
+                };
+                IdentityResult result = await _roleManager.CreateAsync(newRole);
+                if (result.Succeeded)
+                {
+                    return Ok();
+                }
+            }
+            return BadRequest();
+            
         }
 
         // GET: api/<AdminsController>/all-roles

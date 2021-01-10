@@ -58,7 +58,20 @@ export class AllAreasComponent implements OnInit {
         console.log(err);
       }
     );
+  }
 
+  onRemove(areaId: number, cityId: string) {
+    console.log(`remove area ${areaId} from city ${cityId} clicked`);
+
+    this.areasService.removeArea(areaId).subscribe(
+      (res: any) => {
+        console.log('area removed successfully');
+        this.refreshAreasForCity(cityId);
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
 }

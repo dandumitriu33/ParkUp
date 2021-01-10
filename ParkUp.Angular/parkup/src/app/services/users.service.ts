@@ -26,6 +26,7 @@ export class UsersService {
   private userProfileUrl = 'https://localhost:44315/api/userProfile';
   private buyCreditsUrl = 'https://localhost:44315/api/users/buy-credits';
   private cashOutRequestUrl = 'https://localhost:44315/api/owners/request-cash-out';
+  private addNewRoleUrl = `https://localhost:44315/api/admins/add-new-role`;
   // TEMPORARY hardcoded user ID
   private userId = '19a0694b-57eb-4b0a-aca4-86d71e389d0f';
 
@@ -46,6 +47,10 @@ export class UsersService {
       }
     });
     return isMatch;
+  }
+
+  addRole(newRole: ApplicationRole) {
+    return this.http.post(this.addNewRoleUrl, newRole);
   }
 
   requestCashOut(payload: CashOutRequest) {

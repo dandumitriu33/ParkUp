@@ -6,6 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./create-role.component.css']
 })
 export class CreateRoleComponent implements OnInit {
+  addRoleFormModel = {
+    Name: ''
+  };
 
   constructor() { }
 
