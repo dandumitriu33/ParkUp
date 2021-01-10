@@ -41,6 +41,23 @@ namespace ParkUp.API.Controllers
             return payload;
         }
 
+        // POST: api/<AreasController>/remove-area/5
+        [HttpPost]
+        [Route("remove-area/{areaId}")]
+        public async Task<IActionResult> RemoveArea(int areaId)
+        {
+            try
+            {
+                await _repository.RemoveAreaById(areaId);
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+            
+        }
+
         // POST: api/<AreasController>/add-new-area - Angular route
         [HttpPost]
         [Route("add-new-area")]
