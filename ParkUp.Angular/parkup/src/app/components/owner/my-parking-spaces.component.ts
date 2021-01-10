@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { ParkingSpace } from '../../models/ParkingSpace';
 import { ParkingSpacesService } from '../../services/parking-spaces.service';
@@ -11,7 +12,8 @@ import { ParkingSpacesService } from '../../services/parking-spaces.service';
 export class MyParkingSpacesComponent implements OnInit {
   allParkingSpaces: ParkingSpace[];
 
-  constructor(private parkingSpacesService: ParkingSpacesService) { }
+  constructor(private parkingSpacesService: ParkingSpacesService,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.parkingSpacesService.getAllOwnerParkingSpaces().subscribe({
@@ -34,6 +36,11 @@ export class MyParkingSpacesComponent implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  onEdit(parkingSpaceId: string) {
+    console.log(`clicked Edit PS ${parkingSpaceId} on MySpaces`);
+    
   }
 
 }

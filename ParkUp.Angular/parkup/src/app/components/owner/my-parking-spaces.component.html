@@ -23,7 +23,7 @@
         <td>{{ space.GPS }}</td>
         <td>{{ space.IsApproved }}</td>
         <td>
-          <button class="btn btn-warning btn-sm">Edit</button>
+          <button class="btn btn-warning btn-sm" (click)="onEdit(space.Id)" [routerLink]="['/edit-parking-space', space.Id]">Edit</button>
         </td>
         <td>
           <button class="btn btn-danger btn-sm" (click)="onRemove(space.Id)">Remove</button>

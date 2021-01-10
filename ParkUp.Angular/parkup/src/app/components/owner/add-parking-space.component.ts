@@ -86,7 +86,7 @@ export class AddParkingSpaceComponent implements OnInit {
     };
 
     this.parkingSpacesService.addNewParkingSpace(newParkingSpace).subscribe(
-      
+
       (res: any) => {
         console.log('PS added successfully');
         this.resultMessage = `Parking Space ${newParkingSpace.Name} added.`;
@@ -94,24 +94,8 @@ export class AddParkingSpaceComponent implements OnInit {
       err => {
         console.log(err);
         this.resultMessage = `Parking Space ${newParkingSpace.Name} was not added.`;
-      })
-
-    //const newArea: Area = {
-    //  "Id": 0,
-    //  "Name": this.addAreaFormModel.Name,
-    //  "CityId": +this.addAreaFormModel.CityId
-    //};
-    //console.log(newArea);
-    //this.areasService.postNewArea(newArea).subscribe(
-    //  (res: any) => {
-    //    console.log('area added successfully');
-    //    this.refreshAreasForCity(this.addAreaFormModel.CityId);
-    //  },
-    //  err => {
-    //    console.log(err);
-    //  }
-    //);
-
+      }
+    );
   }
 
 }
