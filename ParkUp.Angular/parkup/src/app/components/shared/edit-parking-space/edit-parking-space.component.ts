@@ -80,7 +80,7 @@ export class EditParkingSpaceComponent implements OnInit {
       var UserRole = payload.role;
     }
     const editedParkingSpace: ParkingSpace = {
-      "Id": 0,
+      "Id": +this.parkingSpaceId,
       "AreaId": 0,
       "IsApproved": false,
       "OwnerId": UserId,

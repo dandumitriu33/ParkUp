@@ -186,6 +186,36 @@ namespace ParkUp.Infrastructure.Data
             return parkingSpaceFromDb;
         }
 
+        public async Task EditParkingSpaceAngular(ParkingSpace parkingSpace)
+        {
+            await using var transaction = await _dbContext.Database.BeginTransactionAsync();
+            try
+            {
+                // get real space from DB
+                var parkingSpaceFromDb = await _dbContext.ParkingSpaces.Where(ps => ps.Id == parkingSpace.Id && ps.IsRemoved == false)
+                                                                 .FirstOrDefaultAsync();
+                // modify allowed fields
+                parkingSpaceFromDb.Name = parkingSpace.Name;
+                parkingSpaceFromDb.HourlyPrice = parkingSpace.HourlyPrice;
+                parkingSpaceFromDb.StreetName = parkingSpace.StreetName;
+                parkingSpaceFromDb.Description = parkingSpace.Description;
+                parkingSpaceFromDb.GPS = parkingSpace.GPS;
+                parkingSpaceFromDb.Latitude = parkingSpace.Latitude;
+                parkingSpaceFromDb.Longitude = parkingSpace.Longitude;
+
+                // parkingSpace.IsTaken = true;
+                _dbContext.ParkingSpaces.Attach(parkingSpaceFromDb);
+                _dbContext.Entry(parkingSpaceFromDb).State = EntityState.Modified;
+                await _dbContext.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+            }
+            catch (Exception)
+            {
+                transaction.Rollback();
+            }
+        }
+
         public async Task TakeParkingSpace(TakenParkingSpace takenParkingSpace)
         {
             await using var transaction = await _dbContext.Database.BeginTransactionAsync();

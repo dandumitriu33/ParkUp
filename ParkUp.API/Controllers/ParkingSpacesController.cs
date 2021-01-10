@@ -174,5 +174,31 @@ namespace ParkUp.API.Controllers
                 return BadRequest();
             }
         }
+
+        // POST: api/<ParkingSpacesController>/edit-parking-space/5
+        [HttpPost]
+        [Route("edit-parking-space")]
+        public async Task<IActionResult> EditParkingSpace([FromBody] ParkingSpaceDTO parkingSpaceDTO)
+        {
+            // TODO check if currently signed in user is the owner of the PS to be edited
+            if (ModelState.IsValid == true)
+            {
+                try
+                {
+                    ParkingSpace editedParkingSpace = _mapper.Map<ParkingSpaceDTO, ParkingSpace>(parkingSpaceDTO);
+                    editedParkingSpace.Latitude = Convert.ToDouble(editedParkingSpace.GPS.Split(',')[0].Replace(" ", ""));
+                    editedParkingSpace.Longitude = Convert.ToDouble(editedParkingSpace.GPS.Split(',')[1].Replace(" ", ""));
+                    await _repository.EditParkingSpaceAngular(editedParkingSpace);
+                    return Ok();
+                }
+                catch (Exception)
+                {
+                    return BadRequest();
+                }
+                
+            }
+            return BadRequest();
+        }
+
     }
 }

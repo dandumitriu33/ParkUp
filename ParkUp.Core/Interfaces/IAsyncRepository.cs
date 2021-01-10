@@ -26,6 +26,7 @@ namespace ParkUp.Core.Interfaces
         Task<ParkingSpace> GetParkingSpaceById(int parkingSpaceId);
         Task<ParkingSpace> EditParkingSpace(ParkingSpace parkingSpace);
         Task<ParkingSpace> RemoveParkingSpaceById(int parkingSpaceId);
+        Task EditParkingSpaceAngular(ParkingSpace parkingSpace);
         Task TakeParkingSpace(TakenParkingSpace takenParkingSpace);
         Task LeaveParkingSpace(TakenParkingSpace takenParkingSpace);
         Task<List<TakenParkingSpace>> GetTakenInstancesByUserId(string userId);
