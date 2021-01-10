@@ -156,5 +156,23 @@ namespace ParkUp.API.Controllers
             var payload = JsonSerializer.Serialize(allTakenParkingSpacesDTO);
             return payload;
         }
+
+        // GET: api/<ParkingSpacesController>/get-single-parking-space/5
+        [HttpGet]
+        [Route("get-single-parking-space/{parkingSpaceId}")]
+        public async Task<IActionResult> GetSingleParkingSpace(int parkingSpaceId)
+        {
+            try
+            {
+                ParkingSpace parkingSpaceFromDb = await _repository.GetParkingSpaceById(parkingSpaceId);
+                ParkingSpaceDTO parkingSpaceDTO = _mapper.Map<ParkingSpace, ParkingSpaceDTO>(parkingSpaceFromDb);
+                var payload = JsonSerializer.Serialize(parkingSpaceDTO);
+                return Ok(payload);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
     }
 }
