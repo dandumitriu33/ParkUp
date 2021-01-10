@@ -34,6 +34,7 @@ namespace ParkUp.API.Controllers
         // POST: api/<AdminsController>/add-new-role
         [HttpPost]
         [Route("add-new-role")]
+        [Authorize(Roles ="SuperAdmin")]
         public async Task<IActionResult> AddNewRole(ApplicationRoleDTO applicationRoleDTO)
         {
             if (ModelState.IsValid)
