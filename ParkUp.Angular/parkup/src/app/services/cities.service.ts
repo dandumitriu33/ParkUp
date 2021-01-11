@@ -13,6 +13,7 @@ export class CitiesService {
   private allCitiesUrl = 'https://localhost:44315/api/cities';
   private newCityUrl = 'https://localhost:44315/api/cities';
   private deleteCityUrl = 'https://localhost:44315/api/cities';
+  private getSingleCityUrl = 'https://localhost:44315/api/cities/get-single-city/';
 
   constructor(private http: HttpClient) { }
 
@@ -27,6 +28,13 @@ export class CitiesService {
   getAllCities():Observable<City[]> {
     return this.http.get<City[]>(this.allCitiesUrl).pipe(
       tap(data => console.log('No of cities: ' + data.length)),
+      catchError(this.handleError)
+    );
+  }
+
+  getCityById(cityId: string) {
+    return this.http.get<City>(this.getSingleCityUrl + `${cityId}`).pipe(
+      tap(data => console.log('Single City: ' + data.Name)),
       catchError(this.handleError)
     );
   }
