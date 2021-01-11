@@ -22,7 +22,7 @@
         <td>{{ unapprovedCashOut.Amount }}</td>
         <td>{{ unapprovedCashOut.DateSubmitted }}</td>
         <td>
-          <button class="btn btn-primary btn-sm">User Report</button>
+          <button class="btn btn-primary btn-sm" [routerLink]="['/user-report', unapprovedCashOut.UserId]">Report</button>
         </td>
         <td>
           <button class="btn btn-danger btn-sm">Approve</button>
