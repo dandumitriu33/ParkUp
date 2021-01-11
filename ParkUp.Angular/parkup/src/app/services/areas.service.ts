@@ -13,6 +13,7 @@ export class AreasService {
   private newAreaUrl = `https://localhost:44315/api/areas/add-new-area`;
   private removeAreaUrl = `https://localhost:44315/api/areas/remove-area/`;
   private getSingleAreaUrl = 'https://localhost:44315/api/areas/get-single-area/';
+  private editAreaUrl = 'https://localhost:44315/api/areas/edit-area';
 
   constructor(private http: HttpClient) { }
 
@@ -33,6 +34,10 @@ export class AreasService {
       tap(data => console.log('Single Area: ' + data.Name)),
       catchError(this.handleError)
     );
+  }
+
+  editArea(editedArea: Area) {
+    return this.http.post(this.editAreaUrl, editedArea);
   }
 
   private handleError(err: HttpErrorResponse) {

@@ -54,5 +54,32 @@ export class EditAreaComponent implements OnInit {
     });
   }
 
-  onSubmit(form: NgForm) { }
+  onSubmit(form: NgForm) {
+    console.log(`submitting edit for area ${this.areaId}`);
+
+    // TODO: authorize Admin, SuperAdmin for security on backend
+
+    if (localStorage.getItem('token') != null) {
+      var payload = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
+      var UserId = payload.UserID;
+      var UserRole = payload.role;
+    }
+    const editedArea: Area = {
+      "Id": +this.areaId,
+      "Name": this.editAreaFormModel.Name,
+      "CityId": this.subjectArea.CityId
+    };
+
+    this.areasService.editArea(editedArea).subscribe(
+      (res: any) => {
+        console.log('Area edited successfully');
+        this.resultMessage = `Area: ${editedArea.Name} edited successfully.`;
+      },
+      err => {
+        console.log(err);
+        this.resultMessage = `Area: ${editedArea.Name} was not edited.`;
+      }
+    );
+
+  }
 }
