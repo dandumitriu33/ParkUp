@@ -12,9 +12,9 @@
           Contact Info
         </div>
         <div class="card-body">
-          <p>First Name: {{ userInfo.FirstName }}</p>
-          <p>Last Name: {{ userInfo.LastName }}</p>
-          <p>Email: {{ userInfo.Email }}</p>
+          <p>First Name: <span class="font-weight-bold">{{ userInfo.FirstName }}</span></p>
+          <p>Last Name: <span class="font-weight-bold">{{ userInfo.LastName }}</span></p>
+          <p>Email: <span class="font-weight-bold">{{ userInfo.Email }}</span></p>
         </div>
       </div>
     </div>
@@ -25,9 +25,9 @@
           In-App Info
         </div>
         <div class="card-body">
-          <p>ID: {{ userInfo.Id }}</p>
-          <p>Date joined: {{ userInfo.DateAdded }}</p>
-          <p>Partner %: {{ userInfo.PartnerPercentage }}</p>
+          <p>ID: <span class="font-weight-bold">{{ userInfo.Id }}</span></p>
+          <p>Date joined: <span class="font-weight-bold">{{ userInfo.DateAdded | date:'medium' }} ({{ daysAgoJoined | number:'1.0-0' }} days ago)</span></p>
+          <p>Partner tax: <span class="font-weight-bold">{{ userInfo.PartnerPercentage }} %</span></p>
         </div>
       </div>
     </div>
@@ -38,10 +38,10 @@
           Activity
         </div>
         <div class="card-body">
-          <p>Credits: {{ userInfo.Credits }}</p>
-          <p>Lifetime Sales: 1234</p>
-          <p>Lifetime ParkUp: 123</p>
-          <p>Lifetime Cash-out: 234</p>
+          <p>Credits: <span class="font-weight-bold">{{ userInfo.Credits }}</span></p>
+          <p>Lifetime Sales: <span class="font-weight-bold">TODO</span></p>
+          <p>Lifetime ParkUp: <span class="font-weight-bold">TODO</span></p>
+          <p>Lifetime Cash-out: <span class="font-weight-bold">TODO</span></p>
         </div>
       </div>
     </div>
