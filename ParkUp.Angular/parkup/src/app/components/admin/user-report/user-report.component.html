@@ -12,9 +12,9 @@
           Contact Info
         </div>
         <div class="card-body">
-          <p>First Name: John</p>
-          <p>Last Name: Smith</p>
-          <p>Email: johnsmith@email.com</p>
+          <p>First Name: {{ userInfo.FirstName }}</p>
+          <p>Last Name: {{ userInfo.LastName }}</p>
+          <p>Email: {{ userInfo.Email }}</p>
         </div>
       </div>
     </div>
@@ -25,8 +25,9 @@
           In-App Info
         </div>
         <div class="card-body">
-          <p>ID: 1234-abcd-1234-abcd-1234-abcd-1234-abcd</p>
-          <p>Date joined: 1243/12/12 12:12:12</p>
+          <p>ID: {{ userInfo.Id }}</p>
+          <p>Date joined: {{ userInfo.DateAdded }}</p>
+          <p>Partner %: {{ userInfo.PartnerPercentage }}</p>
         </div>
       </div>
     </div>
@@ -37,6 +38,7 @@
           Activity
         </div>
         <div class="card-body">
+          <p>Credits: {{ userInfo.Credits }}</p>
           <p>Lifetime Sales: 1234</p>
           <p>Lifetime ParkUp: 123</p>
           <p>Lifetime Cash-out: 234</p>

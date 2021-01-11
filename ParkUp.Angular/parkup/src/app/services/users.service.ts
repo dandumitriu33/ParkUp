@@ -27,6 +27,7 @@ export class UsersService {
   private buyCreditsUrl = 'https://localhost:44315/api/users/buy-credits';
   private cashOutRequestUrl = 'https://localhost:44315/api/owners/request-cash-out';
   private addNewRoleUrl = `https://localhost:44315/api/admins/add-new-role`;
+  private getUserInfoForAdminUrl = `https://localhost:44315/api/admins/get-user-info/`;
   
 
   // FOR username update on navbar after login - CAN ALSO be used for CREDITS UPDATE after buy/leave!!!!!!!!
@@ -46,6 +47,14 @@ export class UsersService {
       }
     });
     return isMatch;
+  }
+
+  getUserInfoForAdmin(userId: string) {
+    console.log(`entered getUserInfoForAdmin -- ${userId}`);
+    return this.http.get<ApplicationUser>(this.getUserInfoForAdminUrl + `${userId}`).pipe(
+      tap(data => console.log('*********User info retrieved: ' + data.FirstName + ' ' + data.LastName)),
+      catchError(this.handleError)
+    );
   }
 
   addRole(newRole: ApplicationRole) {

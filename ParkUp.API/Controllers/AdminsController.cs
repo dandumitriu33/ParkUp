@@ -75,17 +75,9 @@ namespace ParkUp.API.Controllers
         {
             try
             {
-                var user = await _userManager.FindByIdAsync(userId);
-                var payload = new ApplicationUserDTO
-                {
-                    Id = user.Id,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Email = user.Email,
-                    DateAdded = user.DateAdded,
-                    Credits = user.Credits,
-                    PartnerPercentage = user.PartnerPercentage
-                };
+                var userFromDb = await _userManager.FindByIdAsync(userId);
+                ApplicationUserDTO applicationUser = _mapper.Map<ApplicationUser, ApplicationUserDTO>(userFromDb);
+                var payload = JsonSerializer.Serialize(applicationUser);
                 return Ok(payload);
             }
             catch (Exception)
