@@ -8,14 +8,15 @@ import { NotFoundComponent } from './not-found/not-found.component';
 import { EditParkingSpaceComponent } from './edit-parking-space/edit-parking-space.component';
 import { EditCityComponent } from './edit-city/edit-city.component';
 import { EditAreaComponent } from './edit-area/edit-area.component';
+import { AuthGuard } from '../../auth/auth.guard';
 
 
 const routes: Routes = [
   { path: 'forbidden', component: ForbiddenComponent },
   { path: 'not-found', component: NotFoundComponent },
   { path: 'edit-parking-space/:id', component: EditParkingSpaceComponent },
-  { path: 'edit-city/:id', component: EditCityComponent },
-  { path: 'edit-area/:id', component: EditAreaComponent },
+  { path: 'edit-city/:id', component: EditCityComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'SuperAdmin'] } },
+  { path: 'edit-area/:id', component: EditAreaComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'SuperAdmin'] } },
 ];
 
 @NgModule({
