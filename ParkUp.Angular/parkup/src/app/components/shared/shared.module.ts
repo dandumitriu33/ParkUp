@@ -7,6 +7,7 @@ import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { EditParkingSpaceComponent } from './edit-parking-space/edit-parking-space.component';
 import { EditCityComponent } from './edit-city/edit-city.component';
+import { EditAreaComponent } from './edit-area/edit-area.component';
 
 
 const routes: Routes = [
@@ -21,7 +22,8 @@ const routes: Routes = [
     ForbiddenComponent,
     NotFoundComponent,
     EditParkingSpaceComponent,
-    EditCityComponent
+    EditCityComponent,
+    EditAreaComponent
   ],
   imports: [
     CommonModule,
