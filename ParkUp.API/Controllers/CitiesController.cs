@@ -85,9 +85,9 @@ namespace ParkUp.API.Controllers
             }
         }
 
-        // POST: api/<CitiesController>/edit-city/5
+        // POST: api/<CitiesController>/edit-city
         [HttpPost]
-        [Route("edit-city/{cityId}")]
+        [Route("edit-city")]
         public async Task<IActionResult> EditCity(CityDTO cityDTO)
         {
             if (ModelState.IsValid)
