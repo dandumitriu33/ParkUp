@@ -14,6 +14,7 @@ export class CitiesService {
   private newCityUrl = 'https://localhost:44315/api/cities';
   private deleteCityUrl = 'https://localhost:44315/api/cities';
   private getSingleCityUrl = 'https://localhost:44315/api/cities/get-single-city/';
+  private editCityUrl = 'https://localhost:44315/api/cities/edit-city';
 
   constructor(private http: HttpClient) { }
 
@@ -23,6 +24,10 @@ export class CitiesService {
 
   deleteCity(cityId: number) {
     return this.http.delete(this.deleteCityUrl + `/${cityId}`);
+  }
+
+  editCity(editedCity: City) {
+    return this.http.post(this.editCityUrl, editedCity);
   }
 
   getAllCities():Observable<City[]> {

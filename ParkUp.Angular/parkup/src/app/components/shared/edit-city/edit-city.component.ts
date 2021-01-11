@@ -54,7 +54,39 @@ export class EditCityComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    console.log(`city edit submitted`);
+    console.log(`submitting edit for city ${this.cityId}`);
+
+    // TODO: authorize Admin, SuperAdmin for security on backend
+
+    if (localStorage.getItem('token') != null) {
+      var payload = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
+      var UserId = payload.UserID;
+      var UserRole = payload.role;
+    }
+    const editedCity: City = {
+      "Id": +this.cityId,
+      "Name": this.editCityFormModel.Name,
+      "Areas": []
+    };
+
+    this.citiesService.editCity(editedCity).subscribe(
+      (res: any) => {
+        console.log('City edited successfully');
+        this.resultMessage = `City: ${editedCity.Name} edited successfully.`;
+      },
+      err => {
+        console.log(err);
+        this.resultMessage = `City: ${editedCity.Name} was not edited.`;
+      }
+    );
+  }
+
+
+
+
+
+
+
   }
 
 }
