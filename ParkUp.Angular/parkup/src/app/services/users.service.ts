@@ -144,8 +144,8 @@ export class UsersService {
     );
   }
 
-  getRentalHistory(): Observable<ParkingSpaceRental[]> {
-    return this.http.get<ParkingSpaceRental[]>(this.rentalHistoryUrl + this.userId).pipe(
+  getRentalHistory(userId: string): Observable<ParkingSpaceRental[]> {
+    return this.http.get<ParkingSpaceRental[]>(this.rentalHistoryUrl + userId).pipe(
       tap(data => console.log('No of rentals: ' + data.length)),
       catchError(this.handleError)
     );

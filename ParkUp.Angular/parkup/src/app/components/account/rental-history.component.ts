@@ -14,7 +14,11 @@ export class RentalHistoryComponent implements OnInit {
   constructor(private usersService: UsersService) { }
 
   ngOnInit(): void {
-    this.usersService.getRentalHistory().subscribe({
+    if (localStorage.getItem('token') != null) {
+      var payload = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
+      var UserId = payload.UserID;
+    }
+    this.usersService.getRentalHistory(UserId).subscribe({
       next: rentals => {
         this.allRentals = rentals;
       },
