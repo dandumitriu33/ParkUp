@@ -16,7 +16,11 @@ export class MyParkingSpacesComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit(): void {
-    this.parkingSpacesService.getAllOwnerParkingSpaces().subscribe({
+    if (localStorage.getItem('token') != null) {
+      var payload = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
+      var UserId = payload.UserID;
+    }
+    this.parkingSpacesService.getAllOwnerParkingSpaces(UserId).subscribe({
       next: spaces => {
         this.allParkingSpaces = spaces;
       },
