@@ -15,6 +15,7 @@ namespace ParkUp.Core.Interfaces
         Task<City> EditCity(City city);
         Task DeleteCity(int cityId);
         Task<List<Area>> GetAllAreas();
+        Task<Area> GetAreaById(int areaId);
         Task<Area> AddArea(Area area);
         Task<CityArea> AddCityArea(CityArea cityArea);
         Task<Area> RemoveAreaById(int areaId);

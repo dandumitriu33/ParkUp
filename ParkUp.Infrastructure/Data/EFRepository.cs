@@ -60,6 +60,11 @@ namespace ParkUp.Infrastructure.Data
             return await _dbContext.Areas.Where(a => a.IsRemoved == false).ToListAsync();
         }
 
+        public async Task<Area> GetAreaById(int areaId)
+        {
+            return await _dbContext.Areas.Where(a => a.Id == areaId && a.IsRemoved == false).FirstOrDefaultAsync();
+        }
+
         public async Task<Area> AddArea(Area area)
         {
             await _dbContext.Areas.AddAsync(area);
