@@ -55,7 +55,7 @@
         <td>{{ area.Name }}</td>
         <td>{{ area.CityId }}</td>
         <td>
-          <button class="btn btn-warning btn-sm">Edit</button>
+          <button class="btn btn-warning btn-sm" [routerLink]="['/edit-area', area.Id]">Edit</button>
         </td>
         <td>
           <button class="btn btn-danger btn-sm" (click)="onRemove(area.Id, area.CityId)">Remove</button>

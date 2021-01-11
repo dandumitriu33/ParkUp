@@ -14,7 +14,8 @@ const routes: Routes = [
   { path: 'forbidden', component: ForbiddenComponent },
   { path: 'not-found', component: NotFoundComponent },
   { path: 'edit-parking-space/:id', component: EditParkingSpaceComponent },
-  { path: 'edit-city/:id', component: EditCityComponent }
+  { path: 'edit-city/:id', component: EditCityComponent },
+  { path: 'edit-area/:id', component: EditAreaComponent },
 ];
 
 @NgModule({
