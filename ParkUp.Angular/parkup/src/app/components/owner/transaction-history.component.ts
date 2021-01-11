@@ -14,7 +14,11 @@ export class TransactionHistoryComponent implements OnInit {
   constructor(private parkingSpacesService: ParkingSpacesService) { }
 
   ngOnInit(): void {
-    this.parkingSpacesService.getAllOwnerTransactions().subscribe({
+    if (localStorage.getItem('token') != null) {
+      var payload = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
+      var UserId = payload.UserID;
+    }
+    this.parkingSpacesService.getAllOwnerTransactions(UserId).subscribe({
       next: transactions => {
         this.allTransactions = transactions;
       },

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using ParkUp.API.Models;
 using ParkUp.Core.Entities;
 using System;
 using System.Collections.Generic;
@@ -36,5 +37,6 @@ namespace ParkUp.API.Controllers
                 Credits = user.Credits
             };
         }
+
     }
 }

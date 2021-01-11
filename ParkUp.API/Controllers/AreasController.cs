@@ -30,7 +30,7 @@ namespace ParkUp.API.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/<AreasController>
+        // GET: api/<AreasController>/3
         [HttpGet]
         [Route("{cityId?}")]
         public async Task<string> GetCityAreas(int cityId)
@@ -39,6 +39,45 @@ namespace ParkUp.API.Controllers
             List<AreaDTO> allAreasDTO = _mapper.Map<List<Area>, List<AreaDTO>>(areasFromDb);
             var payload = JsonSerializer.Serialize(allAreasDTO);
             return payload;
+        }
+
+        // GET: api/<AreasController>/get-single-area/5
+        [HttpGet]
+        [Route("get-single-area/{areaId}")]
+        public async Task<IActionResult> GetSingleArea(int areaId)
+        {
+            try
+            {
+                Area areaFromDb = await _repository.GetAreaById(areaId);
+                AreaDTO areaDTO = _mapper.Map<Area, AreaDTO>(areaFromDb);
+                var payload = JsonSerializer.Serialize(areaDTO);
+                return Ok(payload);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        // POST: api/<AresController>/edit-area
+        [HttpPost]
+        [Route("edit-area")]
+        public async Task<IActionResult> EditCity(AreaDTO areaDTO)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    Area modifiedArea = _mapper.Map<AreaDTO, Area>(areaDTO);
+                    await _repository.EditArea(modifiedArea);
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest();
+                }
+            }
+            return BadRequest();
         }
 
         // POST: api/<AreasController>/remove-area/5

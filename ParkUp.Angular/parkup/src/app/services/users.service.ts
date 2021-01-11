@@ -27,8 +27,8 @@ export class UsersService {
   private buyCreditsUrl = 'https://localhost:44315/api/users/buy-credits';
   private cashOutRequestUrl = 'https://localhost:44315/api/owners/request-cash-out';
   private addNewRoleUrl = `https://localhost:44315/api/admins/add-new-role`;
-  // TEMPORARY hardcoded user ID
-  private userId = '19a0694b-57eb-4b0a-aca4-86d71e389d0f';
+  private getUserInfoForAdminUrl = `https://localhost:44315/api/admins/get-user-info/`;
+  
 
   // FOR username update on navbar after login - CAN ALSO be used for CREDITS UPDATE after buy/leave!!!!!!!!
   public isUserLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -47,6 +47,14 @@ export class UsersService {
       }
     });
     return isMatch;
+  }
+
+  getUserInfoForAdmin(userId: string) {
+    console.log(`entered getUserInfoForAdmin -- ${userId}`);
+    return this.http.get<ApplicationUser>(this.getUserInfoForAdminUrl + `${userId}`).pipe(
+      tap(data => console.log('*********User info retrieved: ' + data.FirstName + ' ' + data.LastName)),
+      catchError(this.handleError)
+    );
   }
 
   addRole(newRole: ApplicationRole) {
@@ -138,15 +146,15 @@ export class UsersService {
     );
   }
 
-  getPurchaseHistory(): Observable<CreditPackPurchase[]> {
-    return this.http.get<CreditPackPurchase[]>(this.purchaseHistoryUrl + this.userId).pipe(
+  getPurchaseHistory(userId: string): Observable<CreditPackPurchase[]> {
+    return this.http.get<CreditPackPurchase[]>(this.purchaseHistoryUrl + userId).pipe(
       tap(data => console.log('No of purchases: ' + data.length)),
       catchError(this.handleError)
     );
   }
 
-  getRentalHistory(): Observable<ParkingSpaceRental[]> {
-    return this.http.get<ParkingSpaceRental[]>(this.rentalHistoryUrl + this.userId).pipe(
+  getRentalHistory(userId: string): Observable<ParkingSpaceRental[]> {
+    return this.http.get<ParkingSpaceRental[]>(this.rentalHistoryUrl + userId).pipe(
       tap(data => console.log('No of rentals: ' + data.length)),
       catchError(this.handleError)
     );

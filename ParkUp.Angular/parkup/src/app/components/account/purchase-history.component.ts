@@ -14,7 +14,11 @@ export class PurchaseHistoryComponent implements OnInit {
   constructor(private usersService: UsersService) { }
 
   ngOnInit(): void {
-    this.usersService.getPurchaseHistory().subscribe({
+    if (localStorage.getItem('token') != null) {
+      var payload = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
+      var UserId = payload.UserID;
+    }
+    this.usersService.getPurchaseHistory(UserId).subscribe({
       next: purchases => {
         this.allPurchases = purchases;
       },

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from '../../auth/auth.guard';
 
 import { ApproveSpacesComponent } from './approve-spaces.component';
 import { ApproveCashOutComponent } from './approve-cash-out.component';
@@ -11,7 +12,7 @@ import { AllAreasComponent } from './all-areas.component';
 import { AllCitiesComponent } from './all-cities.component';
 import { SelectCityComponent } from './select-city.component';
 import { SelectAreaComponent } from './select-area.component';
-import { AuthGuard } from '../../auth/auth.guard';
+import { UserReportComponent } from './user-report/user-report.component';
 
 const routes: Routes = [
   { path: 'approve-spaces', component: ApproveSpacesComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'SuperAdmin'] } },
@@ -19,7 +20,8 @@ const routes: Routes = [
   { path: 'all-users', component: AllUsersComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'SuperAdmin'] } },
   { path: 'all-spaces', component: AllSpacesComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'SuperAdmin'] } },
   { path: 'all-areas', component: AllAreasComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'SuperAdmin'] } },
-  { path: 'all-cities', component: AllCitiesComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'SuperAdmin'] } }
+  { path: 'all-cities', component: AllCitiesComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'SuperAdmin'] } },
+  { path: 'user-report/:userId', component: UserReportComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'SuperAdmin'] } }
 ];
 
 @NgModule({
@@ -31,7 +33,8 @@ const routes: Routes = [
     AllAreasComponent,
     AllCitiesComponent,
     SelectCityComponent,
-    SelectAreaComponent
+    SelectAreaComponent,
+    UserReportComponent
   ],
   imports: [
     CommonModule,

@@ -3,7 +3,6 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
-import { Area } from '../models/Area';
 import { ParkingSpace } from '../models/ParkingSpace';
 import { ParkingSpaceRental } from '../models/ParkingSpaceRental';
 
@@ -20,8 +19,6 @@ export class ParkingSpacesService {
   private getSingleParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/get-single-parking-space/';
   private editParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/edit-parking-space';
 
-  // TEMPORARY user id
-  userId = '19a0694b-57eb-4b0a-aca4-86d71e389d0f';
 
   constructor(private http: HttpClient) { }
 
@@ -52,15 +49,15 @@ export class ParkingSpacesService {
     );
   }
 
-  getAllOwnerTransactions(): Observable<ParkingSpaceRental[]> {
-    return this.http.get<ParkingSpaceRental[]>(this.allOwnerTransactionsUrl + this.userId).pipe(
+  getAllOwnerTransactions(userId: string): Observable<ParkingSpaceRental[]> {
+    return this.http.get<ParkingSpaceRental[]>(this.allOwnerTransactionsUrl + userId).pipe(
       tap(data => console.log('No of OWN trs: ' + data.length)),
       catchError(this.handleError)
     );
   }
 
-  getAllOwnerParkingSpaces(): Observable<ParkingSpace[]> {
-    return this.http.get<ParkingSpace[]>(this.allOwnerParkingSpacesUrl + this.userId).pipe(
+  getAllOwnerParkingSpaces(userId: string): Observable<ParkingSpace[]> {
+    return this.http.get<ParkingSpace[]>(this.allOwnerParkingSpacesUrl + userId).pipe(
       tap(data => console.log('No of OWN PS: ' + data.length)),
       catchError(this.handleError)
     );

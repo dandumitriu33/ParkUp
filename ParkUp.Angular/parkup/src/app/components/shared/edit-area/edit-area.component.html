@@ -1,0 +1,31 @@
+<div class="container">
+  <h4 class="text-center">Edit Area</h4>
+  <p class="text-center">{{ resultMessage }}</p>
+  <hr />
+
+  <form #form="ngForm" (submit)="onSubmit(form)">
+    <div class="container">
+
+      <div class="row">
+
+        <div class="form-group col-md-2">
+          <label for="Name">Name</label>
+        </div>
+        <div class="form-group col-md-4">
+          <input class="form-control" #Name="ngModel" id="Name" name="Name" [(ngModel)]="editAreaFormModel.Name" required />
+        </div>
+
+        <div class="col-md-4">
+          <button type="submit" class="btn btn-warning" [disabled]="form.invalid">Edit Area</button>
+        </div>
+
+        <div class="col-md-2">
+          <button class="btn btn-primary" [routerLink]="['/all-areas']">Back to Areas</button>
+        </div>
+
+      </div>
+
+    </div>
+  </form>
+
+</div>

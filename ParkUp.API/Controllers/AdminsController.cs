@@ -21,14 +21,17 @@ namespace ParkUp.API.Controllers
         private readonly IAsyncRepository _repository;
         private readonly IMapper _mapper;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         public AdminsController(IAsyncRepository repository,
                                 IMapper mapper,
-                                RoleManager<IdentityRole> roleManager)
+                                RoleManager<IdentityRole> roleManager,
+                                UserManager<ApplicationUser> userManager)
         {
             _repository = repository;
             _mapper = mapper;
             _roleManager = roleManager;
+            _userManager = userManager;
         }
 
         // POST: api/<AdminsController>/add-new-role
@@ -65,6 +68,24 @@ namespace ParkUp.API.Controllers
             return payload;
         }
 
+        // GET: api/<AdminsController>/get-user-info/abcd
+        [HttpGet]
+        [Route("get-user-info/{userId}")]
+        public async Task<IActionResult> GetUserInfoForAdmin(string userId)
+        {
+            try
+            {
+                var userFromDb = await _userManager.FindByIdAsync(userId);
+                ApplicationUserDTO applicationUser = _mapper.Map<ApplicationUser, ApplicationUserDTO>(userFromDb);
+                var payload = JsonSerializer.Serialize(applicationUser);
+                return Ok(payload);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+
+        }
 
 
     }

@@ -1,0 +1,70 @@
+<div class="container">
+  <div class="row">
+    <div class="col-4 offset-5">
+      <h4>User Report</h4>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-4">
+      <div class="card">
+        <div class="card-header">
+          Contact Info
+        </div>
+        <div class="card-body">
+          <p>First Name: <span class="font-weight-bold">{{ userInfo.FirstName }}</span></p>
+          <p>Last Name: <span class="font-weight-bold">{{ userInfo.LastName }}</span></p>
+          <p>Email: <span class="font-weight-bold">{{ userInfo.Email }}</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-4">
+      <div class="card">
+        <div class="card-header">
+          In-App Info
+        </div>
+        <div class="card-body">
+          <p>ID: <span class="font-weight-bold">{{ userInfo.Id }}</span></p>
+          <p>Date joined: <span class="font-weight-bold">{{ userInfo.DateAdded | date:'medium' }} ({{ daysAgoJoined | number:'1.0-0' }} days ago)</span></p>
+          <p>Partner tax: <span class="font-weight-bold">{{ userInfo.PartnerPercentage }} %</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-4">
+      <div class="card">
+        <div class="card-header">
+          Activity
+        </div>
+        <div class="card-body">
+          <p>Credits: <span class="font-weight-bold">{{ userInfo.Credits }}</span></p>
+          <p>Lifetime Sales: <span class="font-weight-bold">TODO</span></p>
+          <p>Lifetime ParkUp: <span class="font-weight-bold">TODO</span></p>
+          <p>Lifetime Cash-out: <span class="font-weight-bold">TODO</span></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr />
+  <div class="row">
+    <div class="col-4 offset-5">
+      <h4>Parking Spaces</h4>
+    </div>
+  </div>
+  
+  <div class="row">
+    
+    <div class="col-4 offset-5">
+      <h4>Transactions</h4>
+    </div>
+  </div>
+  
+  <div class="row">
+    
+    <div class="col-4 offset-5">
+      <h4>Cash-Outs</h4>
+    </div>
+  </div>
+
+</div>

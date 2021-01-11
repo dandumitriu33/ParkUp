@@ -24,9 +24,25 @@ namespace ParkUp.Infrastructure.Data
             return await _dbContext.Cities.ToListAsync();
         }
 
+        public async Task<City> GetCityById(int cityId)
+        {
+            return await _dbContext.Cities.Where(c => c.Id == cityId).FirstOrDefaultAsync();
+        }
+
         public async Task<City> AddCity(City city)
         {
             await _dbContext.Cities.AddAsync(city);
+            await _dbContext.SaveChangesAsync();
+            return city;
+        }
+
+        public async Task<City> EditCity(City city)
+        {
+            City cityFromDb = await _dbContext.Cities.Where(c => c.Id == city.Id).FirstOrDefaultAsync();
+            cityFromDb.Name = city.Name;
+
+            _dbContext.Cities.Attach(cityFromDb);
+            _dbContext.Entry(cityFromDb).State = EntityState.Modified;
             await _dbContext.SaveChangesAsync();
             return city;
         }
@@ -44,6 +60,11 @@ namespace ParkUp.Infrastructure.Data
             return await _dbContext.Areas.Where(a => a.IsRemoved == false).ToListAsync();
         }
 
+        public async Task<Area> GetAreaById(int areaId)
+        {
+            return await _dbContext.Areas.Where(a => a.Id == areaId && a.IsRemoved == false).FirstOrDefaultAsync();
+        }
+
         public async Task<Area> AddArea(Area area)
         {
             await _dbContext.Areas.AddAsync(area);
@@ -56,6 +77,17 @@ namespace ParkUp.Infrastructure.Data
             await _dbContext.CityAreas.AddAsync(cityArea);
             await _dbContext.SaveChangesAsync();
             return cityArea;
+        }
+
+        public async Task<Area> EditArea(Area area)
+        {
+            Area areaFromDb = await _dbContext.Areas.Where(a => a.Id == area.Id && a.IsRemoved == false).FirstOrDefaultAsync();
+            areaFromDb.Name = area.Name;
+
+            _dbContext.Areas.Attach(areaFromDb);
+            _dbContext.Entry(areaFromDb).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+            return area;
         }
 
         public async Task<Area> RemoveAreaById(int areaId)

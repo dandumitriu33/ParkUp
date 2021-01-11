@@ -1,5 +1,5 @@
 export class ApplicationUser {
-  Id: number;
+  Id: string;
   Email: string;
   DateAdded: string;
   Credits: number;

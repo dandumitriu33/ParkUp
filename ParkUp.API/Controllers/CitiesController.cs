@@ -67,6 +67,45 @@ namespace ParkUp.API.Controllers
             return BadRequest("Bad request.");
         }
 
+        // GET: api/<CitiesController>/get-single-city/5
+        [HttpGet]
+        [Route("get-single-city/{cityId}")]
+        public async Task<IActionResult> GetSingleCity(int cityId)
+        {
+            try
+            {
+                City cityFromDb = await _repository.GetCityById(cityId);
+                CityDTO cityDTO = _mapper.Map<City, CityDTO>(cityFromDb);
+                var payload = JsonSerializer.Serialize(cityDTO);
+                return Ok(payload);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        // POST: api/<CitiesController>/edit-city
+        [HttpPost]
+        [Route("edit-city")]
+        public async Task<IActionResult> EditCity(CityDTO cityDTO)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    City modifiedCity = _mapper.Map<CityDTO, City>(cityDTO);
+                    await _repository.EditCity(modifiedCity);
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest();
+                }
+            }
+            return BadRequest();
+        }
+
         // NOTE: it is safer to simply add an IsRemoved field for a city to increase agains accidental deletion
         // but this is an educational project so it includes a Delete and Remove from DB way 
         // DELETE api/<CitiesController>/5 
