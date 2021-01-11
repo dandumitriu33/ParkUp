@@ -10,6 +10,7 @@ namespace ParkUp.Core.Interfaces
     public interface IAsyncRepository
     {
         Task<List<City>> GetAllCities();
+        Task<City> GetCityById(int cityId);
         Task<City> AddCity(City city);
         Task<City> EditCity(City city);
         Task DeleteCity(int cityId);

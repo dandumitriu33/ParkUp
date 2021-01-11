@@ -24,6 +24,11 @@ namespace ParkUp.Infrastructure.Data
             return await _dbContext.Cities.ToListAsync();
         }
 
+        public async Task<City> GetCityById(int cityId)
+        {
+            return await _dbContext.Cities.Where(c => c.Id == cityId).FirstOrDefaultAsync();
+        }
+
         public async Task<City> AddCity(City city)
         {
             await _dbContext.Cities.AddAsync(city);

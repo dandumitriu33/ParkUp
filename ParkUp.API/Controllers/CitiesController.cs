@@ -67,7 +67,25 @@ namespace ParkUp.API.Controllers
             return BadRequest("Bad request.");
         }
 
-        // POST api/<CitiesController>/edit-city/5
+        // GET: api/<CitiesController>/get-single-city/5
+        [HttpGet]
+        [Route("get-single-city/{cityId}")]
+        public async Task<IActionResult> GetSingleCity(int cityId)
+        {
+            try
+            {
+                City cityFromDb = await _repository.GetCityById(cityId);
+                CityDTO cityDTO = _mapper.Map<City, CityDTO>(cityFromDb);
+                var payload = JsonSerializer.Serialize(cityDTO);
+                return Ok(payload);
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
+        }
+
+        // POST: api/<CitiesController>/edit-city/5
         [HttpPost]
         [Route("edit-city/{cityId}")]
         public async Task<IActionResult> EditCity(CityDTO cityDTO)
