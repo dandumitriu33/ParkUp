@@ -20,10 +20,10 @@
         <td>{{ user.PartnerPercentage }}</td>
         <td>{{ user.DateAdded }}</td>
         <td>
-          <button class="btn btn-warning btn-sm">Edit</button>
+          <button class="btn btn-warning btn-sm" >Edit</button>
         </td>
         <td>
-          <button class="btn btn-danger btn-sm">Remove</button>
+          <button class="btn btn-primary btn-sm" [routerLink]="['/user-report', user.Id]">Report</button>
         </td>
       </tr>
     </tbody>

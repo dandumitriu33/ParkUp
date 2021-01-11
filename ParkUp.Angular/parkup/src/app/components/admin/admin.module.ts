@@ -21,7 +21,7 @@ const routes: Routes = [
   { path: 'all-spaces', component: AllSpacesComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'SuperAdmin'] } },
   { path: 'all-areas', component: AllAreasComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'SuperAdmin'] } },
   { path: 'all-cities', component: AllCitiesComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'SuperAdmin'] } },
-  { path: 'user-report', component: UserReportComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'SuperAdmin'] } }
+  { path: 'user-report/:id', component: UserReportComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'SuperAdmin'] } }
 ];
 
 @NgModule({
