@@ -21,7 +21,7 @@ export class EditCityComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private citiesService: CitiesService,
-              private router: Router,) { }
+              private router: Router) { }
 
   ngOnInit(): void {
     this.resultMessage = "";

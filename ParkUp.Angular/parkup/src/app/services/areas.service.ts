@@ -12,6 +12,7 @@ export class AreasService {
   private areasForCityUrl = `https://localhost:44315/api/areas/`;
   private newAreaUrl = `https://localhost:44315/api/areas/add-new-area`;
   private removeAreaUrl = `https://localhost:44315/api/areas/remove-area/`;
+  private getSingleAreaUrl = 'https://localhost:44315/api/areas/get-single-area/';
 
   constructor(private http: HttpClient) { }
 
@@ -23,6 +24,13 @@ export class AreasService {
   getAllAreasForCity(cityId: string): Observable<Area[]> {
     return this.http.get<Area[]>(this.areasForCityUrl + cityId).pipe(
       tap(data => console.log('No of Areas: ' + data.length)),
+      catchError(this.handleError)
+    );
+  }
+
+  getAreaById(areaId: string) {
+    return this.http.get<Area>(this.getSingleAreaUrl + `${areaId}`).pipe(
+      tap(data => console.log('Single Area: ' + data.Name)),
       catchError(this.handleError)
     );
   }
