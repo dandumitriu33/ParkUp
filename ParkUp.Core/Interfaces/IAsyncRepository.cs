@@ -18,6 +18,7 @@ namespace ParkUp.Core.Interfaces
         Task<Area> GetAreaById(int areaId);
         Task<Area> AddArea(Area area);
         Task<CityArea> AddCityArea(CityArea cityArea);
+        Task<Area> EditArea(Area area);
         Task<Area> RemoveAreaById(int areaId);
         Task<List<Area>> GetAllAreasForCity(int cityId);
         Task<List<ParkingSpace>> GetAllOwnerParkingSpaces(string userId);

@@ -59,6 +59,27 @@ namespace ParkUp.API.Controllers
             }
         }
 
+        // POST: api/<AresController>/edit-area
+        [HttpPost]
+        [Route("edit-area")]
+        public async Task<IActionResult> EditCity(AreaDTO areaDTO)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    Area modifiedArea = _mapper.Map<AreaDTO, Area>(areaDTO);
+                    await _repository.EditArea(modifiedArea);
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest();
+                }
+            }
+            return BadRequest();
+        }
+
         // POST: api/<AreasController>/remove-area/5
         [HttpPost]
         [Route("remove-area/{areaId}")]

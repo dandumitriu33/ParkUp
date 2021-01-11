@@ -79,6 +79,17 @@ namespace ParkUp.Infrastructure.Data
             return cityArea;
         }
 
+        public async Task<Area> EditArea(Area area)
+        {
+            Area areaFromDb = await _dbContext.Areas.Where(a => a.Id == area.Id && a.IsRemoved == false).FirstOrDefaultAsync();
+            areaFromDb.Name = area.Name;
+
+            _dbContext.Areas.Attach(areaFromDb);
+            _dbContext.Entry(areaFromDb).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+            return area;
+        }
+
         public async Task<Area> RemoveAreaById(int areaId)
         {
             Area areaFromDb = await _dbContext.Areas.Where(a => a.Id == areaId && a.IsRemoved == false).FirstOrDefaultAsync();
