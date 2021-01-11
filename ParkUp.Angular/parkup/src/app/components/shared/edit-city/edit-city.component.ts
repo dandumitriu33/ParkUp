@@ -79,14 +79,7 @@ export class EditCityComponent implements OnInit {
         this.resultMessage = `City: ${editedCity.Name} was not edited.`;
       }
     );
-  }
-
-
-
-
-
-
-
+  
   }
 
 }
