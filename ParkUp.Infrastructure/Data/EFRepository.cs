@@ -31,6 +31,17 @@ namespace ParkUp.Infrastructure.Data
             return city;
         }
 
+        public async Task<City> EditCity(City city)
+        {
+            City cityFromDb = await _dbContext.Cities.Where(c => c.Id == city.Id).FirstOrDefaultAsync();
+            cityFromDb.Name = city.Name;
+
+            _dbContext.Cities.Attach(cityFromDb);
+            _dbContext.Entry(cityFromDb).State = EntityState.Modified;
+            await _dbContext.SaveChangesAsync();
+            return city;
+        }
+
         public async Task DeleteCity(int cityId)
         {
             City cityFromDb = await _dbContext.Cities.Where(c => c.Id == cityId).FirstOrDefaultAsync();

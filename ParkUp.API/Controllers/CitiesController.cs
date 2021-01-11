@@ -67,6 +67,27 @@ namespace ParkUp.API.Controllers
             return BadRequest("Bad request.");
         }
 
+        // POST api/<CitiesController>/edit-city/5
+        [HttpPost]
+        [Route("edit-city/{cityId}")]
+        public async Task<IActionResult> EditCity(CityDTO cityDTO)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    City modifiedCity = _mapper.Map<CityDTO, City>(cityDTO);
+                    await _repository.EditCity(modifiedCity);
+                    return Ok();
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest();
+                }
+            }
+            return BadRequest();
+        }
+
         // NOTE: it is safer to simply add an IsRemoved field for a city to increase agains accidental deletion
         // but this is an educational project so it includes a Delete and Remove from DB way 
         // DELETE api/<CitiesController>/5 
