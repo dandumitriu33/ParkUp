@@ -6,19 +6,22 @@ import { FormsModule } from '@angular/forms';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { EditParkingSpaceComponent } from './edit-parking-space/edit-parking-space.component';
+import { EditCityComponent } from './edit-city/edit-city.component';
 
 
 const routes: Routes = [
   { path: 'forbidden', component: ForbiddenComponent },
   { path: 'not-found', component: NotFoundComponent },
-  { path: 'edit-parking-space/:id', component: EditParkingSpaceComponent }
+  { path: 'edit-parking-space/:id', component: EditParkingSpaceComponent },
+  { path: 'edit-city/:id', component: EditCityComponent }
 ];
 
 @NgModule({
   declarations: [
     ForbiddenComponent,
     NotFoundComponent,
-    EditParkingSpaceComponent
+    EditParkingSpaceComponent,
+    EditCityComponent
   ],
   imports: [
     CommonModule,

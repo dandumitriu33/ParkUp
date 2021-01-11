@@ -31,11 +31,7 @@ export class EditParkingSpaceComponent implements OnInit {
   ngOnInit(): void {
     this.resultMessage = "";
     this.parkingSpaceId = this.route.snapshot.paramMap.get('id');
-    
     this.populateEditFormInfo(this.parkingSpaceId);
-    
-
-
   }
 
   populateEditFormInfo(parkingSpaceId: string) {
