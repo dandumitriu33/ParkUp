@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApplicationUser } from '../../../models/ApplicationUser';
+import { CashOut } from '../../../models/CashOut';
+import { ParkingSpace } from '../../../models/ParkingSpace';
+import { ParkingSpaceRental } from '../../../models/ParkingSpaceRental';
+import { ParkingSpacesService } from '../../../services/parking-spaces.service';
 
 import { UsersService } from '../../../services/users.service';
 
@@ -22,9 +26,14 @@ export class UserReportComponent implements OnInit {
     "PartnerPercentage": 0,
   };
   daysAgoJoined: number;
+  userParkingSpaces: ParkingSpace[];
+  userRentalsAsOwner: ParkingSpaceRental[];
+  userApprovedCashOuts: CashOut[];
+
 
   constructor(private usersService: UsersService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private parkingSpacesService: ParkingSpacesService) { }
 
   ngOnInit(): void {
     this.userId = this.route.snapshot.paramMap.get('userId');
@@ -38,6 +47,13 @@ export class UserReportComponent implements OnInit {
         console.log(`received: ${this.userInfo}`);
         this.setDaysAgoJoined(userInfoFromDb.DateAdded);
         this.userInfo = userInfoFromDb;
+      },
+      error: err => console.error(err)
+    });
+    this.parkingSpacesService.getAllOwnerParkingSpaces(this.userId).subscribe({
+      next: ownerParkingSpacesFromDb => {
+        console.log(`received ${ownerParkingSpacesFromDb.length} spaces`);
+        this.userParkingSpaces = ownerParkingSpacesFromDb;
       },
       error: err => console.error(err)
     });
