@@ -118,7 +118,7 @@ namespace ParkUp.API.Controllers
             newTakenParkingSpace.DateStarted = DateTime.Now;
             await _repository.TakeParkingSpace(newTakenParkingSpace);
             
-            return Ok($"Parking space taken successfully."); ;
+            return Ok(); ;
         }
 
         // POST: api/<ParkingSpacesController>/leave

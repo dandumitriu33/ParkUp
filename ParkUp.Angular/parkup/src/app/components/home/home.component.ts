@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Area } from '../../models/Area';
 import { City } from '../../models/City';
 import { ParkingSpace } from '../../models/ParkingSpace';
+import { TakenParkingSpace } from '../../models/TakenParkingSpace';
 import { AreasService } from '../../services/areas.service';
 import { CitiesService } from '../../services/cities.service';
 import { ParkingSpacesService } from '../../services/parking-spaces.service';
@@ -27,6 +28,7 @@ export class HomeComponent implements OnInit {
               private parkingSpacesService: ParkingSpacesService) { }
 
   ngOnInit(): void {
+
     this.citiesService.getAllCities().subscribe({
       next: cities => {
         this.allCities = cities;
@@ -42,6 +44,29 @@ export class HomeComponent implements OnInit {
       { 'id': 2, 'name': 'test2' },
       { 'id': 3, 'name': 'test3' }
       ];
+  }
+
+  onTakeSpaceClick(parkingSpaceId: number) {
+    console.log(`parking space TAKE clicked for ${parkingSpaceId}`);
+    if (localStorage.getItem('token') != null) {
+      var payload = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
+      var currentUserId = payload.UserID;
+    }
+    let placeholderDate: Date = new Date();
+    let takenParkingSpace: TakenParkingSpace = {
+      "Id": 0,
+      "ParkingSpaceId": parkingSpaceId,
+      "UserId": currentUserId,
+      "DateStarted": placeholderDate
+    };
+    this.parkingSpacesService.takeParkingSpace(takenParkingSpace).subscribe(
+      (res: any) => {
+        console.log('PS taken successfully');
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
   onCityChange() {
