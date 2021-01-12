@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
   currentLatitude: string;
   currentLongitude: string;
 
-  takenSpaces: any[];
+  takenSpaces: ParkingSpace[];
 
   constructor(private citiesService: CitiesService,
               private areasService: AreasService,
@@ -36,14 +36,22 @@ export class HomeComponent implements OnInit {
       error: err => console.error(err)
     });
 
+    this.populateTakenSpaces();
+        
+  }
 
-
-    // temp hardcoded
-    this.takenSpaces = [
-      { 'id': 1, 'name': 'test' },
-      { 'id': 2, 'name': 'test2' },
-      { 'id': 3, 'name': 'test3' }
-      ];
+  populateTakenSpaces() {
+    console.log(`populating taken spaces`);
+    if (localStorage.getItem('token') != null) {
+      var payload = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
+      var currentUserId = payload.UserID;
+    }
+    this.parkingSpacesService.getTakenParkingSpaces(currentUserId).subscribe({
+      next: takenParkingSpaces => {
+        this.takenSpaces = takenParkingSpaces;
+      },
+      error: err => console.error(err)
+    });
   }
 
   onTakeSpaceClick(parkingSpaceId: number) {

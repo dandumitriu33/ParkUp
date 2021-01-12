@@ -21,12 +21,20 @@ export class ParkingSpacesService {
   private editParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/edit-parking-space';
   private getNearbyParkingSpacesUrl = 'https://localhost:44315/api/parkingspaces/nearby/';
   private takeParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/take';
+  private takenParkingSpacesUrl = 'https://localhost:44315/api/parkingspaces/';
 
   constructor(private http: HttpClient) { }
 
   getNearbyParkingSpaces(latitude: string, longitude: string) {
     return this.http.get<ParkingSpace[]>(this.getNearbyParkingSpacesUrl + `${latitude}/${longitude}`).pipe(
       tap(data => console.log('No of nearby PS: ' + data.length)),
+      catchError(this.handleError)
+    );
+  }
+
+  getTakenParkingSpaces(userId: string) {
+    return this.http.get<ParkingSpace[]>(this.takenParkingSpacesUrl + userId).pipe(
+      tap(data => console.log('No of taken PS: ' + data.length)),
       catchError(this.handleError)
     );
   }
