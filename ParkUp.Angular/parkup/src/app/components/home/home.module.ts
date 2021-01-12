@@ -1,9 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { HomeComponent } from './home.component';
 import { SearchNearbyComponent } from './search-nearby.component';
 import { SelectAreaComponent } from './select-area.component';
+import { AdminModule } from '../admin/admin.module';
+
 
 
 
@@ -14,7 +17,9 @@ import { SelectAreaComponent } from './select-area.component';
     SelectAreaComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    AdminModule,
+    FormsModule
   ]
 })
 export class HomeModule { }

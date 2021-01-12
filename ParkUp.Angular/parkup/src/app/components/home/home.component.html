@@ -15,12 +15,56 @@
     </div>
     <hr />
   </div>
-  <div>
-    <app-search-nearby></app-search-nearby>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center">
+        (search nearby)
+      </div>
+    </div>
     <hr />
+    <div class="row">
+      <div class="col-6">
+        <div>
+          <select class="form-control" name="CitiesSelector" id="CitiesSelector" [(ngModel)]="selectedCity" (change)="onCityChange()">
+            <option value="0">Select City...</option>
+            <option *ngFor="let city of allCities" value="{{ city.Id }}">{{ city.Name }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div>
+          <select class="form-control" name="AreasSelector" id="AreasSelector" [(ngModel)]="selectedArea" (change)="onAreaChange()">
+            <option value="0">Select Area...</option>
+            <option *ngFor="let area of allAreasForCity" value="{{ area.Id }}">{{ area.Name }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <hr />
+    
+
   </div>
-  <div>
-    <app-select-area></app-select-area>
+
+  <div class="container">
+    <div class="row">
+      <table class="table table-striped" *ngIf="availableParkingSpaces && availableParkingSpaces.length">
+        <tbody>
+          <tr *ngFor="let parkingSpace of availableParkingSpaces">
+            <td>{{ parkingSpace.Name }}</td>
+            <td>{{ parkingSpace.StreetName }}</td>
+            <td>{{ parkingSpace.Description }}</td>
+            <td>{{ parkingSpace.HourlyPrice }} C/h</td>
+            <td>{{ parkingSpace.GPS }} (TODO search)</td>
+            <td>
+              <button class="btn btn-success btn-sm">Take</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
+  
 </div>
 
