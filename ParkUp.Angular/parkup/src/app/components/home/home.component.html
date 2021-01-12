@@ -5,8 +5,15 @@
         <div class="row">
           <div *ngFor="let space of takenSpaces" class="card text-white bg-danger" style="width: auto;">
             <div class="card-body">
-              <h5 class="card-title">{{ space.Name }}</h5>
-              <p class="card-text">{{ space.Name }} content.</p>
+              <h5 class="card-title">{{ space.Name }} - {{space.HourlyPrice }} Credits/h</h5>
+              <p class="card-text">Street: {{ space.StreetName }}</p>
+              <p class="card-text">Description: {{ space.Description }}</p>
+              <p class="card-text">
+                MAP:
+                <a class="btn btn-sm btn-light" href="https://google.com/search?q={{space.GPS}}" target="_blank">GGL</a>
+                /
+                <a class="btn btn-sm btn-light" href="https://duckduckgo.com/?q={{space.GPS}}&ia=web&iaxm=maps" target="_blank">DDG</a>
+              </p>
               <button class="btn btn-warning" (click)="onLeaveSpaceClick(space.Id)">Leave</button>
             </div>
           </div>
