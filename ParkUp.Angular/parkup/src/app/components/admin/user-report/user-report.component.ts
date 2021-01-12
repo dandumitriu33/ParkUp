@@ -57,6 +57,12 @@ export class UserReportComponent implements OnInit {
       },
       error: err => console.error(err)
     });
+    this.parkingSpacesService.getAllOwnerTransactions(this.userId).subscribe({
+      next: transactions => {
+        this.userRentalsAsOwner = transactions;
+      },
+      error: err => console.error(err)
+    });
   }
 
   setDaysAgoJoined(dateAdded: string) {

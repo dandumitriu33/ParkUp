@@ -50,7 +50,7 @@
   <div class="row">
     <div class="col-12">
       <h4 *ngIf="userParkingSpaces && userParkingSpaces.length" class="text-center">Parking Spaces</h4>
-      <table class="table table-striped" >
+      <table class="table table-striped" *ngIf="userParkingSpaces && userParkingSpaces.length">
         <thead>
           <tr>
             <th scope="col">ID</th>
@@ -62,28 +62,62 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let space of userParkingSpaces">
+          <tr *ngFor="let space of userParkingSpaces | slice:0:5">
             <td>{{ space.Id }}</td>
             <td>{{ space.Name }}</td>
             <td>{{ space.StreetName }}</td>
             <td>{{ space.HourlyPrice }}</td>
             <td>{{ space.GPS }}</td>
-            <td>{{ space.IsApproved }}</td>            
+            <td>{{ space.IsApproved }}</td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
-  
+  <div class="row" *ngIf="userParkingSpaces.length > 5">
+    <a class="col-1 offset-11">more...</a>
+  </div>
+
   <div class="row">
-    
-    <div class="col-4 offset-5">
-      <h4>Transactions</h4>
+
+    <div class="col-12">
+      <h4 *ngIf="userRentalsAsOwner && userRentalsAsOwner.length" class="text-center">Transactions</h4>
+      <table class="table table-striped" *ngIf="userRentalsAsOwner && userRentalsAsOwner.length">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Space ID</th>
+            <th scope="col">Space Name</th>
+            <th scope="col">Price/h</th>
+            <th scope="col">Date Started</th>
+            <th scope="col">Date Ended</th>
+            <th scope="col">Duration(m)</th>
+            <th scope="col">Amount Paid</th>
+            <th scope="col">Income</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let transaction of userRentalsAsOwner | slice:0:5">
+            <td>{{ transaction.Id }}</td>
+            <td>{{ transaction.ParkingSpaceId }}</td>
+            <td>{{ transaction.ParkingSpaceName }}</td>
+            <td>{{ transaction.HourlyPrice }}</td>
+            <td>{{ transaction.DateStarted }}</td>
+            <td>{{ transaction.DateEnded }}</td>
+            <td>{{ transaction.DurationMinutes }}</td>
+            <td>{{ transaction.AmountPaidByUser }}</td>
+            <td>{{ transaction.AmountReceivedByOwner }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
-  
+  <div class="row" *ngIf="userRentalsAsOwner.length > 5">
+    <a class="col-1 offset-11">more...</a>
+  </div>
+
   <div class="row">
-    
+
     <div class="col-4 offset-5">
       <h4>Cash-Outs</h4>
     </div>
