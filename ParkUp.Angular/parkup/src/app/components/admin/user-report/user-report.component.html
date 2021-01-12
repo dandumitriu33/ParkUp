@@ -57,8 +57,9 @@
             <th scope="col">Name</th>
             <th scope="col">Street</th>
             <th scope="col">Price</th>
-            <th scope="col">GGL/DDG</th>
             <th scope="col">Approved</th>
+            <th scope="col">GPS</th>
+            <th scope="col">Date Added</th>
           </tr>
         </thead>
         <tbody>
@@ -67,15 +68,16 @@
             <td>{{ space.Name }}</td>
             <td>{{ space.StreetName }}</td>
             <td>{{ space.HourlyPrice }}</td>
-            <td>{{ space.GPS }}</td>
             <td>{{ space.IsApproved }}</td>
+            <td>{{ space.GPS }}</td>
+            <td>{{ space.DateAdded }}</td>
           </tr>
         </tbody>
       </table>
     </div>
   </div>
   <div class="row" *ngIf="userParkingSpaces.length > 5">
-    <a class="col-2 offset-10">all spaces...</a>
+    <a class="col-2 offset-10" [routerLink]="['/all-user-spaces', userId]">all spaces...</a>
   </div>
 
   <div class="row">
@@ -113,7 +115,7 @@
     </div>
   </div>
   <div class="row" *ngIf="userRentalsAsOwner.length > 5">
-    <a class="col-2 offset-10">all transactions...</a>
+    <a class="col-2 offset-10" [routerLink]="['/all-user-transactions', userId]">all transactions...</a>
   </div>
 
   <div class="row">
@@ -146,7 +148,7 @@
   </div>
 
   <div class="row" *ngIf="userApprovedCashOuts.length > 5">
-    <a class="col-2 offset-10">all cash-outs...</a>
+    <a class="col-2 offset-10" [routerLink]="['/all-user-cash-outs', userId]">all cash-outs...</a>
   </div>
 
 </div>
