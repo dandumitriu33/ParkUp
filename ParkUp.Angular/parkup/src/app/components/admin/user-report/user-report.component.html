@@ -39,32 +39,116 @@
         </div>
         <div class="card-body">
           <p>Credits: <span class="font-weight-bold">{{ userInfo.Credits }}</span></p>
-          <p>Lifetime Sales: <span class="font-weight-bold">TODO</span></p>
-          <p>Lifetime ParkUp: <span class="font-weight-bold">TODO</span></p>
-          <p>Lifetime Cash-out: <span class="font-weight-bold">TODO</span></p>
+          <p>Lifetime Sales: <span class="font-weight-bold"> {{ lifetimeSales | number:'1.2-2'}}</span></p>
+          <p>Lifetime ParkUp: <span class="font-weight-bold"> {{ lifetimeParkUp | number:'1.2-2'}}</span></p>
+          <p>Lifetime Cash-out: <span class="font-weight-bold"> {{ lifetimeCashOut | number:'1.2-2'}} (avg {{ averageCashOut | number:'1.2-2' }})</span></p>
         </div>
       </div>
     </div>
   </div>
   <hr />
   <div class="row">
-    <div class="col-4 offset-5">
-      <h4>Parking Spaces</h4>
+    <div class="col-12">
+      <h4 *ngIf="userParkingSpaces && userParkingSpaces.length" class="text-center">Parking Spaces</h4>
+      <table class="table table-striped" *ngIf="userParkingSpaces && userParkingSpaces.length">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Street</th>
+            <th scope="col">Price</th>
+            <th scope="col">Approved</th>
+            <th scope="col">GPS</th>
+            <th scope="col">Date Added</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let space of userParkingSpaces | slice:0:5">
+            <td>{{ space.Id }}</td>
+            <td>{{ space.Name }}</td>
+            <td>{{ space.StreetName }}</td>
+            <td>{{ space.HourlyPrice }}</td>
+            <td>{{ space.IsApproved }}</td>
+            <td>{{ space.GPS }}</td>
+            <td>{{ space.DateAdded }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
-  
+  <div class="row" *ngIf="userParkingSpaces.length > 5">
+    <a class="col-2 offset-10" [routerLink]="['/all-user-spaces', userId]">all spaces...</a>
+  </div>
+
   <div class="row">
-    
-    <div class="col-4 offset-5">
-      <h4>Transactions</h4>
+
+    <div class="col-12">
+      <h4 *ngIf="userRentalsAsOwner && userRentalsAsOwner.length" class="text-center">Transactions</h4>
+      <table class="table table-striped" *ngIf="userRentalsAsOwner && userRentalsAsOwner.length">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Space ID</th>
+            <th scope="col">Space Name</th>
+            <th scope="col">Price/h</th>
+            <th scope="col">Date Started</th>
+            <th scope="col">Date Ended</th>
+            <th scope="col">Duration(m)</th>
+            <th scope="col">Amount Paid</th>
+            <th scope="col">Income</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let transaction of userRentalsAsOwner | slice:0:5">
+            <td>{{ transaction.Id }}</td>
+            <td>{{ transaction.ParkingSpaceId }}</td>
+            <td>{{ transaction.ParkingSpaceName }}</td>
+            <td>{{ transaction.HourlyPrice }}</td>
+            <td>{{ transaction.DateStarted }}</td>
+            <td>{{ transaction.DateEnded }}</td>
+            <td>{{ transaction.DurationMinutes }}</td>
+            <td>{{ transaction.AmountPaidByUser }}</td>
+            <td>{{ transaction.AmountReceivedByOwner }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
-  
+  <div class="row" *ngIf="userRentalsAsOwner.length > 5">
+    <a class="col-2 offset-10" [routerLink]="['/all-user-transactions', userId]">all transactions...</a>
+  </div>
+
   <div class="row">
-    
-    <div class="col-4 offset-5">
-      <h4>Cash-Outs</h4>
+
+    <div class="col-12">
+      <h4 *ngIf="userApprovedCashOuts && userApprovedCashOuts.length" class="text-center">Cash-Outs</h4>
+      <table class="table table-striped" *ngIf="userApprovedCashOuts && userApprovedCashOuts.length">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">User ID</th>
+            <th scope="col">User Email</th>
+            <th scope="col">Credits (at sub)</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Date Submitted</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let approvedCashOut of userApprovedCashOuts | slice:0:5">
+            <td>{{ approvedCashOut.Id }}</td>
+            <td>{{ approvedCashOut.UserId }}</td>
+            <td>{{ approvedCashOut.UserEmail }}</td>
+            <td>{{ approvedCashOut.UserAvailable }}</td>
+            <td>{{ approvedCashOut.Amount }}</td>
+            <td>{{ approvedCashOut.DateSubmitted }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
+  </div>
+
+  <div class="row" *ngIf="userApprovedCashOuts.length > 5">
+    <a class="col-2 offset-10" [routerLink]="['/all-user-cash-outs', userId]">all cash-outs...</a>
   </div>
 
 </div>

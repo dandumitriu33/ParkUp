@@ -118,7 +118,7 @@ namespace ParkUp.API.Controllers
             newTakenParkingSpace.DateStarted = DateTime.Now;
             await _repository.TakeParkingSpace(newTakenParkingSpace);
             
-            return Ok($"Parking space taken successfully."); ;
+            return Ok(); ;
         }
 
         // POST: api/<ParkingSpacesController>/leave
@@ -133,7 +133,7 @@ namespace ParkUp.API.Controllers
             TakenParkingSpace newTakenParkingSpace = _mapper.Map<TakenParkingSpaceDTO, TakenParkingSpace>(takenParkingSpaceDTO);
             await _repository.LeaveParkingSpace(newTakenParkingSpace);
 
-            return Ok($"Parking space left successfully."); ;
+            return Ok(); ;
         }
 
         // GET: api/<ParkingSpacesController>/{userId}
@@ -196,6 +196,28 @@ namespace ParkUp.API.Controllers
                     return BadRequest();
                 }
                 
+            }
+            return BadRequest();
+        }
+
+        // POST: api/<ParkingSpacesController>/approve
+        [HttpPost]
+        [Route("approve")]
+        public async Task<IActionResult> ApproveParkingSpace([FromBody] ParkingSpaceApprovalDTO parkingSpaceApprovalDTO)
+        {
+            if (ModelState.IsValid == true)
+            {
+                try
+                {
+                    // log userId approved parkingSpaceId
+                    await _repository.ApproveParkingSpace(parkingSpaceApprovalDTO.ParkingSpaceId);
+                    return Ok();
+                }
+                catch (Exception)
+                {
+                    return BadRequest();
+                }
+
             }
             return BadRequest();
         }

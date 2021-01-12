@@ -1,0 +1,32 @@
+<div class="container">
+  <h4 class="text-center">Parking Spaces for User ({{ userId }})</h4>
+  <div class="row">
+    <div class="col-12">      
+      <table class="table table-striped" *ngIf="userParkingSpaces && userParkingSpaces.length">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Street</th>
+            <th scope="col">Price</th>
+            <th scope="col">Approved</th>
+            <th scope="col">GPS</th>
+            <th scope="col">Date Added</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let space of userParkingSpaces">
+            <td>{{ space.Id }}</td>
+            <td>{{ space.Name }}</td>
+            <td>{{ space.StreetName }}</td>
+            <td>{{ space.HourlyPrice }}</td>
+            <td>{{ space.IsApproved }}</td>
+            <td>{{ space.GPS }}</td>
+            <td>{{ space.DateAdded }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

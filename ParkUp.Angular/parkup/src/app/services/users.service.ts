@@ -26,6 +26,7 @@ export class UsersService {
   private userProfileUrl = 'https://localhost:44315/api/userProfile';
   private buyCreditsUrl = 'https://localhost:44315/api/users/buy-credits';
   private cashOutRequestUrl = 'https://localhost:44315/api/owners/request-cash-out';
+  private cashAllApprovedOutsForUserUrl = 'https://localhost:44315/api/owners/get-all-approved-cash-outs-for-user/';
   private addNewRoleUrl = `https://localhost:44315/api/admins/add-new-role`;
   private getUserInfoForAdminUrl = `https://localhost:44315/api/admins/get-user-info/`;
   
@@ -135,6 +136,13 @@ export class UsersService {
   getAllUnapprovedCashOuts(): Observable<CashOut[]> {
     return this.http.get<CashOut[]>(this.allUnapprovedCashOutsUrl).pipe(
       tap(data => console.log('No of UACashOuts: ' + data.length)),
+      catchError(this.handleError)
+    );
+  }
+
+  getAllApprovedCashOutsForUser(userId: string): Observable<CashOut[]> {
+    return this.http.get<CashOut[]>(this.cashAllApprovedOutsForUserUrl + `${userId}`).pipe(
+      tap(data => console.log('No of ACashOuts: ' + data.length)),
       catchError(this.handleError)
     );
   }

@@ -86,7 +86,6 @@ export class AddParkingSpaceComponent implements OnInit {
     };
 
     this.parkingSpacesService.addNewParkingSpace(newParkingSpace).subscribe(
-
       (res: any) => {
         console.log('PS added successfully');
         this.resultMessage = `Parking Space ${newParkingSpace.Name} added.`;
