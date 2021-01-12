@@ -48,8 +48,30 @@
   </div>
   <hr />
   <div class="row">
-    <div class="col-4 offset-5">
-      <h4>Parking Spaces</h4>
+    <div class="col-12">
+      <h4 *ngIf="userParkingSpaces && userParkingSpaces.length" class="text-center">Parking Spaces</h4>
+      <table class="table table-striped" >
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Street</th>
+            <th scope="col">Price</th>
+            <th scope="col">GGL/DDG</th>
+            <th scope="col">Approved</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let space of userParkingSpaces">
+            <td>{{ space.Id }}</td>
+            <td>{{ space.Name }}</td>
+            <td>{{ space.StreetName }}</td>
+            <td>{{ space.HourlyPrice }}</td>
+            <td>{{ space.GPS }}</td>
+            <td>{{ space.IsApproved }}</td>            
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
   
