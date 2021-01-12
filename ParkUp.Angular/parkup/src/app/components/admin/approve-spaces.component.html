@@ -21,7 +21,7 @@
         <td>{{ unapprovedSpace.HourlyPrice }}</td>
         <td>{{ unapprovedSpace.GPS }}</td>
         <td>
-          <button class="btn btn-danger btn-sm">Approve</button>
+          <button class="btn btn-danger btn-sm" (click)="onApproveClick(unapprovedSpace.Id)">Approve</button>
         </td>
       </tr>
     </tbody>

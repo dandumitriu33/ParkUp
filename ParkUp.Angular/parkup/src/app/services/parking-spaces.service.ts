@@ -6,6 +6,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { ParkingSpace } from '../models/ParkingSpace';
 import { ParkingSpaceRental } from '../models/ParkingSpaceRental';
 import { TakenParkingSpace } from '../models/TakenParkingSpace';
+import { ParkingSpaceApproval } from '../models/ParkingSpaceApproval';
 
 @Injectable({
   providedIn: 'root'
@@ -23,8 +24,13 @@ export class ParkingSpacesService {
   private takeParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/take';
   private leaveParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/leave';
   private takenParkingSpacesUrl = 'https://localhost:44315/api/parkingspaces/';
+  private approveParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/approve';
 
   constructor(private http: HttpClient) { }
+
+  approveParkingSpace(parkingSpaceApproval: ParkingSpaceApproval) {
+    return this.http.post(this.approveParkingSpaceUrl, parkingSpaceApproval);
+  }
 
   getNearbyParkingSpaces(latitude: string, longitude: string) {
     return this.http.get<ParkingSpace[]>(this.getNearbyParkingSpacesUrl + `${latitude}/${longitude}`).pipe(

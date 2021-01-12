@@ -200,5 +200,27 @@ namespace ParkUp.API.Controllers
             return BadRequest();
         }
 
+        // POST: api/<ParkingSpacesController>/approve
+        [HttpPost]
+        [Route("approve")]
+        public async Task<IActionResult> ApproveParkingSpace([FromBody] ParkingSpaceApprovalDTO parkingSpaceApprovalDTO)
+        {
+            if (ModelState.IsValid == true)
+            {
+                try
+                {
+                    // log userId approved parkingSpaceId
+                    await _repository.ApproveParkingSpace(parkingSpaceApprovalDTO.ParkingSpaceId);
+                    return Ok();
+                }
+                catch (Exception)
+                {
+                    return BadRequest();
+                }
+
+            }
+            return BadRequest();
+        }
+
     }
 }
