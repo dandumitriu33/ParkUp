@@ -17,7 +17,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let transaction of userRentalsAsOwner | slice:0:5">
+          <tr *ngFor="let transaction of userRentalsAsOwner">
             <td>{{ transaction.Id }}</td>
             <td>{{ transaction.ParkingSpaceId }}</td>
             <td>{{ transaction.ParkingSpaceName }}</td>
