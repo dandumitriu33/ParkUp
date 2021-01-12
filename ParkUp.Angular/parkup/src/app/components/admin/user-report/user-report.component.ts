@@ -63,16 +63,19 @@ export class UserReportComponent implements OnInit {
       },
       error: err => console.error(err)
     });
-
+    this.usersService.getAllApprovedCashOutsForUser(this.userId).subscribe({
+      next: cashOuts => {
+        this.userApprovedCashOuts = cashOuts;
+      },
+      error: err => console.error(err)
+    });
   }
 
   setDaysAgoJoined(dateAdded: string) {
     var date1 = new Date(dateAdded);
     var date2 = new Date();
-
     var Difference_In_Time = date2.getTime() - date1.getTime();
     this.daysAgoJoined = Difference_In_Time / (1000 * 3600 * 24);
-    console.log(`>>>>>>>>diff in time ${this.daysAgoJoined}`);
   }
 
 }
