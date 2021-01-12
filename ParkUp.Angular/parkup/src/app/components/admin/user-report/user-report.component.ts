@@ -29,6 +29,9 @@ export class UserReportComponent implements OnInit {
   userParkingSpaces: ParkingSpace[];
   userRentalsAsOwner: ParkingSpaceRental[];
   userApprovedCashOuts: CashOut[];
+  lifetimeSales: number;
+  lifetimeParkUp: number;
+  lifetimeCasjOut: number;
 
 
   constructor(private usersService: UsersService,
@@ -60,6 +63,7 @@ export class UserReportComponent implements OnInit {
     this.parkingSpacesService.getAllOwnerTransactions(this.userId).subscribe({
       next: transactions => {
         this.userRentalsAsOwner = transactions;
+        this.setLifetimeSales(this.userRentalsAsOwner);
       },
       error: err => console.error(err)
     });
@@ -69,6 +73,14 @@ export class UserReportComponent implements OnInit {
       },
       error: err => console.error(err)
     });
+  }
+
+  setLifetimeSales(userRentalsAsOwner: ParkingSpaceRental[]) {
+    let sum: number = 0;
+    userRentalsAsOwner.forEach(function (item) {
+      sum = sum + item.AmountPaidByUser;
+    });
+    this.lifetimeSales = sum;
   }
 
   setDaysAgoJoined(dateAdded: string) {
