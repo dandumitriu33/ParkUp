@@ -18,9 +18,16 @@ export class ParkingSpacesService {
   private removeParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/remove-parking-space/';
   private getSingleParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/get-single-parking-space/';
   private editParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/edit-parking-space';
-
+  private getNearbyParkingSpacesUrl = 'https://localhost:44315/api/parkingspaces/nearby/';
 
   constructor(private http: HttpClient) { }
+
+  getNearbyParkingSpaces(latitude: string, longitude: string) {
+    return this.http.get<ParkingSpace[]>(this.getNearbyParkingSpacesUrl + `${latitude}/${longitude}`).pipe(
+      tap(data => console.log('No of nearby PS: ' + data.length)),
+      catchError(this.handleError)
+    );
+  }
 
   addNewParkingSpace(newParkingSpace: ParkingSpace) {
     return this.http.post(this.newParkingSpaceUrl, newParkingSpace);

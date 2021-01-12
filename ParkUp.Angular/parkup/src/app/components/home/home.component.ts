@@ -17,6 +17,8 @@ export class HomeComponent implements OnInit {
   availableParkingSpaces: ParkingSpace[] = [];
   selectedCity: string;
   selectedArea: string;
+  currentLatitude: string;
+  currentLongitude: string;
 
   takenSpaces: any[];
 
@@ -69,4 +71,26 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  onSearchNearby() {
+    console.log('earch nearby clicked');
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        this.currentLatitude = position.coords.latitude.toString();
+        this.currentLongitude = position.coords.longitude.toString();
+
+        console.log(`lat: ${this.currentLatitude} - long: ${this.currentLongitude}`);
+        this.parkingSpacesService.getNearbyParkingSpaces(this.currentLatitude, this.currentLongitude).subscribe({
+          next: parkingSpaces => {
+            this.availableParkingSpaces = parkingSpaces;
+          },
+          error: err => console.error(err)
+        });
+      });
+    } else {
+      console.log("No support for geolocation. Please check if browser location checking is allowed.")
+    }
+    
+  }
+
+  
 }
