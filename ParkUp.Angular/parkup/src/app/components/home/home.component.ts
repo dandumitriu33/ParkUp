@@ -92,5 +92,11 @@ export class HomeComponent implements OnInit {
     
   }
 
+  userLoggedIn() {
+    if (localStorage.getItem('token') != null) {
+      return true;
+    }
+    return false;
+  }
   
 }

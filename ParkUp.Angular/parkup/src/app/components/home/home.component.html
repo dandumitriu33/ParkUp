@@ -58,7 +58,7 @@
             <td *ngIf="parkingSpace.IsTaken == false">{{ parkingSpace.HourlyPrice }} C/h</td>
             <td *ngIf="parkingSpace.IsTaken == false">{{ parkingSpace.GPS }} (TODO search)</td>
             <td *ngIf="parkingSpace.IsTaken == false">
-              <button class="btn btn-success btn-sm">Take</button>
+              <button class="btn btn-success btn-sm" [disabled]="!userLoggedIn()">Take</button>
             </td>
           </tr>
         </tbody>
