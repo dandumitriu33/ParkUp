@@ -13,6 +13,9 @@ import { AllCitiesComponent } from './all-cities.component';
 import { SelectCityComponent } from './select-city.component';
 import { SelectAreaComponent } from './select-area.component';
 import { UserReportComponent } from './user-report/user-report.component';
+import { AllUserSpacesComponent } from './all-user-spaces/all-user-spaces.component';
+import { AllUserTransactionsComponent } from './all-user-transactions/all-user-transactions.component';
+import { AllUserCashOutsComponent } from './all-user-cash-outs/all-user-cash-outs.component';
 
 const routes: Routes = [
   { path: 'approve-spaces', component: ApproveSpacesComponent, canActivate: [AuthGuard], data: { permittedRoles: ['Admin', 'SuperAdmin'] } },
@@ -34,7 +37,10 @@ const routes: Routes = [
     AllCitiesComponent,
     SelectCityComponent,
     SelectAreaComponent,
-    UserReportComponent
+    UserReportComponent,
+    AllUserSpacesComponent,
+    AllUserTransactionsComponent,
+    AllUserCashOutsComponent
   ],
   imports: [
     CommonModule,

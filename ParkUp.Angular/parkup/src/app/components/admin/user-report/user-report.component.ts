@@ -26,9 +26,9 @@ export class UserReportComponent implements OnInit {
     "PartnerPercentage": 0,
   };
   daysAgoJoined: number;
-  userParkingSpaces: ParkingSpace[];
-  userRentalsAsOwner: ParkingSpaceRental[];
-  userApprovedCashOuts: CashOut[];
+  userParkingSpaces: ParkingSpace[] = [];
+  userRentalsAsOwner: ParkingSpaceRental[] = [];
+  userApprovedCashOuts: CashOut[] = [];
   lifetimeSales: number;
   lifetimeParkUp: number;
   lifetimeCashOut: number;
