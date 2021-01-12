@@ -139,6 +139,13 @@ export class UsersService {
     );
   }
 
+  //getAllApprovedCashOutsForUser(): Observable<CashOut[]> {
+  //  return this.http.get<CashOut[]>(this.allUnapprovedCashOutsUrl).pipe(
+  //    tap(data => console.log('No of UACashOuts: ' + data.length)),
+  //    catchError(this.handleError)
+  //  );
+  //}
+
   getAllUsers(): Observable<ApplicationUser[]> {
     return this.http.get<ApplicationUser[]>(this.allUsersUrl).pipe(
       tap(data => console.log('No of users: ' + data.length)),

@@ -63,6 +63,7 @@ export class UserReportComponent implements OnInit {
       },
       error: err => console.error(err)
     });
+
   }
 
   setDaysAgoJoined(dateAdded: string) {
