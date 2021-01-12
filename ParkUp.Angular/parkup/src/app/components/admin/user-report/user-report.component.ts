@@ -64,6 +64,7 @@ export class UserReportComponent implements OnInit {
       next: transactions => {
         this.userRentalsAsOwner = transactions;
         this.setLifetimeSales(this.userRentalsAsOwner);
+        this.setLifeTimeParkUp(this.userRentalsAsOwner);
       },
       error: err => console.error(err)
     });
@@ -74,6 +75,7 @@ export class UserReportComponent implements OnInit {
       error: err => console.error(err)
     });
   }
+    
 
   setLifetimeSales(userRentalsAsOwner: ParkingSpaceRental[]) {
     let sum: number = 0;
@@ -81,6 +83,14 @@ export class UserReportComponent implements OnInit {
       sum = sum + item.AmountPaidByUser;
     });
     this.lifetimeSales = sum;
+  }
+
+  setLifeTimeParkUp(userRentalsAsOwner: ParkingSpaceRental[]) {
+    let sum: number = 0;
+    userRentalsAsOwner.forEach(function (item) {
+      sum = sum + (item.AmountPaidByUser - item.AmountReceivedByOwner);
+    });
+    this.lifetimeParkUp = sum;
   }
 
   setDaysAgoJoined(dateAdded: string) {
