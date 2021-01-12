@@ -1,1 +1,29 @@
-<p>all-user-cash-outs works!</p>
+<div class="container">
+  <h4 class="text-center">Approved Cash-Outs for User ({{ userId }})</h4>
+  <div class="row">
+    <div class="col-12">      
+      <table class="table table-striped" *ngIf="userApprovedCashOuts && userApprovedCashOuts.length">
+        <thead>
+          <tr>
+            <th scope="col">ID</th>
+            <th scope="col">User ID</th>
+            <th scope="col">User Email</th>
+            <th scope="col">Credits (at sub)</th>
+            <th scope="col">Amount</th>
+            <th scope="col">Date Submitted</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let approvedCashOut of userApprovedCashOuts">
+            <td>{{ approvedCashOut.Id }}</td>
+            <td>{{ approvedCashOut.UserId }}</td>
+            <td>{{ approvedCashOut.UserEmail }}</td>
+            <td>{{ approvedCashOut.UserAvailable }}</td>
+            <td>{{ approvedCashOut.Amount }}</td>
+            <td>{{ approvedCashOut.DateSubmitted }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
