@@ -21,6 +21,7 @@ export class ParkingSpacesService {
   private editParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/edit-parking-space';
   private getNearbyParkingSpacesUrl = 'https://localhost:44315/api/parkingspaces/nearby/';
   private takeParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/take';
+  private leaveParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/leave';
   private takenParkingSpacesUrl = 'https://localhost:44315/api/parkingspaces/';
 
   constructor(private http: HttpClient) { }
@@ -41,6 +42,10 @@ export class ParkingSpacesService {
 
   takeParkingSpace(takenParkingSpace: TakenParkingSpace) {
     return this.http.post(this.takeParkingSpaceUrl, takenParkingSpace);
+  }
+
+  leaveParkingSpace(takenParkingSpace: TakenParkingSpace) {
+    return this.http.post(this.leaveParkingSpaceUrl, takenParkingSpace);
   }
 
   addNewParkingSpace(newParkingSpace: ParkingSpace) {

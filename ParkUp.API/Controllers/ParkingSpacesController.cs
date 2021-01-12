@@ -133,7 +133,7 @@ namespace ParkUp.API.Controllers
             TakenParkingSpace newTakenParkingSpace = _mapper.Map<TakenParkingSpaceDTO, TakenParkingSpace>(takenParkingSpaceDTO);
             await _repository.LeaveParkingSpace(newTakenParkingSpace);
 
-            return Ok($"Parking space left successfully."); ;
+            return Ok(); ;
         }
 
         // GET: api/<ParkingSpacesController>/{userId}

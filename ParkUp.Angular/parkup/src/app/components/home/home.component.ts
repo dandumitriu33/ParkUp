@@ -6,6 +6,7 @@ import { TakenParkingSpace } from '../../models/TakenParkingSpace';
 import { AreasService } from '../../services/areas.service';
 import { CitiesService } from '../../services/cities.service';
 import { ParkingSpacesService } from '../../services/parking-spaces.service';
+import { UsersService } from '../../services/users.service';
 
 @Component({
   selector: 'app-home',
@@ -20,24 +21,23 @@ export class HomeComponent implements OnInit {
   selectedArea: string;
   currentLatitude: string;
   currentLongitude: string;
-
   takenSpaces: ParkingSpace[];
 
   constructor(private citiesService: CitiesService,
               private areasService: AreasService,
-              private parkingSpacesService: ParkingSpacesService) { }
+              private parkingSpacesService: ParkingSpacesService,
+              private usersService: UsersService) { }
 
   ngOnInit(): void {
-
     this.citiesService.getAllCities().subscribe({
       next: cities => {
         this.allCities = cities;
       },
       error: err => console.error(err)
     });
-
     this.populateTakenSpaces();
-        
+    this.usersService.isUserLoggedIn.next(true);
+
   }
 
   populateTakenSpaces() {
@@ -70,11 +70,37 @@ export class HomeComponent implements OnInit {
     this.parkingSpacesService.takeParkingSpace(takenParkingSpace).subscribe(
       (res: any) => {
         console.log('PS taken successfully');
+        this.ngOnInit();
       },
       err => {
         console.log(err);
       }
     );
+  }
+
+  onLeaveSpaceClick(parkingSpaceId: number) {
+    console.log(`parking space LEAVE clicked for ${parkingSpaceId}`);
+    if (localStorage.getItem('token') != null) {
+      var payload = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
+      var currentUserId = payload.UserID;
+    }
+    let placeholderDate: Date = new Date();
+    let takenParkingSpace: TakenParkingSpace = {
+      "Id": 0,
+      "ParkingSpaceId": parkingSpaceId,
+      "UserId": currentUserId,
+      "DateStarted": placeholderDate
+    };
+    this.parkingSpacesService.leaveParkingSpace(takenParkingSpace).subscribe(
+      (res: any) => {
+        console.log('PS left successfully');
+        this.ngOnInit();
+      },
+      err => {
+        console.log(err);
+      }
+    );
+    
   }
 
   onCityChange() {
