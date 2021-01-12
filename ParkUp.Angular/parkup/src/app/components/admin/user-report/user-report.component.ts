@@ -31,7 +31,8 @@ export class UserReportComponent implements OnInit {
   userApprovedCashOuts: CashOut[];
   lifetimeSales: number;
   lifetimeParkUp: number;
-  lifetimeCasjOut: number;
+  lifetimeCashOut: number;
+  averageCashOut: number;
 
 
   constructor(private usersService: UsersService,
@@ -71,11 +72,12 @@ export class UserReportComponent implements OnInit {
     this.usersService.getAllApprovedCashOutsForUser(this.userId).subscribe({
       next: cashOuts => {
         this.userApprovedCashOuts = cashOuts;
+        this.setlifetimeCashOut(this.userApprovedCashOuts);
       },
       error: err => console.error(err)
     });
   }
-    
+       
 
   setLifetimeSales(userRentalsAsOwner: ParkingSpaceRental[]) {
     let sum: number = 0;
@@ -91,6 +93,15 @@ export class UserReportComponent implements OnInit {
       sum = sum + (item.AmountPaidByUser - item.AmountReceivedByOwner);
     });
     this.lifetimeParkUp = sum;
+  }
+
+  setlifetimeCashOut(userApprovedCashOuts: CashOut[]) {
+    let sum: number = 0;
+    userApprovedCashOuts.forEach(function (item) {
+      sum = sum + item.Amount;
+    });
+    this.lifetimeCashOut = sum;
+    this.averageCashOut = this.lifetimeCashOut / userApprovedCashOuts.length;
   }
 
   setDaysAgoJoined(dateAdded: string) {
