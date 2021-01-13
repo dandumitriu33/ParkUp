@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit {
   currentLatitude: string;
   currentLongitude: string;
   takenSpaces: ParkingSpace[];
+  searchPhrase: string = "";
 
   constructor(private citiesService: CitiesService,
               private areasService: AreasService,
@@ -37,6 +38,10 @@ export class HomeComponent implements OnInit {
     });
     this.populateTakenSpaces();
     this.usersService.isUserLoggedIn.next(true);
+  }
+
+  onSearchClick() {
+    console.log(`search phrase: ${this.searchPhrase}`);
   }
 
   populateTakenSpaces() {
