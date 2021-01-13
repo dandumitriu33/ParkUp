@@ -1,7 +1,6 @@
-import { Component, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { Area } from '../../models/Area';
-import { City } from '../../models/City';
 import { ParkingSpace } from '../../models/ParkingSpace';
 import { AreasService } from '../../services/areas.service';
 import { ParkingSpacesService } from '../../services/parking-spaces.service';
@@ -42,11 +41,8 @@ export class AllSpacesComponent implements OnInit {
   }
 
   onRemove(parkingSpaceId: string, areaId: string) {
-    console.log(`clicked remove for space ${parkingSpaceId} from area ${areaId}`);
-
     this.parkingSpacesService.removeParkingSpace(parkingSpaceId).subscribe(
       (res: any) => {
-        console.log('PS removed successfully');
         this.refreshParkingSpacesForArea(areaId);
       },
       err => {

@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
@@ -29,16 +28,13 @@ export class AllCitiesComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    console.log('onsubmit new city: ' + form.value.Name);
     const newCity: City = {
       Id: 0,
       Name: form.value.Name,
       Areas: []
     };
-    console.log(newCity);
     this.citiesService.addCity(newCity).subscribe(
       (res: any) => {
-        console.log('new city added successfully');
         this.ngOnInit();
       },
       err => {
@@ -48,11 +44,8 @@ export class AllCitiesComponent implements OnInit {
   }
 
   onRemove(cityId: number) {
-    console.log(`remove city ${cityId} clicked`);
-    
     this.citiesService.deleteCity(cityId).subscribe(
       (res: any) => {
-        console.log('city deleted successfully');
         this.ngOnInit();
       },
       err => {

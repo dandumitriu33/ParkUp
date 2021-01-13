@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
 import { ParkingSpaceRental } from '../../../models/ParkingSpaceRental';
 import { ParkingSpacesService } from '../../../services/parking-spaces.service';
 
 @Component({
   selector: 'app-all-user-transactions',
   templateUrl: './all-user-transactions.component.html',
-  styles: [
-  ]
+  styles: []
 })
 export class AllUserTransactionsComponent implements OnInit {
   userId: string = 'Loading...';

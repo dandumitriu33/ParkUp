@@ -25,7 +25,6 @@ export class ApproveCashOutComponent implements OnInit {
   }
 
   onApproveCashOutClick(cashOutId: number) {
-    console.log(`cash out Approve click for ${cashOutId}`);
     if (localStorage.getItem('token') != null) {
       var payload = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
       var currentUserId = payload.UserID;
@@ -36,7 +35,6 @@ export class ApproveCashOutComponent implements OnInit {
     };
     this.usersService.approveCashOut(cashOutApproval).subscribe(
       (res: any) => {
-        console.log('Cash Out approved successfully');
         this.ngOnInit();
       },
       err => {

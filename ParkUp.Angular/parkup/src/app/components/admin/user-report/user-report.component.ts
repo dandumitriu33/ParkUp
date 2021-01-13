@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
 import { ApplicationUser } from '../../../models/ApplicationUser';
 import { CashOut } from '../../../models/CashOut';
 import { ParkingSpace } from '../../../models/ParkingSpace';
@@ -48,7 +49,6 @@ export class UserReportComponent implements OnInit {
   populateUserInfo() {
     this.usersService.getUserInfoForAdmin(this.userId).subscribe({
       next: userInfoFromDb => {
-        console.log(`received: ${this.userInfo}`);
         this.setDaysAgoJoined(userInfoFromDb.DateAdded);
         this.userInfo = userInfoFromDb;
       },
@@ -56,7 +56,6 @@ export class UserReportComponent implements OnInit {
     });
     this.parkingSpacesService.getAllOwnerParkingSpaces(this.userId).subscribe({
       next: ownerParkingSpacesFromDb => {
-        console.log(`received ${ownerParkingSpacesFromDb.length} spaces`);
         this.userParkingSpaces = ownerParkingSpacesFromDb;
       },
       error: err => console.error(err)
@@ -78,7 +77,6 @@ export class UserReportComponent implements OnInit {
     });
   }
        
-
   setLifetimeSales(userRentalsAsOwner: ParkingSpaceRental[]) {
     let sum: number = 0;
     userRentalsAsOwner.forEach(function (item) {

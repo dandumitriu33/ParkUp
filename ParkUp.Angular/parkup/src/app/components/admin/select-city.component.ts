@@ -26,7 +26,6 @@ export class SelectCityComponent implements OnInit {
   }
 
   onCityChange() {
-    console.log(`changed? - selected city: ${this.selectedCity}`);
     this.userSelectedCity.emit(this.selectedCity)
   }
 

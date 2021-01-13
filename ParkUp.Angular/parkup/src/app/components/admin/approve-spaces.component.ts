@@ -24,7 +24,6 @@ export class ApproveSpacesComponent implements OnInit {
   }
 
   onApproveClick(unapprovedSpaceId: number) {
-    console.log(`Approve space clicked - for: ${unapprovedSpaceId}`);
     if (localStorage.getItem('token') != null) {
       var payload = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
       var currentUserId = payload.UserID;
@@ -35,7 +34,6 @@ export class ApproveSpacesComponent implements OnInit {
     };
     this.parkingSpacesService.approveParkingSpace(parkingSpaceApproval).subscribe(
       (res: any) => {
-        console.log('PS approved successfully');
         this.ngOnInit();
       },
       err => {

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+
 import { Area } from '../../models/Area';
 import { AreasService } from '../../services/areas.service';
 
@@ -32,11 +33,9 @@ export class SelectAreaComponent implements OnInit, OnChanges {
       },
       error: err => console.error(err)
     });
-    console.log(`DETECTED CHANGE: select-area.component.ts - sharedCityId: ${this.sharedCityId}`);
   }
 
   onAreaChange() {
-    console.log(`area changed? - selected Area: ${this.selectedArea}`);
     this.userSelectedArea.emit(this.selectedArea)
   }
 

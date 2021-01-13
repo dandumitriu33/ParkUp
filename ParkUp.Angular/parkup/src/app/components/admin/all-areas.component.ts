@@ -41,17 +41,13 @@ export class AllAreasComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    console.log(`submitting ${this.addAreaFormModel.Name} - CityId: ${this.addAreaFormModel.CityId}`);
-
     const newArea: Area = {
       "Id": 0,
       "Name": this.addAreaFormModel.Name,
       "CityId": +this.addAreaFormModel.CityId
     };
-    console.log(newArea);
     this.areasService.postNewArea(newArea).subscribe(
       (res: any) => {
-        console.log('area added successfully');
         this.refreshAreasForCity(this.addAreaFormModel.CityId);
       },
       err => {
@@ -61,11 +57,8 @@ export class AllAreasComponent implements OnInit {
   }
 
   onRemove(areaId: number, cityId: string) {
-    console.log(`remove area ${areaId} from city ${cityId} clicked`);
-
     this.areasService.removeArea(areaId).subscribe(
       (res: any) => {
-        console.log('area removed successfully');
         this.refreshAreasForCity(cityId);
       },
       err => {
