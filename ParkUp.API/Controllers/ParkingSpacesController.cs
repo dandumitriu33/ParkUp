@@ -136,6 +136,31 @@ namespace ParkUp.API.Controllers
             return Ok(); ;
         }
 
+        // POST: api/<ParkingSpacesController>/force-free
+        [HttpPost]
+        [Route("force-free")]
+        public async Task<IActionResult> ForceFreeParkingSpace([FromBody] ForceFreeParkingSpaceDTO forceFreeParkingSpaceDTO)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    TakenParkingSpace instance = await _repository.GetTakenInstanceByParkingSpaceId(forceFreeParkingSpaceDTO.ParkingSpaceId);
+                    if (instance == null)
+                    {
+                        return BadRequest();
+                    }
+                    await _repository.LeaveParkingSpace(instance);
+                    return Ok();
+                }
+                catch (Exception)
+                {
+                    return BadRequest();
+                }
+            }
+            return BadRequest();
+        }
+
         // GET: api/<ParkingSpacesController>/{userId}
         [HttpGet]
         [Route("{userId}")]

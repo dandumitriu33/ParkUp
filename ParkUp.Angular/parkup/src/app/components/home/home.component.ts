@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { Area } from '../../models/Area';
 import { City } from '../../models/City';
 import { ParkingSpace } from '../../models/ParkingSpace';
@@ -54,7 +55,6 @@ export class HomeComponent implements OnInit {
       },
       error: err => console.error(err)
     });
-    
   }
 
   populateTakenSpaces() {
