@@ -11,6 +11,7 @@ import { ApplicationRole } from '../models/ApplicationRole';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CreditPack } from '../models/CreditPack';
 import { CashOutRequest } from '../models/CashOutRequest';
+import { CashOutApproval } from '../models/CashOutApproval';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,7 @@ export class UsersService {
   private cashAllApprovedOutsForUserUrl = 'https://localhost:44315/api/owners/get-all-approved-cash-outs-for-user/';
   private addNewRoleUrl = `https://localhost:44315/api/admins/add-new-role`;
   private getUserInfoForAdminUrl = `https://localhost:44315/api/admins/get-user-info/`;
+  private approveCashOutUrl = 'https://localhost:44315/api/admins/approve-cash-out';
   
 
   // FOR username update on navbar after login - CAN ALSO be used for CREDITS UPDATE after buy/leave!!!!!!!!
@@ -48,6 +50,10 @@ export class UsersService {
       }
     });
     return isMatch;
+  }
+
+  approveCashOut(cashOutApproval: CashOutApproval) {
+    return this.http.post(this.approveCashOutUrl, cashOutApproval);
   }
 
   getUserInfoForAdmin(userId: string) {

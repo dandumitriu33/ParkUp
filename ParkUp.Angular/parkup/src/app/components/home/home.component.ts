@@ -37,7 +37,6 @@ export class HomeComponent implements OnInit {
     });
     this.populateTakenSpaces();
     this.usersService.isUserLoggedIn.next(true);
-
   }
 
   populateTakenSpaces() {
