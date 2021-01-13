@@ -55,7 +55,7 @@
   </div>
 
   <div class="container">
-    <div class="row" *ngIf="availableParkingSpaces && availableParkingSpaces.length">
+    <div class="row" *ngIf="availableParkingSpaces && availableParkingSpaces.length && selectedArea">
       <div class="col-auto">
         <input class="form-control mr-sm-2" name="Search" [(ngModel)]="searchPhrase" type="search" placeholder="Search" aria-label="Search">
       </div>
@@ -66,7 +66,7 @@
         <p class="text-danger">{{ searchErrorMessage }}</p>
       </div>
     </div>
-    <div class="row" *ngIf="availableParkingSpaces && availableParkingSpaces.length">
+    <div class="row" *ngIf="availableParkingSpaces && availableParkingSpaces.length && selectedArea">
       <br />
     </div>
 
