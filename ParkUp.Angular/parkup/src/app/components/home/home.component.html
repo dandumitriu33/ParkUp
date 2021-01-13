@@ -62,6 +62,12 @@
       <div class="col-auto">
         <button class="btn btn-outline-success my-2 my-sm-0" (click)="onSearchClick()">Search</button>
       </div>
+      <div class="col-auto">
+        <p class="text-danger">{{ searchErrorMessage }}</p>
+      </div>
+    </div>
+    <div class="row" *ngIf="availableParkingSpaces && availableParkingSpaces.length">
+      <br />
     </div>
 
     <div class="row">
