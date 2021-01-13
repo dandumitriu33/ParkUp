@@ -31,7 +31,6 @@ export class AllRolesComponent implements OnInit {
       Id: "",
       Name: form.value.Name
     };
-    console.log(newRole);
     this.usersService.addRole(newRole).subscribe(
       (res: any) => {
         this.ngOnInit();
