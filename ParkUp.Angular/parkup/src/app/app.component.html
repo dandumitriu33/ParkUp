@@ -76,7 +76,7 @@
     <div class="nav-item" *ngIf="currentUserIsSignedIn() && userDetails!=null">
       <a class="nav-link text-dark">
         {{ userDetails.firstName }}
-        <span id="userCredits" class="font-weight-bold"> {{ userDetails.credits }} </span>
+        <span id="userCredits" class="font-weight-bold"> {{ userDetails.credits | number:'1.2-2' }} </span>
       </a>
     </div>
 

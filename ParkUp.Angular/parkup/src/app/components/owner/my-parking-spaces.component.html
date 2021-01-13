@@ -9,6 +9,7 @@
         <th scope="col">Price</th>
         <th scope="col">GGL/DDG</th>
         <th scope="col">Approved</th>
+        <th scope="col">Force Free</th>
         <th scope="col">Edit</th>
         <th scope="col">Remove</th>
 
@@ -23,7 +24,10 @@
         <td>{{ space.GPS }}</td>
         <td>{{ space.IsApproved }}</td>
         <td>
-          <button class="btn btn-warning btn-sm" (click)="onEdit(space.Id)" [routerLink]="['/edit-parking-space', space.Id]">Edit</button>
+          <button class="btn btn-success btn-sm" (click)="onForceFree(space.Id)" [disabled]="!space.IsTaken">Force Free</button>
+        </td>
+        <td>
+          <button class="btn btn-warning btn-sm" [routerLink]="['/edit-parking-space', space.Id]">Edit</button>
         </td>
         <td>
           <button class="btn btn-danger btn-sm" (click)="onRemove(space.Id)">Remove</button>

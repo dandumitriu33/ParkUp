@@ -7,6 +7,7 @@ import { ParkingSpace } from '../models/ParkingSpace';
 import { ParkingSpaceRental } from '../models/ParkingSpaceRental';
 import { TakenParkingSpace } from '../models/TakenParkingSpace';
 import { ParkingSpaceApproval } from '../models/ParkingSpaceApproval';
+import { ForceFreeParkingSpace } from '../models/ForceFreeParkingSpace';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,7 @@ export class ParkingSpacesService {
   private leaveParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/leave';
   private takenParkingSpacesUrl = 'https://localhost:44315/api/parkingspaces/';
   private approveParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/approve';
+  private forceFreeParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/force-free';
 
   constructor(private http: HttpClient) { }
 
@@ -52,6 +54,10 @@ export class ParkingSpacesService {
 
   leaveParkingSpace(takenParkingSpace: TakenParkingSpace) {
     return this.http.post(this.leaveParkingSpaceUrl, takenParkingSpace);
+  }
+
+  forceFreeParkingSpace(forceFreeParkingSpaceDTO: ForceFreeParkingSpace) {
+    return this.http.post(this.forceFreeParkingSpaceUrl, forceFreeParkingSpaceDTO);
   }
 
   addNewParkingSpace(newParkingSpace: ParkingSpace) {
