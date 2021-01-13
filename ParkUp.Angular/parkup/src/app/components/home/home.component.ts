@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+
 import { Area } from '../../models/Area';
 import { City } from '../../models/City';
 import { ParkingSpace } from '../../models/ParkingSpace';
@@ -22,6 +23,8 @@ export class HomeComponent implements OnInit {
   currentLatitude: string;
   currentLongitude: string;
   takenSpaces: ParkingSpace[];
+  searchPhrase: string = "";
+  searchErrorMessage: string;
 
   constructor(private citiesService: CitiesService,
               private areasService: AreasService,
@@ -37,11 +40,24 @@ export class HomeComponent implements OnInit {
     });
     this.populateTakenSpaces();
     this.usersService.isUserLoggedIn.next(true);
+  }
 
+  onSearchClick() {
+    this.parkingSpacesService.getAllParkingSpacesForArea(this.selectedArea).subscribe({
+      next: parkingSpaces => {
+        this.availableParkingSpaces = parkingSpaces;
+        this.availableParkingSpaces = this.availableParkingSpaces.filter(ps => ps.Name.includes(this.searchPhrase) || ps.StreetName.includes(this.searchPhrase) || ps.Description.includes(this.searchPhrase));
+        this.searchErrorMessage = "";
+        if (this.availableParkingSpaces.length == 0) {
+          this.availableParkingSpaces = parkingSpaces;
+          this.searchErrorMessage = `No results for '${this.searchPhrase}'. Displaying all parking spaces.`;
+        };
+      },
+      error: err => console.error(err)
+    });
   }
 
   populateTakenSpaces() {
-    console.log(`populating taken spaces`);
     if (localStorage.getItem('token') != null) {
       var payload = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
       var currentUserId = payload.UserID;
@@ -55,7 +71,6 @@ export class HomeComponent implements OnInit {
   }
 
   onTakeSpaceClick(parkingSpaceId: number) {
-    console.log(`parking space TAKE clicked for ${parkingSpaceId}`);
     if (localStorage.getItem('token') != null) {
       var payload = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
       var currentUserId = payload.UserID;
@@ -69,7 +84,6 @@ export class HomeComponent implements OnInit {
     };
     this.parkingSpacesService.takeParkingSpace(takenParkingSpace).subscribe(
       (res: any) => {
-        console.log('PS taken successfully');
         this.ngOnInit();
       },
       err => {
@@ -79,7 +93,6 @@ export class HomeComponent implements OnInit {
   }
 
   onLeaveSpaceClick(parkingSpaceId: number) {
-    console.log(`parking space LEAVE clicked for ${parkingSpaceId}`);
     if (localStorage.getItem('token') != null) {
       var payload = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
       var currentUserId = payload.UserID;
@@ -93,19 +106,15 @@ export class HomeComponent implements OnInit {
     };
     this.parkingSpacesService.leaveParkingSpace(takenParkingSpace).subscribe(
       (res: any) => {
-        console.log('PS left successfully');
         this.ngOnInit();
       },
       err => {
         console.log(err);
       }
-    );
-    
+    );    
   }
 
   onCityChange() {
-    console.log(`home - selected city changed to: ${this.selectedCity}`);
-    // refresh areas based on selectedCity
     this.refreshAreasForSelectedCity(this.selectedCity);
   }
 
@@ -119,9 +128,7 @@ export class HomeComponent implements OnInit {
   }
 
   onAreaChange() {
-    console.log(`home - selected area changed to: ${this.selectedArea}`);
     this.availableParkingSpaces = [];
-    // refresh spaces based on Manually selectedArea
     this.parkingSpacesService.getAllParkingSpacesForArea(this.selectedArea).subscribe({
       next: parkingSpaces => {
         this.availableParkingSpaces = parkingSpaces;
@@ -131,12 +138,15 @@ export class HomeComponent implements OnInit {
   }
 
   onSearchNearby() {
-    console.log('earch nearby clicked');
     if (navigator.geolocation) {
+      this.searchPhrase = "";
+      this.selectedCity = "";
+      this.selectedArea = "";
+      this.availableParkingSpaces = [];
       navigator.geolocation.getCurrentPosition((position) => {
         this.currentLatitude = position.coords.latitude.toString();
         this.currentLongitude = position.coords.longitude.toString();
-
+        // leaving this in for demo purposes - some browsers get weird location
         console.log(`lat: ${this.currentLatitude} - long: ${this.currentLongitude}`);
         this.parkingSpacesService.getNearbyParkingSpaces(this.currentLatitude, this.currentLongitude).subscribe({
           next: parkingSpaces => {
@@ -148,7 +158,6 @@ export class HomeComponent implements OnInit {
     } else {
       console.log("No support for geolocation. Please check if browser location checking is allowed.")
     }
-    
   }
 
   userLoggedIn() {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Area } from '../../models/Area';
 
+import { Area } from '../../models/Area';
 import { City } from '../../models/City';
 import { ParkingSpace } from '../../models/ParkingSpace';
 import { AreasService } from '../../services/areas.service';
@@ -42,12 +42,10 @@ export class AddParkingSpaceComponent implements OnInit {
   }
 
   onCityChange(cityId: string) {
-    console.log('change city in add space: ' + cityId);
     this.refreshAreasSelector(cityId);
   }
 
   refreshAreasSelector(cityId: string) {
-    console.log('refreshing areas for newly selected city: ' + cityId);
     this.areasService.getAllAreasForCity(cityId).subscribe({
       next: areas => {
         this.allAreas = areas;
@@ -57,16 +55,11 @@ export class AddParkingSpaceComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    console.log(`submitting ${this.addParkingSpaceFormModel.Name} - CityId: ${this.addParkingSpaceFormModel.CityId} - AreaId: ${this.addParkingSpaceFormModel.AreaId}`);
-
-    // get owner ID
     if (localStorage.getItem('token') != null) {
       var payload = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
       var UserId = payload.UserID;
     }
-
     let placeholderDate: string = "2019-01-06T17:16:40"; // will be changed by backend
-
     const newParkingSpace: ParkingSpace = {
       "Id": 0,
       "AreaId": +this.addParkingSpaceFormModel.AreaId,
@@ -87,7 +80,6 @@ export class AddParkingSpaceComponent implements OnInit {
 
     this.parkingSpacesService.addNewParkingSpace(newParkingSpace).subscribe(
       (res: any) => {
-        console.log('PS added successfully');
         this.resultMessage = `Parking Space ${newParkingSpace.Name} added.`;
       },
       err => {

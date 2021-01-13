@@ -10,11 +10,12 @@ import { City } from '../models/City';
   providedIn: 'root'
 })
 export class CitiesService {
-  private allCitiesUrl = 'https://localhost:44315/api/cities';
-  private newCityUrl = 'https://localhost:44315/api/cities';
-  private deleteCityUrl = 'https://localhost:44315/api/cities';
-  private getSingleCityUrl = 'https://localhost:44315/api/cities/get-single-city/';
-  private editCityUrl = 'https://localhost:44315/api/cities/edit-city';
+  private baseUrl = `https://localhost:44315/api/`;
+  private allCitiesUrl = this.baseUrl + `cities`;
+  private newCityUrl = this.baseUrl + `cities`;
+  private deleteCityUrl = this.baseUrl + `cities`;
+  private getSingleCityUrl = this.baseUrl + `cities/get-single-city/`;
+  private editCityUrl = this.baseUrl + `cities/edit-city`;
 
   constructor(private http: HttpClient) { }
 
@@ -32,14 +33,14 @@ export class CitiesService {
 
   getAllCities():Observable<City[]> {
     return this.http.get<City[]>(this.allCitiesUrl).pipe(
-      tap(data => console.log('No of cities: ' + data.length)),
+      tap(data => console.log()),
       catchError(this.handleError)
     );
   }
 
   getCityById(cityId: string) {
     return this.http.get<City>(this.getSingleCityUrl + `${cityId}`).pipe(
-      tap(data => console.log('Single City: ' + data.Name)),
+      tap(data => console.log()),
       catchError(this.handleError)
     );
   }

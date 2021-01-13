@@ -64,16 +64,13 @@ export class EditParkingSpaceComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    console.log(`submitting edit for PS ${this.parkingSpaceId}`);
 
     // TODO: compare to PS owner for security on backend
-
 
     let placeholderDate: string = "2019-01-06T17:16:40"; // will be changed by backend
     if (localStorage.getItem('token') != null) {
       var payload = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
       var UserId = payload.UserID;
-      var UserRole = payload.role;
     }
     const editedParkingSpace: ParkingSpace = {
       "Id": +this.parkingSpaceId,
@@ -95,7 +92,6 @@ export class EditParkingSpaceComponent implements OnInit {
 
     this.parkingSpacesService.editParkingSpace(editedParkingSpace).subscribe(
       (res: any) => {
-        console.log('PS edited successfully');
         this.resultMessage = `Parking Space ${editedParkingSpace.Name} edited successfully.`;
       },
       err => {

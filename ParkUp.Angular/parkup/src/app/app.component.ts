@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+
 import { UsersService } from './services/users.service';
 
 @Component({
@@ -16,9 +17,7 @@ export class AppComponent implements OnInit {
               private usersService: UsersService) {
     this.usersService.isUserLoggedIn.subscribe(value => {
       this.isUserLoggedIn = value;
-      console.log('isUserLoggedIn value changed...');
       this.refreshUserDetails();
-      console.log('user details refreshed');
     });
   }
 
@@ -95,4 +94,5 @@ export class AppComponent implements OnInit {
       console.log(e);
     }
   }
+
 }

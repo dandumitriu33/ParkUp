@@ -27,15 +27,12 @@ export class AllRolesComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    console.log('onsubmit new role: ' + form.value.Name);
     const newRole: ApplicationRole = {
       Id: "",
       Name: form.value.Name
     };
-    console.log(newRole);
     this.usersService.addRole(newRole).subscribe(
       (res: any) => {
-        console.log('new role added successfully');
         this.ngOnInit();
       },
       err => {

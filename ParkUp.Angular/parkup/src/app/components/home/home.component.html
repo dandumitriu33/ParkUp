@@ -55,6 +55,21 @@
   </div>
 
   <div class="container">
+    <div class="row" *ngIf="availableParkingSpaces && availableParkingSpaces.length && selectedArea">
+      <div class="col-auto">
+        <input class="form-control mr-sm-2" name="Search" [(ngModel)]="searchPhrase" type="search" placeholder="Search" aria-label="Search">
+      </div>
+      <div class="col-auto">
+        <button class="btn btn-outline-success my-2 my-sm-0" (click)="onSearchClick()">Search</button>
+      </div>
+      <div class="col-auto">
+        <p class="text-danger">{{ searchErrorMessage }}</p>
+      </div>
+    </div>
+    <div class="row" *ngIf="availableParkingSpaces && availableParkingSpaces.length && selectedArea">
+      <br />
+    </div>
+
     <div class="row">
       <table class="table table-striped" *ngIf="availableParkingSpaces && availableParkingSpaces.length">
         <tbody>

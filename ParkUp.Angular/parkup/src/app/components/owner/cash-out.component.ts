@@ -10,6 +10,7 @@ import { UsersService } from '../../services/users.service';
   styleUrls: ['./cash-out.component.css']
 })
 export class CashOutComponent implements OnInit {
+  resultMessage: string;
   addCashOutRequest = {
     Amount: ''
   };
@@ -17,24 +18,25 @@ export class CashOutComponent implements OnInit {
   constructor(private usersService: UsersService) { }
 
   ngOnInit(): void {
+    this.resultMessage = "";
   }
 
   onSubmit(form: NgForm) {
-    console.log('submitting new cash out for: ' + form.value.Amount);
     if (localStorage.getItem('token') != null) {
       var payload = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
       var UserId = payload.UserID;
     }
     const newCashOutRequest: CashOutRequest = {
       "UserId": UserId,
-      "Amount":form.value.Amount
+      "Amount": form.value.Amount
     };
     console.log(newCashOutRequest);
     this.usersService.requestCashOut(newCashOutRequest).subscribe(
       (res: any) => {
-        console.log('cash out request added successfully');
+        this.resultMessage = `Cash Out request for ${newCashOutRequest.Amount} submitted. Please wait 2-7 business days for approval.`;
       },
       err => {
+        this.resultMessage = `Error. The Cash Out request for ${newCashOutRequest.Amount} was not submitted. Please try again later.`;
         console.log(err);
       }
     );

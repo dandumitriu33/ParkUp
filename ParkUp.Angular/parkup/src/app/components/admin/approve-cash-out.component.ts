@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { CashOut } from '../../models/CashOut';
+import { CashOutApproval } from '../../models/CashOutApproval';
 import { UsersService } from '../../services/users.service';
 
 @Component({
@@ -20,6 +21,26 @@ export class ApproveCashOutComponent implements OnInit {
       },
       error: err => console.error(err)
     });
+    this.usersService.isUserLoggedIn.next(true);
+  }
+
+  onApproveCashOutClick(cashOutId: number) {
+    if (localStorage.getItem('token') != null) {
+      var payload = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
+      var currentUserId = payload.UserID;
+    }
+    let cashOutApproval: CashOutApproval = {
+      "UserId": currentUserId,
+      "CashOutId": cashOutId
+    };
+    this.usersService.approveCashOut(cashOutApproval).subscribe(
+      (res: any) => {
+        this.ngOnInit();
+      },
+      err => {
+        console.log(err);
+      }
+    );
   }
 
 }

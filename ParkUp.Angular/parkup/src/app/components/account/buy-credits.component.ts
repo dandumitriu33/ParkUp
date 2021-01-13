@@ -16,7 +16,6 @@ export class BuyCreditsComponent implements OnInit {
   }
 
   onBuyCreditsClick(amount: number) {
-    console.log('buying ' + amount);
     if (localStorage.getItem('token') != null) {
       var payload = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
       var UserId = payload.UserID;
@@ -27,7 +26,6 @@ export class BuyCreditsComponent implements OnInit {
     };
     this.usersService.buyCredits(transferPayload).subscribe(
       (res: any) => {
-        console.log(`bought ${amount} credits`);
         this.usersService.isUserLoggedIn.next(true);
       },
       err => {
