@@ -111,8 +111,7 @@ export class HomeComponent implements OnInit {
       err => {
         console.log(err);
       }
-    );
-    
+    );    
   }
 
   onCityChange() {
@@ -140,6 +139,10 @@ export class HomeComponent implements OnInit {
 
   onSearchNearby() {
     if (navigator.geolocation) {
+      this.searchPhrase = "";
+      this.selectedCity = "";
+      this.selectedArea = "";
+      this.availableParkingSpaces = [];
       navigator.geolocation.getCurrentPosition((position) => {
         this.currentLatitude = position.coords.latitude.toString();
         this.currentLongitude = position.coords.longitude.toString();
