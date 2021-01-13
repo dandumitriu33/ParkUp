@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
@@ -17,20 +17,21 @@ import { CashOutApproval } from '../models/CashOutApproval';
   providedIn: 'root'
 })
 export class UsersService {
-  private purchaseHistoryUrl = 'https://localhost:44315/api/users/purchase-history/';
-  private rentalHistoryUrl = 'https://localhost:44315/api/users/rental-history/';
-  private allUsersUrl = 'https://localhost:44315/api/users/all-users';
-  private allUnapprovedCashOutsUrl = 'https://localhost:44315/api/owners/all-unapproved-cash-outs';
-  private allRolesUrl = 'https://localhost:44315/api/admins/all-roles';
-  private registrationUrl = 'https://localhost:44315/api/users/register';
-  private loginUrl = 'https://localhost:44315/api/users/login';
-  private userProfileUrl = 'https://localhost:44315/api/userProfile';
-  private buyCreditsUrl = 'https://localhost:44315/api/users/buy-credits';
-  private cashOutRequestUrl = 'https://localhost:44315/api/owners/request-cash-out';
-  private cashAllApprovedOutsForUserUrl = 'https://localhost:44315/api/owners/get-all-approved-cash-outs-for-user/';
-  private addNewRoleUrl = `https://localhost:44315/api/admins/add-new-role`;
-  private getUserInfoForAdminUrl = `https://localhost:44315/api/admins/get-user-info/`;
-  private approveCashOutUrl = 'https://localhost:44315/api/admins/approve-cash-out';
+  private baseUrl = `https://localhost:44315/api/`;
+  private purchaseHistoryUrl = this.baseUrl + `users/purchase-history/`;
+  private rentalHistoryUrl = this.baseUrl + `users/rental-history/`;
+  private allUsersUrl = this.baseUrl + `users/all-users`;
+  private allUnapprovedCashOutsUrl = this.baseUrl + `owners/all-unapproved-cash-outs`;
+  private allRolesUrl = this.baseUrl + `admins/all-roles`;
+  private registrationUrl = this.baseUrl + `users/register`;
+  private loginUrl = this.baseUrl + `users/login`;
+  private userProfileUrl = this.baseUrl + `userProfile`;
+  private buyCreditsUrl = this.baseUrl + `users/buy-credits`;
+  private cashOutRequestUrl = this.baseUrl + `owners/request-cash-out`;
+  private cashAllApprovedOutsForUserUrl = this.baseUrl + `owners/get-all-approved-cash-outs-for-user/`;
+  private addNewRoleUrl = this.baseUrl + `admins/add-new-role`;
+  private getUserInfoForAdminUrl = this.baseUrl + `admins/get-user-info/`;
+  private approveCashOutUrl = this.baseUrl + `admins/approve-cash-out`;
   
 
   // FOR username update on navbar after login - CAN ALSO be used for CREDITS UPDATE after buy/leave!!!!!!!!
@@ -57,9 +58,8 @@ export class UsersService {
   }
 
   getUserInfoForAdmin(userId: string) {
-    console.log(`entered getUserInfoForAdmin -- ${userId}`);
     return this.http.get<ApplicationUser>(this.getUserInfoForAdminUrl + `${userId}`).pipe(
-      tap(data => console.log('*********User info retrieved: ' + data.FirstName + ' ' + data.LastName)),
+      tap(data => console.log()),
       catchError(this.handleError)
     );
   }
@@ -109,7 +109,7 @@ export class UsersService {
 
   comparePasswords(formBuilder: FormGroup) {
     let confirmPasswordControl = formBuilder.get('ConfirmPassword');
-    //passwordMismatch - is an error that we create (custom)
+    // passwordMismatch - is an error that we create (custom)
     // confirmPasswordControl.errors=null
     // or if there are errors such as required confirmPasswordControl.errors={required:true}
     // or if there are errors such as passwordMismatch confirmPasswordControl.errors={passwordMismatch:true}
@@ -134,42 +134,42 @@ export class UsersService {
 
   getAllRoles(): Observable<ApplicationRole[]> {
     return this.http.get<ApplicationRole[]>(this.allRolesUrl).pipe(
-      tap(data => console.log('No of Roles: ' + data.length)),
+      tap(data => console.log()),
       catchError(this.handleError)
     );
   }
 
   getAllUnapprovedCashOuts(): Observable<CashOut[]> {
     return this.http.get<CashOut[]>(this.allUnapprovedCashOutsUrl).pipe(
-      tap(data => console.log('No of UACashOuts: ' + data.length)),
+      tap(data => console.log()),
       catchError(this.handleError)
     );
   }
 
   getAllApprovedCashOutsForUser(userId: string): Observable<CashOut[]> {
     return this.http.get<CashOut[]>(this.cashAllApprovedOutsForUserUrl + `${userId}`).pipe(
-      tap(data => console.log('No of ACashOuts: ' + data.length)),
+      tap(data => console.log()),
       catchError(this.handleError)
     );
   }
 
   getAllUsers(): Observable<ApplicationUser[]> {
     return this.http.get<ApplicationUser[]>(this.allUsersUrl).pipe(
-      tap(data => console.log('No of users: ' + data.length)),
+      tap(data => console.log()),
       catchError(this.handleError)
     );
   }
 
   getPurchaseHistory(userId: string): Observable<CreditPackPurchase[]> {
     return this.http.get<CreditPackPurchase[]>(this.purchaseHistoryUrl + userId).pipe(
-      tap(data => console.log('No of purchases: ' + data.length)),
+      tap(data => console.log()),
       catchError(this.handleError)
     );
   }
 
   getRentalHistory(userId: string): Observable<ParkingSpaceRental[]> {
     return this.http.get<ParkingSpaceRental[]>(this.rentalHistoryUrl + userId).pipe(
-      tap(data => console.log('No of rentals: ' + data.length)),
+      tap(data => console.log()),
       catchError(this.handleError)
     );
   }
@@ -184,6 +184,5 @@ export class UsersService {
     console.error(errorMessage);
     return throwError(errorMessage);
   }
-
 
 }

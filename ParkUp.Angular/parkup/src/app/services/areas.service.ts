@@ -9,29 +9,29 @@ import { Area } from '../models/Area';
   providedIn: 'root'
 })
 export class AreasService {
-  private areasForCityUrl = `https://localhost:44315/api/areas/`;
-  private newAreaUrl = `https://localhost:44315/api/areas/add-new-area`;
-  private removeAreaUrl = `https://localhost:44315/api/areas/remove-area/`;
-  private getSingleAreaUrl = 'https://localhost:44315/api/areas/get-single-area/';
-  private editAreaUrl = 'https://localhost:44315/api/areas/edit-area';
+  private baseUrl = 'https://localhost:44315/api/';
+  private areasForCityUrl = this.baseUrl + `areas/`;
+  private newAreaUrl = this.baseUrl + `areas/add-new-area`;
+  private removeAreaUrl = this.baseUrl + `areas/remove-area/`;
+  private getSingleAreaUrl = this.baseUrl + `areas/get-single-area/`;
+  private editAreaUrl = this.baseUrl + `areas/edit-area`;
 
   constructor(private http: HttpClient) { }
 
   removeArea(areaId: number) {
-    console.log(`areas service removing area ${areaId}`);
     return this.http.post(this.removeAreaUrl + `${areaId}`, {});
   }
 
   getAllAreasForCity(cityId: string): Observable<Area[]> {
     return this.http.get<Area[]>(this.areasForCityUrl + cityId).pipe(
-      tap(data => console.log('No of Areas: ' + data.length)),
+      tap(data => console.log()),
       catchError(this.handleError)
     );
   }
 
   getAreaById(areaId: string) {
     return this.http.get<Area>(this.getSingleAreaUrl + `${areaId}`).pipe(
-      tap(data => console.log('Single Area: ' + data.Name)),
+      tap(data => console.log()),
       catchError(this.handleError)
     );
   }

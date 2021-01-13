@@ -13,20 +13,21 @@ import { ForceFreeParkingSpace } from '../models/ForceFreeParkingSpace';
   providedIn: 'root'
 })
 export class ParkingSpacesService {
-  private parkingSpacesForAreaUrl = 'https://localhost:44315/api/parkingspaces/';
-  private allOwnerParkingSpacesUrl = 'https://localhost:44315/api/owners/all-spaces/';
-  private allOwnerTransactionsUrl = 'https://localhost:44315/api/owners/all-transactions/';
-  private allUnapprovedParkingSpacesUrl = 'https://localhost:44315/api/parkingspaces/unapproved';
-  private newParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/add-new-parking-space';
-  private removeParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/remove-parking-space/';
-  private getSingleParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/get-single-parking-space/';
-  private editParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/edit-parking-space';
-  private getNearbyParkingSpacesUrl = 'https://localhost:44315/api/parkingspaces/nearby/';
-  private takeParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/take';
-  private leaveParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/leave';
-  private takenParkingSpacesUrl = 'https://localhost:44315/api/parkingspaces/';
-  private approveParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/approve';
-  private forceFreeParkingSpaceUrl = 'https://localhost:44315/api/parkingspaces/force-free';
+  private baseUrl = `https://localhost:44315/api/`;
+  private parkingSpacesForAreaUrl = this.baseUrl + `parkingspaces/`;
+  private allOwnerParkingSpacesUrl = this.baseUrl + `owners/all-spaces/`;
+  private allOwnerTransactionsUrl = this.baseUrl + `owners/all-transactions/`;
+  private allUnapprovedParkingSpacesUrl = this.baseUrl + `parkingspaces/unapproved`;
+  private newParkingSpaceUrl = this.baseUrl + `parkingspaces/add-new-parking-space`;
+  private removeParkingSpaceUrl = this.baseUrl + `parkingspaces/remove-parking-space/`;
+  private getSingleParkingSpaceUrl = this.baseUrl + `parkingspaces/get-single-parking-space/`;
+  private editParkingSpaceUrl = this.baseUrl + `parkingspaces/edit-parking-space`;
+  private getNearbyParkingSpacesUrl = this.baseUrl + `parkingspaces/nearby/`;
+  private takeParkingSpaceUrl = this.baseUrl + `parkingspaces/take`;
+  private leaveParkingSpaceUrl = this.baseUrl + `parkingspaces/leave`;
+  private takenParkingSpacesUrl = this.baseUrl + `parkingspaces/`;
+  private approveParkingSpaceUrl = this.baseUrl + `parkingspaces/approve`;
+  private forceFreeParkingSpaceUrl = this.baseUrl + `parkingspaces/force-free`;
 
   constructor(private http: HttpClient) { }
 
@@ -36,14 +37,14 @@ export class ParkingSpacesService {
 
   getNearbyParkingSpaces(latitude: string, longitude: string) {
     return this.http.get<ParkingSpace[]>(this.getNearbyParkingSpacesUrl + `${latitude}/${longitude}`).pipe(
-      tap(data => console.log('No of nearby PS: ' + data.length)),
+      tap(data => console.log()),
       catchError(this.handleError)
     );
   }
 
   getTakenParkingSpaces(userId: string) {
     return this.http.get<ParkingSpace[]>(this.takenParkingSpacesUrl + userId).pipe(
-      tap(data => console.log('No of taken PS: ' + data.length)),
+      tap(data => console.log()),
       catchError(this.handleError)
     );
   }
@@ -69,41 +70,40 @@ export class ParkingSpacesService {
   }
 
   removeParkingSpace(parkingSpaceId: string) {
-    console.log(`PS service removing PS ${parkingSpaceId}`);
     return this.http.post(this.removeParkingSpaceUrl + `${parkingSpaceId}`, {});
   }
 
   getParkingSpaceById(parkingSpaceId: string) {
     return this.http.get<ParkingSpace>(this.getSingleParkingSpaceUrl + `${parkingSpaceId}`).pipe(
-      tap(data => console.log('Single PS: ' + data.Name)),
+      tap(data => console.log()),
       catchError(this.handleError)
     );
   }
 
   getAllUnapprovedParkingSpaces(): Observable<ParkingSpace[]> {
     return this.http.get<ParkingSpace[]>(this.allUnapprovedParkingSpacesUrl).pipe(
-      tap(data => console.log('No of unapproved PS: ' + data.length)),
+      tap(data => console.log()),
       catchError(this.handleError)
     );
   }
 
   getAllOwnerTransactions(userId: string): Observable<ParkingSpaceRental[]> {
     return this.http.get<ParkingSpaceRental[]>(this.allOwnerTransactionsUrl + userId).pipe(
-      tap(data => console.log('No of OWN trs: ' + data.length)),
+      tap(data => console.log()),
       catchError(this.handleError)
     );
   }
 
   getAllOwnerParkingSpaces(userId: string): Observable<ParkingSpace[]> {
     return this.http.get<ParkingSpace[]>(this.allOwnerParkingSpacesUrl + userId).pipe(
-      tap(data => console.log('No of OWN PS: ' + data.length)),
+      tap(data => console.log()),
       catchError(this.handleError)
     );
   }
 
   getAllParkingSpacesForArea(areaId: string): Observable<ParkingSpace[]> {
     return this.http.get<ParkingSpace[]>(this.parkingSpacesForAreaUrl + areaId + '/search/').pipe(
-      tap(data => console.log('No of PS: ' + data.length)),
+      tap(data => console.log()),
       catchError(this.handleError)
     );
   }
