@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { ForceFreeParkingSpace } from '../../models/ForceFreeParkingSpace';
 
+import { ForceFreeParkingSpace } from '../../models/ForceFreeParkingSpace';
 import { ParkingSpace } from '../../models/ParkingSpace';
 import { ParkingSpacesService } from '../../services/parking-spaces.service';
 import { UsersService } from '../../services/users.service';
@@ -32,11 +31,8 @@ export class MyParkingSpacesComponent implements OnInit {
   }
 
   onRemove(parkingSpaceId: string) {
-    console.log(`clicked remove for space ${parkingSpaceId} from my spaces`);
-
     this.parkingSpacesService.removeParkingSpace(parkingSpaceId).subscribe(
       (res: any) => {
-        console.log('PS removed successfully');
         this.ngOnInit();
       },
       err => {
@@ -46,8 +42,6 @@ export class MyParkingSpacesComponent implements OnInit {
   }
 
   onForceFree(parkingSpaceId: number) {
-    console.log(`clicked ForceFree PS ${parkingSpaceId} on MySpaces`);
-
     if (localStorage.getItem('token') != null) {
       var payload = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
       var currentUserId = payload.UserID;
@@ -58,14 +52,12 @@ export class MyParkingSpacesComponent implements OnInit {
     };
     this.parkingSpacesService.forceFreeParkingSpace(forceFreeParkingSpaceDTO).subscribe(
       (res: any) => {
-        console.log('PS freed successfully');
         this.ngOnInit();
       },
       err => {
         console.log(err);
       }
-    );
-    
+    );    
   }
 
 }
