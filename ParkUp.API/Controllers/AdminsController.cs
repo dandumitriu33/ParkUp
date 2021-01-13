@@ -34,6 +34,28 @@ namespace ParkUp.API.Controllers
             _userManager = userManager;
         }
 
+        // POST: api/<AdminsController>/approve-cash-out
+        [HttpPost]
+        [Route("approve-cash-out")]
+        public async Task<IActionResult> ApproveCashOut([FromBody] CashOutApprovalDTO cashOutApprovalDTO)
+        {
+            if (ModelState.IsValid == true)
+            {
+                try
+                {
+                    // log: UserId approved CashOutId
+                    var user = await _userManager.FindByIdAsync(cashOutApprovalDTO.UserId);
+                    await _repository.ApproveCashOut(cashOutApprovalDTO.CashOutId, user.Id, user.Email);
+                    return Ok();
+                }
+                catch (Exception)
+                {
+                    return BadRequest();
+                }
+            }
+            return BadRequest();
+        }
+
         // POST: api/<AdminsController>/add-new-role
         [HttpPost]
         [Route("add-new-role")]

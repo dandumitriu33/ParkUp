@@ -22,4 +22,8 @@ export class ApproveCashOutComponent implements OnInit {
     });
   }
 
+  onApproveCashOut(cashOutId: number) {
+    console.log(`cash out Approve click for ${cashOutId}`);
+  }
+
 }
