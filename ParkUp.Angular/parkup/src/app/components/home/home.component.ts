@@ -41,7 +41,16 @@ export class HomeComponent implements OnInit {
   }
 
   onSearchClick() {
-    console.log(`search phrase: ${this.searchPhrase}`);
+    this.parkingSpacesService.getAllParkingSpacesForArea(this.selectedArea).subscribe({
+      next: parkingSpaces => {
+        this.availableParkingSpaces = parkingSpaces;
+        console.log(`search phrase: ${this.searchPhrase} - len: ${this.availableParkingSpaces.length}`);
+        this.availableParkingSpaces = this.availableParkingSpaces.filter(ps => ps.Name.includes(this.searchPhrase) || ps.StreetName.includes(this.searchPhrase) || ps.Description.includes(this.searchPhrase));
+        console.log(`filtered? ${this.availableParkingSpaces.length}`);
+      },
+      error: err => console.error(err)
+    });
+    
   }
 
   populateTakenSpaces() {
