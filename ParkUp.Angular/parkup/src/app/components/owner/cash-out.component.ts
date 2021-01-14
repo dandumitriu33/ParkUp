@@ -30,7 +30,6 @@ export class CashOutComponent implements OnInit {
       "UserId": UserId,
       "Amount": form.value.Amount
     };
-    console.log(newCashOutRequest);
     this.usersService.requestCashOut(newCashOutRequest).subscribe(
       (res: any) => {
         this.resultMessage = `Cash Out request for ${newCashOutRequest.Amount} submitted. Please wait 2-7 business days for approval.`;
