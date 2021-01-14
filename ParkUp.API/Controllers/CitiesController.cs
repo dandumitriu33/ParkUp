@@ -52,7 +52,6 @@ namespace ParkUp.API.Controllers
                     City newCity = _mapper.Map<CityDTO, City>(cityDTO);
                     await _repository.AddCity(newCity);
                     return Ok();
-                    //return Ok($"City \"{newCity.Name}\" was added successfully."); // Angular error because of the message
                 }
                 catch (DbUpdateException dbex)
                 {
@@ -70,6 +69,7 @@ namespace ParkUp.API.Controllers
         // GET: api/<CitiesController>/get-single-city/5
         [HttpGet]
         [Route("get-single-city/{cityId}")]
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public async Task<IActionResult> GetSingleCity(int cityId)
         {
             try
@@ -88,6 +88,7 @@ namespace ParkUp.API.Controllers
         // POST: api/<CitiesController>/edit-city
         [HttpPost]
         [Route("edit-city")]
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public async Task<IActionResult> EditCity(CityDTO cityDTO)
         {
             if (ModelState.IsValid)
@@ -106,11 +107,12 @@ namespace ParkUp.API.Controllers
             return BadRequest();
         }
 
-        // NOTE: it is safer to simply add an IsRemoved field for a city to increase agains accidental deletion
+        // NOTE: it is safer to simply add an IsRemoved field for a city to increase protection against accidental deletion
         // but this is an educational project so it includes a Delete and Remove from DB way 
         // DELETE api/<CitiesController>/5 
         [HttpDelete]
         [Route("{cityId}")]
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public async Task<IActionResult> Delete(int cityId)
         {
             if (ModelState.IsValid)
