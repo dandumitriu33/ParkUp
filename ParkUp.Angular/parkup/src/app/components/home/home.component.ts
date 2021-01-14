@@ -61,13 +61,13 @@ export class HomeComponent implements OnInit {
     if (localStorage.getItem('token') != null) {
       var payload = JSON.parse(window.atob(localStorage.getItem('token').split('.')[1]));
       var currentUserId = payload.UserID;
-    }
-    this.parkingSpacesService.getTakenParkingSpaces(currentUserId).subscribe({
-      next: takenParkingSpaces => {
-        this.takenSpaces = takenParkingSpaces;
-      },
-      error: err => console.error(err)
-    });
+      this.parkingSpacesService.getTakenParkingSpaces(currentUserId).subscribe({
+        next: takenParkingSpaces => {
+          this.takenSpaces = takenParkingSpaces;
+        },
+        error: err => console.error(err)
+      });
+    }    
   }
 
   onTakeSpaceClick(parkingSpaceId: number) {
