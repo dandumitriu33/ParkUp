@@ -10,3 +10,4 @@ Backend Validation via Annotations
 Frontend Validation via JQuery and manual JavaScript  
 Unit Tests on Controllers via XUnit and Moq  
 Front-end project with Angular (MVP - light validation, no tests)  
+Microsoft ML.NET machine learning library - Value Prediction for price suggestion on adding/editing a parking space  
