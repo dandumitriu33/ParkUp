@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { Area } from '../../models/Area';
 import { City } from '../../models/City';
 import { ParkingSpace } from '../../models/ParkingSpace';
+import { PriceSuggestionRequest } from '../../models/PriceSuggestionRequest';
 import { AreasService } from '../../services/areas.service';
 import { CitiesService } from '../../services/cities.service';
 import { ParkingSpacesService } from '../../services/parking-spaces.service';
@@ -29,7 +30,7 @@ export class AddParkingSpaceComponent implements OnInit {
 
   constructor(private citiesService: CitiesService,
               private areasService: AreasService,
-              private parkingSpacesService: ParkingSpacesService) { }
+              private parkingSpacesService: ParkingSpacesService,) { }
 
   ngOnInit(): void {
     this.resultMessage = '';
@@ -39,6 +40,26 @@ export class AddParkingSpaceComponent implements OnInit {
       },
       error: err => console.error(err)
     });
+  }
+
+  onAutoClick(GPS: string) {
+    console.log(GPS);
+    if (GPS != null && GPS !== "") {
+      const priceRequest: PriceSuggestionRequest = {
+        "GPS": GPS
+      };
+      this.parkingSpacesService.requestPrice(priceRequest).subscribe(
+        (res: any) => {
+          this.addParkingSpaceFormModel.HourlyPrice = res.score.toFixed(2);
+          this.resultMessage = `Parking Space Price Suggestion (via ML): ${res.score.toFixed(2)} Credits.`;
+        },
+        err => {
+          console.log(err);
+          this.resultMessage = `Parking Space Price Suggestion (via ML) unable to complete. Please try again later.`;
+        }
+      );
+    }
+    this.resultMessage = `Please enter the GPS coordinates for the automatic price suggestion.`;
   }
 
   onCityChange(cityId: string) {

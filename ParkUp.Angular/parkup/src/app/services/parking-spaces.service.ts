@@ -8,6 +8,7 @@ import { ParkingSpaceRental } from '../models/ParkingSpaceRental';
 import { TakenParkingSpace } from '../models/TakenParkingSpace';
 import { ParkingSpaceApproval } from '../models/ParkingSpaceApproval';
 import { ForceFreeParkingSpace } from '../models/ForceFreeParkingSpace';
+import { PriceSuggestionRequest } from '../models/PriceSuggestionRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -28,8 +29,13 @@ export class ParkingSpacesService {
   private takenParkingSpacesUrl = this.baseUrl + `parkingspaces/`;
   private approveParkingSpaceUrl = this.baseUrl + `parkingspaces/approve`;
   private forceFreeParkingSpaceUrl = this.baseUrl + `parkingspaces/force-free`;
+  private parkingSpacePriceSuggestionUrl = this.baseUrl + `owners/suggest-price`;
 
   constructor(private http: HttpClient) { }
+
+  requestPrice(priceRequest: PriceSuggestionRequest) {
+    return this.http.post(this.parkingSpacePriceSuggestionUrl, priceRequest);
+  }
 
   approveParkingSpace(parkingSpaceApproval: ParkingSpaceApproval) {
     return this.http.post(this.approveParkingSpaceUrl, parkingSpaceApproval);

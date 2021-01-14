@@ -12,6 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ParkUp.Core\ParkUp.Core.csproj" />
     <ProjectReference Include="..\ParkUp.Infrastructure\ParkUp.Infrastructure.csproj" />
+    <ProjectReference Include="..\ParkUpML.Model\ParkUpML.Model.csproj" />
   </ItemGroup>
 
 

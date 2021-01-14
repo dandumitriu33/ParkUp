@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { ParkingSpace } from '../../../models/ParkingSpace';
+import { PriceSuggestionRequest } from '../../../models/PriceSuggestionRequest';
 import { ParkingSpacesService } from '../../../services/parking-spaces.service';
 
 @Component({
@@ -32,6 +33,26 @@ export class EditParkingSpaceComponent implements OnInit {
     this.resultMessage = "";
     this.parkingSpaceId = this.route.snapshot.paramMap.get('id');
     this.populateEditFormInfo(this.parkingSpaceId);
+  }
+
+  onAutoClick(GPS: string) {
+    console.log(GPS);
+    if (GPS != null && GPS !== "") {
+      const priceRequest: PriceSuggestionRequest = {
+        "GPS": GPS
+      };
+      this.parkingSpacesService.requestPrice(priceRequest).subscribe(
+        (res: any) => {
+          this.editParkingSpaceFormModel.HourlyPrice = res.score.toFixed(2);
+          this.resultMessage = `Parking Space Price Suggestion (via ML): ${res.score.toFixed(2)} Credits.`;
+        },
+        err => {
+          console.log(err);
+          this.resultMessage = `Parking Space Price Suggestion (via ML) unable to complete. Please try again later.`;
+        }
+      );
+    }
+    this.resultMessage = `Please enter the GPS coordinates for the automatic price suggestion.`;
   }
 
   populateEditFormInfo(parkingSpaceId: string) {

@@ -34,6 +34,10 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "ParkUp.Angular(1)", "ParkUp
 		SlnRelativePath = "ParkUp.Angular\"
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParkUpML.Model", "ParkUpML.Model\ParkUpML.Model.csproj", "{D668A13B-3F0B-4DED-97E0-492D263AA353}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ParkUpML.ConsoleApp", "ParkUpML.ConsoleApp\ParkUpML.ConsoleApp.csproj", "{9AFF35C8-5E2A-4A52-ACF5-79B6AF296004}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -64,6 +68,14 @@ Global
 		{07ADB2C9-8839-4435-A9C1-F8E77E83CF8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07ADB2C9-8839-4435-A9C1-F8E77E83CF8D}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{07ADB2C9-8839-4435-A9C1-F8E77E83CF8D}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{D668A13B-3F0B-4DED-97E0-492D263AA353}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D668A13B-3F0B-4DED-97E0-492D263AA353}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D668A13B-3F0B-4DED-97E0-492D263AA353}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D668A13B-3F0B-4DED-97E0-492D263AA353}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AFF35C8-5E2A-4A52-ACF5-79B6AF296004}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AFF35C8-5E2A-4A52-ACF5-79B6AF296004}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AFF35C8-5E2A-4A52-ACF5-79B6AF296004}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AFF35C8-5E2A-4A52-ACF5-79B6AF296004}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
