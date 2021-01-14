@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using ParkUp.API.Models;
 using ParkUp.Core.Entities;
 using ParkUp.Core.Interfaces;
+using ParkUpML.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,36 @@ namespace ParkUp.API.Controllers
         {
             _repository = repository;
             _mapper = mapper;
+        }
+
+        // TEST MS ML
+        // POST: api/<OwnersController>/suggest-price
+        [HttpPost]
+        [Route("suggest-price")]
+        public IActionResult SuggestPrice(PriceSuggestionRequestDTO priceSuggestionRequestDTO)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    // Add input data
+                    var input = new ModelInput();
+
+                    // col0 = latitude, col1 = longitude - floats
+                    input.Col0 = float.Parse(priceSuggestionRequestDTO.GPS.Split(',')[0]);
+                    input.Col1 = float.Parse(priceSuggestionRequestDTO.GPS.Split(',')[1].Trim());
+
+                    // Load model and predict output of sample data
+                    ModelOutput result = ConsumeModel.Predict(input);
+
+                    return Ok(result);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest();
+                }
+            }
+            return BadRequest();            
         }
 
         // POST: api/<OwnersController>/request-cash-out>
