@@ -17,10 +17,10 @@
         </div>
 
         <div class="form-group col-md-2">
-          <label for="HourlyPrice">Hourly Price</label>
+          <label for="GPS">GPS</label>
         </div>
         <div class="form-group col-md-4">
-          <input type="number" class="form-control" #HourlyPrice="ngModel" id="HourlyPrice" name="HourlyPrice" [(ngModel)]="editParkingSpaceFormModel.HourlyPrice" required />
+          <input class="form-control" #GPS="ngModel" id="GPS" name="GPS" [(ngModel)]="editParkingSpaceFormModel.GPS" required />
         </div>
 
       </div>
@@ -46,10 +46,13 @@
       <div class="row">
 
         <div class="form-group col-md-2">
-          <label for="GPS">GPS</label>
+          <label for="HourlyPrice">Hourly Price</label>
         </div>
-        <div class="form-group col-md-4">
-          <input class="form-control" #GPS="ngModel" id="GPS" name="GPS" [(ngModel)]="editParkingSpaceFormModel.GPS" required />
+        <div class="form-group col-md-2">
+          <input type="number" class="form-control" #HourlyPrice="ngModel" id="HourlyPrice" name="HourlyPrice" [(ngModel)]="editParkingSpaceFormModel.HourlyPrice" required />
+        </div>
+        <div class="form-group col-md-2">
+          <a class="btn btn-primary" (click)="onAutoClick(editParkingSpaceFormModel.GPS)">Auto</a>
         </div>
 
         <div class="col-md-4 offset-2">
