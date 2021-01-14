@@ -44,6 +44,7 @@ namespace ParkUp.API.Controllers
         // GET: api/<AreasController>/get-single-area/5
         [HttpGet]
         [Route("get-single-area/{areaId}")]
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public async Task<IActionResult> GetSingleArea(int areaId)
         {
             try
@@ -62,7 +63,8 @@ namespace ParkUp.API.Controllers
         // POST: api/<AresController>/edit-area
         [HttpPost]
         [Route("edit-area")]
-        public async Task<IActionResult> EditCity(AreaDTO areaDTO)
+        [Authorize(Roles = "Admin,SuperAdmin")]
+        public async Task<IActionResult> EditArea(AreaDTO areaDTO)
         {
             if (ModelState.IsValid)
             {
@@ -83,6 +85,7 @@ namespace ParkUp.API.Controllers
         // POST: api/<AreasController>/remove-area/5
         [HttpPost]
         [Route("remove-area/{areaId}")]
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public async Task<IActionResult> RemoveArea(int areaId)
         {
             try
@@ -119,19 +122,20 @@ namespace ParkUp.API.Controllers
                 catch (DbUpdateException dbex)
                 {
                     // TODO: log error w/ message
-                    return BadRequest("Bad request.");
+                    return BadRequest();
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest("Bad request.");
+                    return BadRequest();
                 }
             }
-            return BadRequest("Bad request.");
+            return BadRequest();
         }
 
         // POST: api/<AreasController>
         [HttpPost]
         [Route("{cityId?}")]
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public async Task<IActionResult> AddNewArea([FromBody] AreaDTO areaDTO)
         {
             if (ModelState.IsValid)
