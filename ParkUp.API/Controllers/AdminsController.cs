@@ -37,6 +37,7 @@ namespace ParkUp.API.Controllers
         // POST: api/<AdminsController>/approve-cash-out
         [HttpPost]
         [Route("approve-cash-out")]
+        [Authorize(Roles ="Admin,SuperAdmin")]
         public async Task<IActionResult> ApproveCashOut([FromBody] CashOutApprovalDTO cashOutApprovalDTO)
         {
             if (ModelState.IsValid == true)
@@ -74,8 +75,7 @@ namespace ParkUp.API.Controllers
                     return Ok();
                 }
             }
-            return BadRequest();
-            
+            return BadRequest();            
         }
 
         // GET: api/<AdminsController>/all-roles
@@ -93,6 +93,7 @@ namespace ParkUp.API.Controllers
         // GET: api/<AdminsController>/get-user-info/abcd
         [HttpGet]
         [Route("get-user-info/{userId}")]
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public async Task<IActionResult> GetUserInfoForAdmin(string userId)
         {
             try
@@ -106,7 +107,6 @@ namespace ParkUp.API.Controllers
             {
                 return BadRequest();
             }
-
         }
 
 

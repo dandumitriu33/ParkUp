@@ -92,10 +92,12 @@ namespace ParkUp.API.Controllers
         // POST: api/<ParkingSpacesController>/remove-parking-space/5
         [HttpPost]
         [Route("remove-parking-space/{parkingSpaceId}")]
+        [Authorize(Roles = "Owner,Admin,SuperAdmin")]
         public async Task<IActionResult> RemoveParkingSpace(int parkingSpaceId)
         {
             try
             {
+                // check if user is owner, Admin or SuperAdmin
                 await _repository.RemoveParkingSpaceById(parkingSpaceId);
                 return Ok();
             }
@@ -108,6 +110,7 @@ namespace ParkUp.API.Controllers
         // POST: api/<ParkingSpacesController>/take
         [HttpPost]
         [Route("take")]
+        [Authorize]
         public async Task<IActionResult> TakeParkingSpace([FromBody] TakenParkingSpaceDTO takenParkingSpaceDTO)
         {
             if (ModelState.IsValid == false)
@@ -124,6 +127,7 @@ namespace ParkUp.API.Controllers
         // POST: api/<ParkingSpacesController>/leave
         [HttpPost]
         [Route("leave")]
+        [Authorize]
         public async Task<IActionResult> LeaveParkingSpace([FromBody] TakenParkingSpaceDTO takenParkingSpaceDTO)
         {
             if (ModelState.IsValid == false)
@@ -139,6 +143,7 @@ namespace ParkUp.API.Controllers
         // POST: api/<ParkingSpacesController>/force-free
         [HttpPost]
         [Route("force-free")]
+        [Authorize(Roles = "Owner,Admin,SuperAdmin")]
         public async Task<IActionResult> ForceFreeParkingSpace([FromBody] ForceFreeParkingSpaceDTO forceFreeParkingSpaceDTO)
         {
             if (ModelState.IsValid)
@@ -164,6 +169,7 @@ namespace ParkUp.API.Controllers
         // GET: api/<ParkingSpacesController>/{userId}
         [HttpGet]
         [Route("{userId}")]
+        [Authorize]
         public async Task<string> GetTakenParkingSpaces(string userId)
         {
             List<TakenParkingSpace> takenInstancesFromDb = await _repository.GetTakenInstancesByUserId(userId);
@@ -185,6 +191,7 @@ namespace ParkUp.API.Controllers
         // GET: api/<ParkingSpacesController>/get-single-parking-space/5
         [HttpGet]
         [Route("get-single-parking-space/{parkingSpaceId}")]
+        [Authorize(Roles = "Owner,Admin,SuperAdmin")]
         public async Task<IActionResult> GetSingleParkingSpace(int parkingSpaceId)
         {
             try
@@ -203,6 +210,7 @@ namespace ParkUp.API.Controllers
         // POST: api/<ParkingSpacesController>/edit-parking-space/5 --for Angular
         [HttpPost]
         [Route("edit-parking-space")]
+        [Authorize(Roles = "Owner,Admin,SuperAdmin")]
         public async Task<IActionResult> EditParkingSpace([FromBody] ParkingSpaceDTO parkingSpaceDTO)
         {
             // TODO check if currently signed in user is the owner of the PS to be edited
@@ -228,6 +236,7 @@ namespace ParkUp.API.Controllers
         // POST: api/<ParkingSpacesController>/approve
         [HttpPost]
         [Route("approve")]
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public async Task<IActionResult> ApproveParkingSpace([FromBody] ParkingSpaceApprovalDTO parkingSpaceApprovalDTO)
         {
             if (ModelState.IsValid == true)
@@ -242,7 +251,6 @@ namespace ParkUp.API.Controllers
                 {
                     return BadRequest();
                 }
-
             }
             return BadRequest();
         }

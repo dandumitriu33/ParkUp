@@ -69,7 +69,7 @@ namespace ParkUp.API.Controllers
         // GET: api/<OwnersController>/get-all-approved-cash-outs-for-user/abcd
         [HttpGet]
         [Route("get-all-approved-cash-outs-for-user/{userId}")]
-        //[Authorize(Roles = "Admin,SuperAdmin")]
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public async Task<string> GetAllApprovedCashOutsForUser(string userId)
         {
             List<CashOut> cashOutsFromDb = await _repository.GetApprovedCashOutsForUserId(userId);
@@ -93,6 +93,7 @@ namespace ParkUp.API.Controllers
         // GET: api/<OwnersController>/all-spaces/userId
         [HttpGet]
         [Route("all-spaces/{userId}")]
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public async Task<string> GetAllOwnerParkingSpaces(string userId)
         {
             List<ParkingSpace> parkingSpacesFromDb = await _repository.GetAllOwnerParkingSpaces(userId);

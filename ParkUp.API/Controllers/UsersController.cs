@@ -104,8 +104,6 @@ namespace ParkUp.API.Controllers
             }
         }
 
-
-
         // GET: api/<UsersController>/all-users
         [HttpGet]
         [Route("all-users")]
@@ -121,6 +119,7 @@ namespace ParkUp.API.Controllers
         // GET: api/<UsersController>/purchase-history/userId
         [HttpGet]
         [Route("purchase-history/{userId?}")]
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public async Task<string> GetUserPurchaseHistory(string userId)
         {
             List<CreditPackPurchase> historyFromDb = await _repository.GetUserPurchaseHistoryById(userId);
@@ -132,6 +131,7 @@ namespace ParkUp.API.Controllers
         // GET: api/<UsersController>/rental-history/userId
         [HttpGet]
         [Route("rental-history/{userId?}")]
+        [Authorize(Roles = "Admin,SuperAdmin")]
         public async Task<string> GetUserRentalHistory(string userId)
         {
             List<ParkingSpaceRental> rentalsFromDb = await _repository.GetUserRentalsById(userId);
