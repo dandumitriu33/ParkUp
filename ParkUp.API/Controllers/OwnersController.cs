@@ -34,21 +34,16 @@ namespace ParkUp.API.Controllers
         // POST: api/<OwnersController>/suggest-price
         [HttpPost]
         [Route("suggest-price")]
-        public IActionResult SuggestPrice(PriceSuggestionRequestDTO priceSuggestionRequestDTO)
+        public async Task<IActionResult> SuggestPrice(PriceSuggestionRequestDTO priceSuggestionRequestDTO)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
-                    // Add input data
-                    var input = new ModelInput();
-
                     // col0 = latitude, col1 = longitude - floats
-                    input.Col0 = float.Parse(priceSuggestionRequestDTO.GPS.Split(',')[0]);
-                    input.Col1 = float.Parse(priceSuggestionRequestDTO.GPS.Split(',')[1].Trim());
-
-                    // Load model and predict output of sample data
-                    ModelOutput result = ConsumeModel.Predict(input);
+                    float col0 = float.Parse(priceSuggestionRequestDTO.GPS.Split(',')[0]);
+                    float col1 = float.Parse(priceSuggestionRequestDTO.GPS.Split(',')[1].Trim());
+                    var result = await SuggestParkingSpacePriceViaML(col0, col1);
 
                     return Ok(result);
                 }
@@ -58,6 +53,23 @@ namespace ParkUp.API.Controllers
                 }
             }
             return BadRequest();            
+        }
+
+        // TODO: Clean Architcture - move to a service in Core
+        // Demo purposes - leave as is to show quicker
+        private async Task<ModelOutput> SuggestParkingSpacePriceViaML(float col0, float col1)
+        {
+            // Add input data
+            var input = new ModelInput();
+
+            // col0 = latitude, col1 = longitude - floats
+            input.Col0 = col0;
+            input.Col1 = col1;
+
+            // Load model and predict output of sample data
+            ModelOutput result = await Task.Run(() => ConsumeModel.Predict(input));
+
+            return result;
         }
 
         // POST: api/<OwnersController>/request-cash-out>
