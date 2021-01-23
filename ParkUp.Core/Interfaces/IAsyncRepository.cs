@@ -40,6 +40,7 @@ namespace ParkUp.Core.Interfaces
         Task<List<ParkingSpace>> GetUnapprovedParkingSpaces();
         Task ApproveParkingSpace(int parkingSpaceId);        
         Task<List<ApplicationUser>> GetAllUsers();
+        Task<List<ApplicationUser>> SearchUsers(string searchPhrase = "");
         Task<List<IdentityRole>> GetAllRoles();
         Task<ApplicationUser> GetUserById(string userId);
         Task<ApplicationUser> EditUser(ApplicationUser userPartialData);

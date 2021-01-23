@@ -116,6 +116,17 @@ namespace ParkUp.API.Controllers
             return payload;
         }
 
+        // GET: api/<UsersController>/search/{searchPhrase}
+        [HttpGet]
+        [Route("search/{searchPhrase}")]
+        public async Task<IActionResult> SearchUsers(string searchPhrase)
+        {
+            List<ApplicationUser> usersFromDb = await _repository.SearchUsers(searchPhrase);
+            List<ApplicationUserDTO> foundUsers = _mapper.Map<List<ApplicationUser>, List<ApplicationUserDTO>>(usersFromDb);
+            var payload = JsonSerializer.Serialize(foundUsers);
+            return Ok(payload);
+        }
+
         // GET: api/<UsersController>/purchase-history/userId
         [HttpGet]
         [Route("purchase-history/{userId?}")]

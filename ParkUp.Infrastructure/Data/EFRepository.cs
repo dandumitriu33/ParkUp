@@ -379,6 +379,22 @@ namespace ParkUp.Infrastructure.Data
             return await _dbContext.Users.ToListAsync();
         }
 
+        public async Task<List<ApplicationUser>> SearchUsers(string searchPhrase = "")
+        {
+            if (String.IsNullOrEmpty(searchPhrase) == true)
+            {
+                return await _dbContext.Users
+                    .OrderByDescending(u => u.DateAdded)
+                    .ToListAsync();
+            }
+            return await _dbContext.Users
+                .Where(u => u.FirstName.Contains(searchPhrase)
+                        || u.LastName.Contains(searchPhrase)
+                        || u.Email.Contains(searchPhrase))
+                .OrderByDescending(u => u.DateAdded)
+                .ToListAsync();
+        }
+
         public async Task<List<IdentityRole>> GetAllRoles()
         {
             return await _dbContext.Roles.ToListAsync();
