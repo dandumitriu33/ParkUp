@@ -27,7 +27,7 @@ namespace ParkUpML.Model
             MLContext mlContext = new MLContext();
 
             // Load model & create prediction engine
-            string modelPath = @"C:\Users\Dan\AppData\Local\Temp\MLVSTools\ParkUpML\ParkUpML.Model\MLModel.zip";
+            string modelPath = @"C:\Users\Dan\Projects\ParkUp\ParkUpML.Model\MLModel.zip";
             ITransformer mlModel = mlContext.Model.Load(modelPath, out var modelInputSchema);
             var predEngine = mlContext.Model.CreatePredictionEngine<ModelInput, ModelOutput>(mlModel);
 
