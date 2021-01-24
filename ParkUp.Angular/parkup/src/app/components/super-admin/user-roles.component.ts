@@ -25,8 +25,17 @@ export class UserRolesComponent implements OnInit {
   }
 
   onSearchClick() {
-    console.log('search Clicked: ' + this.searchPhrase);
-
+    this.usersService.searchUsers(this.searchPhrase).subscribe({
+      next: dbFoundUsers => {
+        if (dbFoundUsers.length == 0) {
+          this.searchErrorMessage = `No results for '${this.searchPhrase}'.`;
+        } else {
+          this.foundUsers = dbFoundUsers;
+          this.searchErrorMessage = "";
+        }
+      },
+      error: err => console.error(err)
+    });
   }
 
 }

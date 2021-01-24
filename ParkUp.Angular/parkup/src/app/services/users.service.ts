@@ -32,6 +32,7 @@ export class UsersService {
   private addNewRoleUrl = this.baseUrl + `admins/add-new-role`;
   private getUserInfoForAdminUrl = this.baseUrl + `admins/get-user-info/`;
   private approveCashOutUrl = this.baseUrl + `admins/approve-cash-out`;
+  private searchUsersUrl = this.baseUrl + `users/search/`;
   
 
   // FOR username update on navbar after login - CAN ALSO be used for CREDITS UPDATE after buy/leave!!!!!!!!
@@ -51,6 +52,13 @@ export class UsersService {
       }
     });
     return isMatch;
+  }
+
+  searchUsers(searchPhrase: string): Observable<ApplicationUser[]> {
+    return this.http.get<ApplicationUser[]>(this.searchUsersUrl + searchPhrase).pipe(
+      tap(data => console.log()),
+      catchError(this.handleError)
+    );
   }
 
   approveCashOut(cashOutApproval: CashOutApproval) {
