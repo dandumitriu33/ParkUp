@@ -43,6 +43,7 @@ namespace ParkUp.API.Controllers
                 {
                     ParkingSpace newParkingSpace = _mapper.Map<ParkingSpaceDTO, ParkingSpace>(parkingSpaceDTO);
                     newParkingSpace = FilterParkingSpaceWording.FilterWording(newParkingSpace, FilterAdult.FilterAdultWords);
+                    newParkingSpace = FilterParkingSpaceWording.FilterWording(newParkingSpace, FilterRacism.FilterRacismWords);
                     newParkingSpace.Latitude = Convert.ToDouble(newParkingSpace.GPS.Split(',')[0].Replace(" ", ""));
                     newParkingSpace.Longitude = Convert.ToDouble(newParkingSpace.GPS.Split(',')[1].Replace(" ", ""));
                     newParkingSpace.DateAdded = DateTime.Now;
