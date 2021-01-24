@@ -136,7 +136,7 @@ namespace ParkUp.API.Controllers
         // GET: api/<OwnersController>/all-spaces/userId
         [HttpGet]
         [Route("all-spaces/{userId}")]
-        [Authorize(Roles = "Admin,SuperAdmin")]
+        [Authorize(Roles = "Owner,Admin,SuperAdmin")]
         public async Task<string> GetAllOwnerParkingSpaces(string userId)
         {
             List<ParkingSpace> parkingSpacesFromDb = await _repository.GetAllOwnerParkingSpaces(userId);

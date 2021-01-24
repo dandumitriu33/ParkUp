@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using ParkUp.API.Models;
 using ParkUp.Core.Entities;
 using ParkUp.Core.Interfaces;
+using ParkUp.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +42,8 @@ namespace ParkUp.API.Controllers
                 try
                 {
                     ParkingSpace newParkingSpace = _mapper.Map<ParkingSpaceDTO, ParkingSpace>(parkingSpaceDTO);
+                    newParkingSpace = FilterParkingSpaceWording.FilterWording(newParkingSpace, FilterAdult.FilterAdultWords);
+                    newParkingSpace = FilterParkingSpaceWording.FilterWording(newParkingSpace, FilterRacism.FilterRacismWords);
                     newParkingSpace.Latitude = Convert.ToDouble(newParkingSpace.GPS.Split(',')[0].Replace(" ", ""));
                     newParkingSpace.Longitude = Convert.ToDouble(newParkingSpace.GPS.Split(',')[1].Replace(" ", ""));
                     newParkingSpace.DateAdded = DateTime.Now;
