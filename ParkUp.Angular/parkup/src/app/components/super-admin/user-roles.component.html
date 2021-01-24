@@ -1,0 +1,42 @@
+<div class="container">
+  <h4>Manage User Roles</h4>
+  <br />
+
+  <div class="row">
+    <div class="col-auto">
+      <form class="form-inline my-2 my-lg-0">
+        <input class="form-control mr-sm-2" type="search" [(ngModel)]="searchPhrase" name="search" placeholder="Search Users" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" (click)="onSearchClick()">Search</button>
+      </form>
+    </div>
+    <div class="col-auto">
+      <p class="text-danger">{{ searchErrorMessage }}</p>
+    </div>
+
+  </div>
+  <div class="row" *ngIf="foundUsers && foundUsers.length">
+    <br />
+  </div>
+
+  <div class="row">
+    <table class="table table-striped" *ngIf="availableParkingSpaces && availableParkingSpaces.length">
+      <tbody>
+        <tr *ngFor="let parkingSpace of availableParkingSpaces">
+          <td *ngIf="parkingSpace.IsTaken == false && parkingSpace.IsApproved==true">{{ parkingSpace.Name }}</td>
+          <td *ngIf="parkingSpace.IsTaken == false && parkingSpace.IsApproved==true">{{ parkingSpace.StreetName }}</td>
+          <td *ngIf="parkingSpace.IsTaken == false && parkingSpace.IsApproved==true">{{ parkingSpace.Description }}</td>
+          <td *ngIf="parkingSpace.IsTaken == false && parkingSpace.IsApproved==true">{{ parkingSpace.HourlyPrice }} C/h</td>
+          <td *ngIf="parkingSpace.IsTaken == false && parkingSpace.IsApproved==true">
+            <a class="btn btn-sm btn-light" href="https://google.com/search?q={{parkingSpace.GPS}}" target="_blank">GGL</a>
+            /
+            <a class="btn btn-sm btn-light" href="https://duckduckgo.com/?q={{parkingSpace.GPS}}&ia=web&iaxm=maps" target="_blank">DDG</a>
+          </td>
+          <td *ngIf="parkingSpace.IsTaken == false && parkingSpace.IsApproved==true">
+            <button class="btn btn-success btn-sm" (click)="onTakeSpaceClick(parkingSpace.Id)" [disabled]="!userLoggedIn()">Take</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
