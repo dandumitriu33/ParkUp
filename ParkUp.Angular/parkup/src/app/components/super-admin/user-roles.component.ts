@@ -48,6 +48,19 @@ export class UserRolesComponent implements OnInit {
 
   onRemoveRoleClick(userId: string, roleId: string) {
     console.log(`removing role: ${roleId} to user: ${userId}`);
+    let modifyRole: ModifyRole = {
+      "UserId": userId,
+      "RoleId": roleId
+    };
+    this.usersService.removeFromRole(modifyRole).subscribe(
+      (res: any) => {
+        this.errorMessage = "User Role removed successfully."
+      },
+      err => {
+        console.log(err);
+        this.errorMessage = "User Role was not removed."
+      }
+    );
   }
 
   populateRoles() {
