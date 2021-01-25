@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ParkUp.API.Models;
+using ParkUp.Core.CustomLog;
 using ParkUp.Core.Entities;
 using ParkUp.Core.Interfaces;
 using ParkUp.Core.Services;
@@ -123,7 +124,14 @@ namespace ParkUp.API.Controllers
             TakenParkingSpace newTakenParkingSpace = _mapper.Map<TakenParkingSpaceDTO, TakenParkingSpace>(takenParkingSpaceDTO);
             newTakenParkingSpace.DateStarted = DateTime.Now;
             await _repository.TakeParkingSpace(newTakenParkingSpace);
-            
+
+            // custom log process via generics - experimental
+            string filePath = @"C:\Users\Dan\Projects\ParkUp\ParkUp.Core\CustomLog\user_logs.csv";
+            UserLogModel newLog = new UserLogModel();
+            newLog.Level = LogLevel.Info;
+            newLog.Description = $"User {takenParkingSpaceDTO.UserId} takes PS {takenParkingSpaceDTO.ParkingSpaceId} at {takenParkingSpaceDTO.DateStarted}";
+            CustomLogger.WriteToLogFile<UserLogModel>(newLog, filePath);
+
             return Ok(); ;
         }
 
@@ -139,6 +147,13 @@ namespace ParkUp.API.Controllers
             }
             TakenParkingSpace newTakenParkingSpace = _mapper.Map<TakenParkingSpaceDTO, TakenParkingSpace>(takenParkingSpaceDTO);
             await _repository.LeaveParkingSpace(newTakenParkingSpace);
+
+            // custom log process via generics - experimental
+            string filePath = @"C:\Users\Dan\Projects\ParkUp\ParkUp.Core\CustomLog\user_logs.csv";
+            UserLogModel newLog = new UserLogModel();
+            newLog.Level = LogLevel.Info;
+            newLog.Description = $"User {takenParkingSpaceDTO.UserId} leaves PS {takenParkingSpaceDTO.ParkingSpaceId} at {DateTime.Now}";
+            CustomLogger.WriteToLogFile<UserLogModel>(newLog, filePath);
 
             return Ok(); ;
         }
