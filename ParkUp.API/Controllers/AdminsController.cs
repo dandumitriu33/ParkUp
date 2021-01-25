@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ParkUp.API.Models;
+using ParkUp.Core.CustomLog;
 using ParkUp.Core.Entities;
 using ParkUp.Core.Interfaces;
 using System;
@@ -47,6 +48,14 @@ namespace ParkUp.API.Controllers
                     // log: UserId approved CashOutId
                     var user = await _userManager.FindByIdAsync(cashOutApprovalDTO.UserId);
                     await _repository.ApproveCashOut(cashOutApprovalDTO.CashOutId, user.Id, user.Email);
+
+                    // log cash out approval - experimental custom logger generics
+                    string filePath = @"C:\Users\Dan\Projects\ParkUp\ParkUp.Core\CustomLog\admin_logs.csv";
+                    AdminLogModel newLog = new AdminLogModel();
+                    newLog.Level = LogLevel.Info;
+                    newLog.Description = $"CashOut {cashOutApprovalDTO.CashOutId} submitted by {cashOutApprovalDTO.UserId} approved";
+                    CustomLogger.WriteToLogFile<AdminLogModel>(newLog, filePath);
+
                     return Ok();
                 }
                 catch (Exception)
