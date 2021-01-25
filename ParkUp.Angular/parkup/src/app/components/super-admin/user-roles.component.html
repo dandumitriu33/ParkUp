@@ -17,6 +17,9 @@
   <div class="row" *ngIf="foundUsers && foundUsers.length">
     <br />
   </div>
+  <div class="row">
+    <p class="text-danger" *ngIf="errorMessage">{{errorMessage}}</p>
+  </div>
 
   <div class="row">
     <table class="table table-striped" *ngIf="foundUsers && foundUsers.length">

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApplicationRole } from '../../models/ApplicationRole';
 
 import { ApplicationUser } from '../../models/ApplicationUser';
+import { ModifyRole } from '../../models/ModifyRole';
 import { UsersService } from '../../services/users.service';
 
 @Component({
@@ -11,6 +12,7 @@ import { UsersService } from '../../services/users.service';
   ]
 })
 export class UserRolesComponent implements OnInit {
+  errorMessage = "";
   searchPhrase: string = "";
   searchErrorMessage: string = "temp";
   foundUsers: ApplicationUser[] = [];
@@ -19,6 +21,7 @@ export class UserRolesComponent implements OnInit {
   constructor(private usersService: UsersService) { }
 
   ngOnInit(): void {
+    this.errorMessage = "";
     this.searchErrorMessage = "";
     this.searchPhrase = "";
     this.foundUsers = [];
@@ -28,6 +31,19 @@ export class UserRolesComponent implements OnInit {
 
   onAddRoleClick(userId: string, roleId: string) {
     console.log(`adding role: ${roleId} to user: ${userId}`);
+    let modifyRole: ModifyRole = {
+      "UserId": userId,
+      "RoleId": roleId
+    };
+    this.usersService.addToRole(modifyRole).subscribe(
+      (res: any) => {
+        this.errorMessage = "User Role added successfully."
+      },
+      err => {
+        console.log(err);
+        this.errorMessage = "User Role was not added."
+      }
+    );
   }
 
   onRemoveRoleClick(userId: string, roleId: string) {

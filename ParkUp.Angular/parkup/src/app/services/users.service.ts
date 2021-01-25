@@ -12,6 +12,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CreditPack } from '../models/CreditPack';
 import { CashOutRequest } from '../models/CashOutRequest';
 import { CashOutApproval } from '../models/CashOutApproval';
+import { ModifyRole } from '../models/ModifyRole';
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,8 @@ export class UsersService {
   private getUserInfoForAdminUrl = this.baseUrl + `admins/get-user-info/`;
   private approveCashOutUrl = this.baseUrl + `admins/approve-cash-out`;
   private searchUsersUrl = this.baseUrl + `users/search/`;
+  private addToRoleUrl = this.baseUrl + `admins/add-to-role`;
+  private removeFromRoleUrl = this.baseUrl + `admins/remove-from-role`;
   
 
   // FOR username update on navbar after login - CAN ALSO be used for CREDITS UPDATE after buy/leave!!!!!!!!
@@ -63,6 +66,14 @@ export class UsersService {
 
   approveCashOut(cashOutApproval: CashOutApproval) {
     return this.http.post(this.approveCashOutUrl, cashOutApproval);
+  }
+
+  addToRole(modifyRole: ModifyRole) {
+    return this.http.post(this.addToRoleUrl, modifyRole);
+  }
+
+  removeFromRole(modifyRole: ModifyRole) {
+    return this.http.post(this.removeFromRoleUrl, modifyRole);
   }
 
   getUserInfoForAdmin(userId: string) {
