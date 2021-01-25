@@ -28,17 +28,16 @@
           <td>{{ foundUser.Id }} C/h</td>
           <td>
             <div class="form-group">
-              <select class="form-control" id="exampleFormControlSelect1">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
+              <select class="form-control" id="selectRole" #selectRole>
+                <option *ngFor="let role of roles" value="{{role.Id}}">{{role.Name}}</option>                
               </select>
             </div>
           </td>
           <td>
-            <button class="btn btn-success btn-sm">Apply Role</button>
+            <button class="btn btn-success btn-sm" (click)="onAddRoleClick(foundUser.Id, selectRole.value)">Add Role</button>
+          </td>
+          <td>
+            <button class="btn btn-danger btn-sm" (click)="onRemoveRoleClick(foundUser.Id, selectRole.value)">Remove Role</button>
           </td>
         </tr>
       </tbody>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ApplicationRole } from '../../models/ApplicationRole';
 
 import { ApplicationUser } from '../../models/ApplicationUser';
 import { UsersService } from '../../services/users.service';
@@ -13,6 +14,7 @@ export class UserRolesComponent implements OnInit {
   searchPhrase: string = "";
   searchErrorMessage: string = "temp";
   foundUsers: ApplicationUser[] = [];
+  roles: ApplicationRole[];
 
   constructor(private usersService: UsersService) { }
 
@@ -20,8 +22,25 @@ export class UserRolesComponent implements OnInit {
     this.searchErrorMessage = "";
     this.searchPhrase = "";
     this.foundUsers = [];
+    this.populateRoles();
 
+  }
 
+  onAddRoleClick(userId: string, roleId: string) {
+    console.log(`adding role: ${roleId} to user: ${userId}`);
+  }
+
+  onRemoveRoleClick(userId: string, roleId: string) {
+    console.log(`removing role: ${roleId} to user: ${userId}`);
+  }
+
+  populateRoles() {
+    this.usersService.getAllRoles().subscribe({
+      next: dbRoles => {
+        this.roles = dbRoles;
+      },
+      error: err => console.error(err)
+    });
   }
 
   onSearchClick() {
