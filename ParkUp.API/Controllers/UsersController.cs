@@ -48,7 +48,7 @@ namespace ParkUp.API.Controllers
         [Route("register")]
         public async Task<Object> PostApplicationUser(ApplicationUserDTO applicationUserDTO)
         {
-            applicationUserDTO.Role = "SuperAdmin"; // TODO: REMOVE AFTER PROMOTE TO ROLE IMPL
+            //applicationUserDTO.Role = "SuperAdmin"; // TODO: REMOVE AFTER PROMOTE TO ROLE IMPL
             ApplicationUser newUser = new ApplicationUser()
             {
                 FirstName = applicationUserDTO.FirstName,
@@ -60,7 +60,7 @@ namespace ParkUp.API.Controllers
             try
             {
                 var result = await _userManager.CreateAsync(newUser, applicationUserDTO.Password);
-                await _userManager.AddToRoleAsync(newUser, applicationUserDTO.Role);
+                //await _userManager.AddToRoleAsync(newUser, applicationUserDTO.Role);
                 return Ok(result);
             }
             catch (Exception ex)
@@ -130,7 +130,8 @@ namespace ParkUp.API.Controllers
         // GET: api/<UsersController>/purchase-history/userId
         [HttpGet]
         [Route("purchase-history/{userId?}")]
-        [Authorize(Roles = "Admin,SuperAdmin")]
+        //[Authorize(Roles = "Admin,SuperAdmin")]
+        [Authorize]
         public async Task<string> GetUserPurchaseHistory(string userId)
         {
             List<CreditPackPurchase> historyFromDb = await _repository.GetUserPurchaseHistoryById(userId);
@@ -142,7 +143,8 @@ namespace ParkUp.API.Controllers
         // GET: api/<UsersController>/rental-history/userId
         [HttpGet]
         [Route("rental-history/{userId?}")]
-        [Authorize(Roles = "Admin,SuperAdmin")]
+        //[Authorize(Roles = "Admin,SuperAdmin")]
+        [Authorize]
         public async Task<string> GetUserRentalHistory(string userId)
         {
             List<ParkingSpaceRental> rentalsFromDb = await _repository.GetUserRentalsById(userId);

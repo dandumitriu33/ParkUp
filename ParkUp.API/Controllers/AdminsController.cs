@@ -107,6 +107,8 @@ namespace ParkUp.API.Controllers
                 {
                     return BadRequest();
                 }
+                var userRoles = await _userManager.GetRolesAsync(user);
+                await _userManager.RemoveFromRolesAsync(user, userRoles);
                 IdentityResult result = await _userManager.AddToRoleAsync(user, role.Name);
                 if (result.Succeeded)
                 {
