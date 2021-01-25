@@ -120,6 +120,36 @@ namespace ParkUp.API.Controllers
             return BadRequest();
         }
 
+        // POST: api/<AdminsController>/remove-from-role
+        [HttpPost]
+        [Route("remove-from-role")]
+        public async Task<IActionResult> RemoveFromRole(AddToRoleDTO addToRoleDTO)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByIdAsync(addToRoleDTO.UserId);
+                var role = await _roleManager.FindByIdAsync(addToRoleDTO.RoleId);
+                if (role == null || user == null)
+                {
+                    return BadRequest();
+                }
+                if ((await _userManager.IsInRoleAsync(user, role.Name)) ==  false)
+                {
+                    return BadRequest();
+                }
+                IdentityResult result = await _userManager.RemoveFromRoleAsync(user, role.Name);
+                if (result.Succeeded)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            return BadRequest();
+        }
+
         // GET: api/<AdminsController>/get-user-info/abcd
         [HttpGet]
         [Route("get-user-info/{userId}")]
