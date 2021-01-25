@@ -90,6 +90,68 @@ namespace ParkUp.API.Controllers
             return payload;
         }
 
+        // POST: api/<AdminsController>/add-to-role
+        [HttpPost]
+        [Route("add-to-role")]
+        public async Task<IActionResult> AddToRole(ModifyRoleDTO modifyRoleDTO)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByIdAsync(modifyRoleDTO.UserId);
+                var role = await _roleManager.FindByIdAsync(modifyRoleDTO.RoleId);
+                if (role == null || user == null)
+                {
+                    return BadRequest();
+                }
+                if (await _userManager.IsInRoleAsync(user, role.Name))
+                {
+                    return BadRequest();
+                }
+                var userRoles = await _userManager.GetRolesAsync(user);
+                await _userManager.RemoveFromRolesAsync(user, userRoles);
+                IdentityResult result = await _userManager.AddToRoleAsync(user, role.Name);
+                if (result.Succeeded)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }                
+            }
+            return BadRequest();
+        }
+
+        // POST: api/<AdminsController>/remove-from-role
+        [HttpPost]
+        [Route("remove-from-role")]
+        public async Task<IActionResult> RemoveFromRole(ModifyRoleDTO modifyRoleDTO)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByIdAsync(modifyRoleDTO.UserId);
+                var role = await _roleManager.FindByIdAsync(modifyRoleDTO.RoleId);
+                if (role == null || user == null)
+                {
+                    return BadRequest();
+                }
+                if ((await _userManager.IsInRoleAsync(user, role.Name)) ==  false)
+                {
+                    return BadRequest();
+                }
+                IdentityResult result = await _userManager.RemoveFromRoleAsync(user, role.Name);
+                if (result.Succeeded)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }
+            }
+            return BadRequest();
+        }
+
         // GET: api/<AdminsController>/get-user-info/abcd
         [HttpGet]
         [Route("get-user-info/{userId}")]
