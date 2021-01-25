@@ -90,6 +90,36 @@ namespace ParkUp.API.Controllers
             return payload;
         }
 
+        // POST: api/<AdminsController>/add-to-role
+        [HttpPost]
+        [Route("add-to-role")]
+        public async Task<IActionResult> AddToRole(AddToRoleDTO addToRoleDTO)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByIdAsync(addToRoleDTO.UserId);
+                var role = await _roleManager.FindByIdAsync(addToRoleDTO.RoleId);
+                if (role == null || user == null)
+                {
+                    return BadRequest();
+                }
+                if (await _userManager.IsInRoleAsync(user, role.Name))
+                {
+                    return BadRequest();
+                }
+                IdentityResult result = await _userManager.AddToRoleAsync(user, role.Name);
+                if (result.Succeeded)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }                
+            }
+            return BadRequest();
+        }
+
         // GET: api/<AdminsController>/get-user-info/abcd
         [HttpGet]
         [Route("get-user-info/{userId}")]
