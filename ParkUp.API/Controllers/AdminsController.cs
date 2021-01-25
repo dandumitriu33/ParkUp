@@ -93,12 +93,12 @@ namespace ParkUp.API.Controllers
         // POST: api/<AdminsController>/add-to-role
         [HttpPost]
         [Route("add-to-role")]
-        public async Task<IActionResult> AddToRole(AddToRoleDTO addToRoleDTO)
+        public async Task<IActionResult> AddToRole(ModifyRoleDTO modifyRoleDTO)
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByIdAsync(addToRoleDTO.UserId);
-                var role = await _roleManager.FindByIdAsync(addToRoleDTO.RoleId);
+                var user = await _userManager.FindByIdAsync(modifyRoleDTO.UserId);
+                var role = await _roleManager.FindByIdAsync(modifyRoleDTO.RoleId);
                 if (role == null || user == null)
                 {
                     return BadRequest();
@@ -123,12 +123,12 @@ namespace ParkUp.API.Controllers
         // POST: api/<AdminsController>/remove-from-role
         [HttpPost]
         [Route("remove-from-role")]
-        public async Task<IActionResult> RemoveFromRole(AddToRoleDTO addToRoleDTO)
+        public async Task<IActionResult> RemoveFromRole(ModifyRoleDTO modifyRoleDTO)
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByIdAsync(addToRoleDTO.UserId);
-                var role = await _roleManager.FindByIdAsync(addToRoleDTO.RoleId);
+                var user = await _userManager.FindByIdAsync(modifyRoleDTO.UserId);
+                var role = await _roleManager.FindByIdAsync(modifyRoleDTO.RoleId);
                 if (role == null || user == null)
                 {
                     return BadRequest();

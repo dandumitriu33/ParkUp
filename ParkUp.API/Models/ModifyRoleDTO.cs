@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ParkUp.API.Models
 {
-    public class AddToRoleDTO
+    public class ModifyRoleDTO
     {
         public string UserId { get; set; }
         public string RoleId { get; set; }
