@@ -3,7 +3,6 @@
   <table class="table table-striped" *ngIf="allParkingSpaces && allParkingSpaces.length">
     <thead>
       <tr>
-        <th scope="col">ID</th>
         <th scope="col">Name</th>
         <th scope="col">Street</th>
         <th scope="col">Price</th>
@@ -17,7 +16,6 @@
     </thead>
     <tbody>
       <tr *ngFor="let space of allParkingSpaces">
-        <td>{{ space.Id }}</td>
         <td>{{ space.Name }}</td>
         <td>{{ space.StreetName }}</td>
         <td>{{ space.HourlyPrice }}</td>
