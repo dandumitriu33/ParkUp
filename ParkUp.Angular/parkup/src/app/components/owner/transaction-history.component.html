@@ -4,7 +4,6 @@
     <thead>
       <tr>
         <th scope="col">ID</th>
-        <th scope="col">Space ID</th>
         <th scope="col">Space Name</th>
         <th scope="col">Price/h</th>
         <th scope="col">Date Started</th>
@@ -17,7 +16,6 @@
     <tbody>
       <tr *ngFor="let transaction of allTransactions">
         <td>{{ transaction.Id }}</td>
-        <td>{{ transaction.ParkingSpaceId }}</td>
         <td>{{ transaction.ParkingSpaceName }}</td>
         <td>{{ transaction.HourlyPrice }}</td>
         <td>{{ transaction.DateStarted }}</td>
